@@ -1,13 +1,13 @@
 ## SemiLepStopAnalysis
 PHSX 861 project
 
-#make Instructions
+# make Instructions
 git clone git@github.com:mlazarovits/SemiLepStopAnalysis.git
 cd SemiLepStopAnalysis
 make -j4
 
-#Produce reduced branch tree from Delphes file
+# Produce reduced branch tree from Delphes file
 ./reducedTree.x -i DELPHESFILE -s SAMPLENAME
 
-#make plots from reduced tree
+# Make plots from reduced tree
 ./makePlots.x -i REDUCEDTREEFILE
