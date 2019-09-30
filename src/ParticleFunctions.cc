@@ -14,14 +14,11 @@ void ParticleFunctions::ptOrder(vector<TLorentzVector> &evt){
 	 		return lhs.Pt() < rhs.Pt();
        });
 
-
 }
 
 ParticleFunctions::LVectors ParticleFunctions::BTagSplit(vector<TLorentzVector> &evt, vector<UInt_t> &btags){
 	vector<TLorentzVector> btag_vec;
 	vector<TLorentzVector> no_btag_vec;
-
-	vector<TLorentzVector> arr_vec[2];
 
 	int nentries = btags.size();
 
@@ -43,5 +40,3 @@ ParticleFunctions::LVectors ParticleFunctions::BTagSplit(vector<TLorentzVector> 
 }
 
 
-return {btag_vec, no_btag_vec};
-}
