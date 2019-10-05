@@ -9,6 +9,9 @@
 #include <TLatex.h>
 #include <TCanvas.h>
 #include <TSystem.h>
+#include <vector>
+
+using namespace std;
 
 class Plotter{
 	public:
@@ -18,7 +21,9 @@ class Plotter{
 
 		static void Plot1D(TH1F *h1, TString name, TString title, TString xlabel, TString ylabel);
 
-		void Plot2D(TH2F *h2, TString name, TString title, TString xlabel, TString ylabel);
+		static void Plot2D(TH2F *h2, TString name, TString title, TString xlabel, TString ylabel);
+
+		static void Plot1Dstack(vector<TH1F*> bkgHists, vector<TH1F*> sigHists, TString name, TString title, TString xlabel, TString ylabel);
 
 	private:
 		static void SetTitle(TString title);
