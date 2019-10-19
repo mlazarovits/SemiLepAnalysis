@@ -52,6 +52,7 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
 	njets = Jet_size;
 
   //fill MET vector
+  cout << "MET" << endl;
   for(int i = 0; i < MissingET_size; i++){
     cout << MissingET_MET[i] << endl;
     MET = MissingET_MET[i];
