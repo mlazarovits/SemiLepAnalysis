@@ -10,6 +10,14 @@
 #include <stdio.h>
 #include <dirent.h>
 
+// ROOT includes
+#include <TROOT.h>
+#include <TFile.h>
+#include <TTree.h>
+#include <TChain.h>
+#include <TList.h>
+#include <TLorentzVector.h>
+
 #include "SemiLepStop.h"
 #include "Plotter.h"
 #include "SampleSet.h"
