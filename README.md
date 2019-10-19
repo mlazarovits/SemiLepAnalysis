@@ -15,3 +15,7 @@ make -j4
 ```
 ./makePlots.x -i REDUCEDTREEFILE
 ```
+
+## Make stacked plot from list of reduced trees
+```
+./makePlotsTEST.x -ilist=sample.list
