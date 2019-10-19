@@ -24,7 +24,7 @@ TTree* tree = new TTree("SemiLepStop",Form("%s sample",sampleName.Data()));
 tree->Branch("jets",&jets);
 tree->Branch("njets",&njets);
 tree->Branch("jet_btag",&jet_btag);
-tree->Branch("MissingET_MET",&MissingET_MET);
+tree->Branch("MET",&MET);
 
 
 int nEntries = fChain->GetEntries();
