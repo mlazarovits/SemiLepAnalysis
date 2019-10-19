@@ -64,7 +64,7 @@ void Plotter::Plot1Dstack(vector<SampleSet*> samples, vector<TH1F*> hists, TStri
 	gStyle->SetOptTitle(0);
 	gStyle->SetOptStat(0);
 
-	TCanvas* cv = new TCanvas("cv","cv",900,900);
+	TCanvas* cv = new TCanvas("cv","cv",1000,1000);
 	cv->SetGrid();
 	cv->SetLeftMargin(0.15);
 	cv->Draw();
