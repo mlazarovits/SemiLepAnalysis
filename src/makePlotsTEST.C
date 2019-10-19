@@ -20,7 +20,9 @@ int main(int argc, char *argv[]){
 
   //Give warning if insufficient arguments are given
   if(argc < 2){
-    cout << "Please specify input file(s)." << endl;
+    cout << "Please specify input file or list." << endl;
+    cout << "Example: ./makePlotsTEST.x -ifile=reducedNtuple.root" << endl;
+    cout << "Example: ./makePlotsTEST.x -ilist=list_of_rootfiles.list" << endl;
     printf("For usage information type: %s -h\n", argv[0]);
     return 0;
   }
