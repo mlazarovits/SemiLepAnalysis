@@ -145,9 +145,9 @@ int main(int argc, char *argv[]){
   char Buffer[500];
   char MyRootFile[2000];
 
+
   SampleSet ttBar;
   SampleSet wJets;
-
 
 
 
@@ -167,22 +167,34 @@ int main(int argc, char *argv[]){
 
 
 
+
+
     //add files to each sample from input list file
+    char* ttbar_file = nullptr;
+    char* wjets_file = nullptr;
     for(int file = 0; file < filenames.size(); file++){
-      int ttbar_file = strspn(filenames[file].c_str(),"ttbar");
-      int wjets_file = strspn(filenames[file].c_str(),"wjets");
-      cout << ttbar_file << endl;
-      cout << wjets_file << endl;
-      if(ttbar_file != 0){
+      cout << filenames[file] << endl;
+      wjets_file = strstr(filenames[file],"wjets");
+      ttbar_file = strstr(filenames[file],"ttbar");
+      if(ttbar_file != nullptr){
         ttBar.AddFile(filenames[file]);
+        cout << ttbar_file << endl;
+      }
+      else if(ttbar_file == nullptr){
+        cout << "No files in ttbar list" << endl;
       }
       if(wjets_file != 0){
         wJets.AddFile(filenames[file]);
+        cout << wjets_file << endl;
       }
-      else{
-        cout << "No files in list" << endl;
+      else if(wjets_file == nullptr){
+        cout << "No files in wjets list" << endl;
+      }
+      else if(wjets_file == nullptr && ttbar_file == nullptr){
+        cout << "Error: no files" << endl;
         return 0;
       }
+
 
     }
 
