@@ -178,7 +178,6 @@ int main(int argc, char *argv[]){
       ttbar_file = strstr(filenames[file],"ttbar");
       if(ttbar_file != nullptr){
         ttBar.AddFile(filenames[file]);
-        cout << ttbar_file << endl;
       }
       else if(ttbar_file == nullptr){
         cout << "No files in ttbar list" << endl;
@@ -209,9 +208,9 @@ int main(int argc, char *argv[]){
     wJets.SetColor(kRed-7);
     samples.push_back(&wJets);
 
-    float g_Xmin = -3.3;
-    float g_Xmax = 3.3;
-    float units_per_bin = 0.1;
+    float g_Xmin = 0;
+    float g_Xmax = 600;
+    float units_per_bin = 10;
     float g_NX = (int)((g_Xmax - g_Xmin)/units_per_bin);
 
     int Nsample = samples.size();
@@ -260,7 +259,7 @@ int main(int argc, char *argv[]){
   
 
   //Plot 1D histogram using Plotter class
-  Plotter::Plot1Dstack(samples,hist,"plots/MET","Delphes 13 TeV simulation","#left|#slash#{P}_{T}|#right| (GeV)","#frac{1}{N}#frac{dN}{d#left|#slash#{P}_{T}|#right|} (#frac{1}{GeV})");
+  Plotter::Plot1Dstack(samples,hist,"plots/MET","Missing Transverse Momentum","#left|#slash{P}_{T}#right| (GeV)","#frac{1}{N}#frac{dN}{d#left|#slash{P}_{T}#right|} (#frac{1}{GeV})");
 
 
 
