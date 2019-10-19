@@ -169,8 +169,10 @@ int main(int argc, char *argv[]){
 
     //add files to each sample from input list file
     for(int file = 0; file < filenames.size(); file++){
-      int ttbar_file = strspn(filenames[file],"ttbar") ;
+      int ttbar_file = strspn(filenames[file],"ttbar");
       int wjets_file = strspn(filenames[file],"wjets");
+      cout << ttbar_file << endl;
+      cout << wjets_file << endl;
       if(ttbar_file != 0){
         ttBar.AddFile(filenames[file]);
       }
@@ -242,7 +244,7 @@ int main(int argc, char *argv[]){
   
 
   //Plot 1D histogram using Plotter class
-  Plotter::Plot1Dstack(samples,hist,"plots/MET","Delphes 13 TeV simulation","#left|slash#{P}_{T}|#right| (GeV)","#frac{1}{N}#frac{dN}{d#left|slash#{P}_{T}|#right|} (#frac{1}{GeV})");
+  Plotter::Plot1Dstack(samples,hist,"plots/MET","Delphes 13 TeV simulation","#left|#slash#{P}_{T}|#right| (GeV)","#frac{1}{N}#frac{dN}{d#left|#slash#{P}_{T}|#right|} (#frac{1}{GeV})");
 
 
 
