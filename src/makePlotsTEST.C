@@ -169,8 +169,8 @@ int main(int argc, char *argv[]){
 
     //add files to each sample from input list file
     for(int file = 0; file < filenames.size(); file++){
-      int ttbar_file = strspn(filenames[file],"ttbar");
-      int wjets_file = strspn(filenames[file],"wjets");
+      int ttbar_file = strspn(filenames[file].c_str(),"ttbar");
+      int wjets_file = strspn(filenames[file].c_str(),"wjets");
       cout << ttbar_file << endl;
       cout << wjets_file << endl;
       if(ttbar_file != 0){
@@ -178,6 +178,10 @@ int main(int argc, char *argv[]){
       }
       if(wjets_file != 0){
         wJets.AddFile(filenames[file]);
+      }
+      else{
+        cout << "No files in list" << endl;
+        return 0;
       }
 
     }
