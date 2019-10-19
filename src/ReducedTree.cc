@@ -39,8 +39,8 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
 	//clear branch content
 	jets.clear();
   jet_btag.clear();
-	njets = 0;
-  MET = 0;
+	njets = -999;
+  MET = -999;
 
 	//Fill TLorentzVectors (for each jet)
 	for(int j = 0; j < Jet_size; j++){
@@ -53,7 +53,9 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
 
   //fill MET vector
   for(int i = 0; i < MissingET_size; i++){
+    cout << MissingET_MET[i] << endl;
     MET = MissingET_MET[i];
+    cout << MET << endl;
   }
   
 
@@ -94,6 +96,5 @@ void ReducedTree::InitBranches(){
   fChain->SetBranchStatus("Jet.Phi",1);
   fChain->SetBranchStatus("Jet.BTag",1);
   fChain->SetBranchStatus("Jet.Mass",1);
-
   fChain->SetBranchStatus("MissingET.MET",1);
 }
