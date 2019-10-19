@@ -10,6 +10,7 @@
 #include <TCanvas.h>
 #include <TSystem.h>
 #include <vector>
+#include "SampleSet.h"
 
 using namespace std;
 
@@ -23,7 +24,7 @@ class Plotter{
 
 		static void Plot2D(TH2F *h2, TString name, TString title, TString xlabel, TString ylabel);
 
-		static void Plot1Dstack(vector<TH1F*> bkgHists, vector<TH1F*> sigHists, TString name, TString title, TString xlabel, TString ylabel);
+		static void Plot1Dstack(vector<SampleSet*> samples, vector<TH1F*> hists, TString name, TString title, TString xlabel, TString ylabel);
 
 	private:
 		static void SetTitle(TString title);

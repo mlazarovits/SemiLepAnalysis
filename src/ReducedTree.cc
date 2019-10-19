@@ -24,6 +24,7 @@ TTree* tree = new TTree("SemiLepStop",Form("%s sample",sampleName.Data()));
 tree->Branch("jets",&jets);
 tree->Branch("njets",&njets);
 tree->Branch("jet_btag",&jet_btag);
+tree->Branch("MissingET_MET",&MissingET_MET);
 
 
 int nEntries = fChain->GetEntries();
@@ -39,6 +40,7 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
 	jets.clear();
   jet_btag.clear();
 	njets = 0;
+  MET = 0;
 
 	//Fill TLorentzVectors (for each jet)
 	for(int j = 0; j < Jet_size; j++){
@@ -46,10 +48,14 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
 		jets.push_back(tmp_vec);
     jet_btag.push_back(Jet_BTag[j]);
 	}
-
-
 	//set object sizes
 	njets = Jet_size;
+
+  //fill MET vector
+  for(int i = 0; i < MissingET_size; i++){
+    MET = MissingET_MET[i];
+  }
+  
 
 	tree->Fill();
 
@@ -88,4 +94,6 @@ void ReducedTree::InitBranches(){
   fChain->SetBranchStatus("Jet.Phi",1);
   fChain->SetBranchStatus("Jet.BTag",1);
   fChain->SetBranchStatus("Jet.Mass",1);
+
+  fChain->SetBranchStatus("MissingET_MET",1);
 }

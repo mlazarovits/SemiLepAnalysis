@@ -11,7 +11,7 @@ int main(int argc, char *argv[]){
 
   //Give warning if insufficient arguments are given
   if(argc < 2){
-    cout << "Please specify input file." << endl;
+    cout << "Please specify input file(s)." << endl;
     printf("For usage information type: %s -h\n", argv[0]);
     return 0;
   }
@@ -26,6 +26,7 @@ int main(int argc, char *argv[]){
 
   //Parameters used for command line arguments
   int opt;
+  // vector<char*> filenames;
   char* filename;
 
   //Command line option definitions
@@ -34,12 +35,13 @@ int main(int argc, char *argv[]){
       {
       //Input filename option [-i]
       case 'i':
+      // for(int i = 0; i < )
 	filename = optarg;
 	break;
 	
       //input Help option [-h]
       case 'h':
-        printf("Usage: %s [-i] inputfile\n", argv[0]);
+        printf("Usage: %s [-i] inputfiles\n", argv[0]);
         return 0;
 	
       //If unknown option is given, return error 
@@ -74,7 +76,12 @@ int main(int argc, char *argv[]){
     semilep->fChain->GetEntry(e);
     nJets = semilep->njets;
 
-    
+    //for b-tagged jets
+    std::any_of(semilep->jet_btag->at(0),semilep->jet_btag->at(njets-1),[](int i){return i == 1;})? //check for b-tag
+      h1->Fill(njets) :
+      continue;
+
+
     h1->Fill(nJets);
   }
   cout << endl;

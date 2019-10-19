@@ -1,4 +1,5 @@
 #include "Plotter.h"
+// #include "SampleSet.h"
 
 #include <iostream>
 #include <string>
@@ -17,6 +18,8 @@
 #include <TColorWheel.h>
 #include <TH1D.h>
 #include <TStyle.h>
+
+// class SampleSet;
 
 
 
@@ -54,7 +57,9 @@ void Plotter::Plot1D(TH1F *h1, TString name, TString title, TString xlabel, TStr
 	delete cv;
 }
 
-void Plotter::Plot1Dstack(vector<TH1F*> bkgHists, vector<TH1F*> sigHists, TString name, TString title, TString xlabel, TString ylabel){
+void Plotter::Plot1Dstack(vector<SampleSet*> samples, vector<TH1F*> hists, TString name, TString title, TString xlabel, TString ylabel){
+	
+
 	gROOT->SetBatch(kTRUE);
 	gStyle->SetOptTitle(0);
 	gStyle->SetOptStat(0);
@@ -64,48 +69,66 @@ void Plotter::Plot1Dstack(vector<TH1F*> bkgHists, vector<TH1F*> sigHists, TStrin
 	cv->SetLeftMargin(0.15);
 	cv->Draw();
 
-	int nHists_bkg = bkgHists.size(); 
-	int nHists_sig = sigHists.size();
+	int Nsample = samples.size();
+	int Nhist = hists.size();
+
+	double fmax = -1.;
+	int imax = -1;
+	for(int i = 0; i < Nsample; i++){
+		if(hists[i]->GetMaximum() > fmax){
+			fmax = hists[i]->GetMaximum();
+			imax = i;
+		}
+	}
 
 	TLegend* leg = new TLegend(0.688,0.22,0.93,0.42);
 
-	//draw background hists
-	for(int i = 0; i < nHists_bkg; i++){
-		bkgHists[i]->SetLineColor(kBlack);
-		bkgHists[i]->SetLineWidth(1.0);
-		bkgHists[i]->SetFillStyle(1001);
-		if(i%3 == 0){
-			bkgHists[i]->SetFillColor(kBlue+i);
+
+	hists[imax]->Draw("hist");
+	hists[imax]->SetTitle("");
+	hists[imax]->GetXaxis()->CenterTitle();
+	hists[imax]->GetXaxis()->SetTitleFont(132);
+	hists[imax]->GetXaxis()->SetTitleSize(0.06);
+	hists[imax]->GetXaxis()->SetTitleOffset(1.06);
+	hists[imax]->GetXaxis()->SetLabelFont(132);
+	hists[imax]->GetXaxis()->SetLabelSize(0.05);
+	hists[imax]->GetXaxis()->SetTitle(xlabel);
+	hists[imax]->GetYaxis()->CenterTitle();
+	hists[imax]->GetYaxis()->SetTitleFont(132);
+	hists[imax]->GetYaxis()->SetTitleSize(0.06);
+	hists[imax]->GetYaxis()->SetTitleOffset(1.);
+	hists[imax]->GetYaxis()->SetLabelFont(132);
+	hists[imax]->GetYaxis()->SetLabelSize(0.05);
+	hists[imax]->GetYaxis()->SetTitle(ylabel);
+
+	for(int i = 0; i < Nsample; i++){
+		if(samples[i]->GetBkg()){
+			hists[i]->SetLineColor(kBlack);
+			hists[i]->SetLineWidth(1.0);
+			hists[i]->SetFillColor(samples[i]->GetColor());
+			hists[i]->SetFillStyle(1001);
+			hists[i]->Draw("SAME HIST");
 		}
-		if(i%3 == 1){
-			bkgHists[i]->SetFillColor(kPink+i);
-		}
-		if(i%3 == 2){
-			bkgHists[i]->SetFillColor(kViolet+i);
-		}
-		leg->AddEntry(bkgHists[i]);
-      	bkgHists[i]->Draw("SAME HIST");
 	}
 
-	//draw signal hists
-	for(int i = 0; i < nHists_sig; i++){
-		sigHists[i]->SetLineColor(kBlack);
-		sigHists[i]->SetLineWidth(3.0);
-		if(i%3 == 0){
-			bkgHists[i]->SetFillColor(kRed+i);
+	// if(isBKG){
+	// 	h_BKG->SetLineWidth(3.0);
+	// 	h_BKG->SetLineColor(kRed);
+	// 	h_BKG->SetMarkerSize(0);
+	// 	h_BKG->Draw("SAME HIST");
+	// }
+
+	for(int i = 0; i < Nsample; i++){
+		if(!samples[i]->GetBkg()){
+			hists[i]->SetLineWidth(3.0);
+			hists[i]->SetMarkerSize(0.);
+			hists[i]->SetMarkerColor(kBlack);
+			hists[i]->SetLineStyle(7);
+			hists[i]->SetLineColor(samples[i]->GetColor());
+			hists[i]->Draw("SAME HIST");
 		}
-		if(i%3 == 1){
-			bkgHists[i]->SetFillColor(kGreen+i);
-		}
-		if(i%3 == 2){
-			bkgHists[i]->SetFillColor(kOrange+i);
-		}		sigHists[i]->SetLineStyle(7);
-		leg->AddEntry(sigHists[i]);
-      	sigHists[i]->Draw("SAME HIST");
 	}
 
-	sigHists[nHists_sig]->GetXaxis()->SetTitle(xlabel);
-	sigHists[nHists_sig]->GetYaxis()->SetTitle(ylabel);
 
 
 	leg->SetTextFont(132);

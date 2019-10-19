@@ -8,11 +8,7 @@
 #include <iostream>
 #include <TSystem.h>
 
-#include <TROOT.h>
-#include <TChain.h>
-#include <TFile.h>
-#include <TRef.h>
-#include <TRefArray.h>
+
 
 using namespace std;
 
@@ -31,12 +27,14 @@ public:
 
 private:
 	TString sampleName;
-	Int_t njets;
-	vector<UInt_t> jet_btag;
 	TString outputDir;
 	TString outputFile;
-
+	
+	//branches
+	Int_t njets;
+	vector<UInt_t> jet_btag;
 	vector<TLorentzVector> jets;
+	Float_t MET;
 
 	void InitBranches();
 };

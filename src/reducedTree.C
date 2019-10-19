@@ -15,8 +15,9 @@ int main(int argc, char *argv[]){
   }
 
   //Give warning if insuficient arguments are given
-  if(argc < 2){
+  if(argc < 3){
     cout << "Please specify sample name and input file." << endl;
+    cout << "Example: ./reducedTree.x -i delphes_input.root -s sampleName" << endl;
     printf("For usage information type: %s -h\n", argv[0]);
     return 0;
   }
