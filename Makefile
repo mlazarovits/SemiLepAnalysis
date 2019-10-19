@@ -19,16 +19,15 @@ H_FILES := $(wildcard include/*.h)
 OBJDIR 	:= $(OUTOBJ)
 OBJ_FILES := $(addprefix $(OUTOBJ),$(notdir $(CC_FILES:.cc=.o)))
 
-all: reducedTree.x 
-# 	makePlotsTEST.x 
+all: reducedTree.x makePlotsTEST.x 
 
 reducedTree.x: $(SRCDIR)reducedTree.C $(OBJ_FILES) $(H_FILES)
 	$(CXX) $(CXXFLAGS) -o reducedTree.x $(OUTOBJ)*.o $(GLIBS) $ $<
 	touch reducedTree.x
 
-# makePlotsTEST.x: $(SRCDIR)makePlotsTEST.C $(OBJ_FILES) $(H_FILES)
-# 	$(CXX) $(CXXFLAGS) -o makePlotsTEST.x $(OUTOBJ)*.o $(GLIBS) $ $<
-# 	touch makePlotsTEST.x
+makePlotsTEST.x: $(SRCDIR)makePlotsTEST.C $(OBJ_FILES) $(H_FILES)
+	$(CXX) $(CXXFLAGS) -o makePlotsTEST.x $(OUTOBJ)*.o $(GLIBS) $ $<
+	touch makePlotsTEST.x
 
 
 $(OUTOBJ)%.o: src/%.cc include/%.h

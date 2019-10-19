@@ -2,6 +2,13 @@
 #include <unistd.h>
 #include <iostream>
 #include <vector>
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <ostream>
+#include <istream>
+#include <stdio.h>
+#include <dirent.h>
 
 #include "SemiLepStop.h"
 #include "Plotter.h"
@@ -28,9 +35,9 @@ int main(int argc, char *argv[]){
 
   //Parameters used for command line arguments
   int opt;
-  // vector<char*> filenames;
+  vector<char*> filenames;
   char* filename;
-  vector<string> filenames;
+  // vector<string> filenames;
 
   char inputFileName[400];
   char inputListName[400];
@@ -43,8 +50,6 @@ int main(int argc, char *argv[]){
   bool DO_FOLDER = false;
   bool DO_OFOLD = false;
   bool DO_SMS = false;
-
-  class SampleSet;
 
 
 
@@ -75,48 +80,50 @@ int main(int argc, char *argv[]){
 
   //SINGLE FILE
   if(DO_FILE){
-    filenames.push_back(inputFileName);
-      TH1F *h1 = new TH1F("h1", "B-tagged Jet Multiplicity", 13, 0.,13.); //Histogram definition
-  int nJets = -999;
+      filenames.push_back(inputFileName);
+        TH1F *h1 = new TH1F("h1", "B-tagged Jet Multiplicity", 13, 0.,13.); //Histogram definition
+    int nJets = -999;
 
-  //Define TChain based on the reduced nTuple (HadStop) 
-  TChain *ch = new TChain("SemiLepStop");
-  ch->Add(filename);
+    //Define TChain based on the reduced nTuple (HadStop) 
+    TChain *ch = new TChain("SemiLepStop");
+    ch->Add(filename);
 
-  SemiLepStop *semilep = new SemiLepStop(ch);
+    SemiLepStop *semilep = new SemiLepStop(ch);
 
-  //Get total entries in tree
-  int nEntries = semilep->fChain->GetEntries();
+    //Get total entries in tree
+    int nEntries = semilep->fChain->GetEntries();
 
-  //Loop over entries in tree and fill histogram
-  for(int e = 0; e < nEntries; e++){
-    if (e % 1000 == 0) {
-      fprintf(stdout, "\r  Processed events: %8d of %8d ", e, nEntries);
+    //Loop over entries in tree and fill histogram
+    for(int e = 0; e < nEntries; e++){
+      if (e % 1000 == 0) {
+        fprintf(stdout, "\r  Processed events: %8d of %8d ", e, nEntries);
+      }
+      fflush(stdout);
+
+      semilep->fChain->GetEntry(e);
+      nJets = semilep->njets;
+
+      //check for b-tagged jets
+      if(any_of((UInt_t*)semilep->jet_btag->at(0),(UInt_t*)semilep->jet_btag->at(nJets-1),[](int i){return i == 0;})){
+        continue;
+      }
+
+
+
+
+      h1->Fill(nJets);
     }
-    fflush(stdout);
+    cout << endl;
 
-    semilep->fChain->GetEntry(e);
-    nJets = semilep->njets;
+    //Plot 1D histogram using Plotter class
+    Plotter::Plot1D(h1,"plots/Njets_btag","t#bar{t} sample 13 TeV","N Jets","Events");
 
-    //for b-tagged jets
-    std::any_of(semilep->jet_btag->at(0),semilep->jet_btag->at(nJets-1),[](int i){return i == 1;})? //check for b-tag
-      // h1->Fill(nJets) :
-      continue;
+    //Delete pointers
+    delete h1;
+    delete ch;
+    delete semilep;
 
-
-    // h1->Fill(nJets);
-  }
-  cout << endl;
-
-  //Plot 1D histogram using Plotter class
-  Plotter::Plot1D(h1,"plots/Njets_btag","t#bar{t} sample 13 TeV","N Jets","Events");
-
-  //Delete pointers
-  delete h1;
-  delete ch;
-  delete semilep;
-
-  return 0;
+    return 0;
   }
 
 
@@ -127,7 +134,7 @@ int main(int argc, char *argv[]){
 
   char Buffer[500];
   char MyRootFile[2000];
-  char MySample[2000];
+
   SampleSet ttBar;
   SampleSet wJets;
 
@@ -174,12 +181,15 @@ int main(int argc, char *argv[]){
     wJets.SetColor(kRed-7);
     samples.push_back(&wJets);
 
-
+    float g_Xmin = -3.3;
+    float g_Xmax = 3.3;
+    float units_per_bin = 0.1;
+    float g_NX = (int)((g_Xmax - g_Xmin)/units_per_bin);
 
     int Nsample = samples.size();
     // TH1F* hist[Nsample];
     for(int i = 0; i < Nsample; i++){
-      hist.push_back(new TH1D(("h"+to_string(i)).c_str(),
+      hist.push_back(new TH1F(("h"+to_string(i)).c_str(),
            ("h"+to_string(i)).c_str(),
            g_NX,g_Xmin,g_Xmax));
     }
@@ -189,7 +199,7 @@ int main(int argc, char *argv[]){
   //loop through samples  
   for(int s = 0; s < Nsample; s++){
     int Nfile = samples[s]->GetNFile();
-    cout << "Processing " << Nfile << " files for sample " << samples[s]->GetTitle(); << endl;
+    cout << "Processing " << Nfile << " files for sample " << samples[s]->GetTitle() << endl;
 
   //loop through files
     for(int f = 0; f < Nfile; f++){
@@ -209,7 +219,7 @@ int main(int argc, char *argv[]){
 
         semilep->fChain->GetEntry(e);
 
-        hist[s]->Fill(semilep->MissingET.MET);
+        hist[s]->Fill(semilep->MET);
 
       }
     cout << endl;
@@ -224,8 +234,7 @@ int main(int argc, char *argv[]){
   //Plot 1D histogram using Plotter class
   Plotter::Plot1Dstack(samples,hist,"plots/MET","Delphes 13 TeV simulation","#left|slash#{P}_{T}|#right| (GeV)","#frac{1}{N}#frac{dN}{d#left|slash#{P}_{T}|#right|} (#frac{1}{GeV})");
 
-  //Delete pointers
-  delete samples;
+
 
   }
 
