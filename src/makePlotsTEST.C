@@ -225,10 +225,20 @@ int main(int argc, char *argv[]){
     ttBar.SetColor(kAzure-7);
     samples.push_back(&ttBar);
 
-    wJets.SetBkg(true);
-    wJets.SetTitle("W + jets");
-    wJets.SetColor(kRed-7);
-    samples.push_back(&wJets);
+    w+Jets.SetBkg(true);
+    w+Jets.SetTitle("W + jets");
+    w+Jets.SetColor(kRed-7);
+    samples.push_back(&w+Jets);
+
+    w-Jets.SetBkg(true);
+    w-Jets.SetTitle("W + jets");
+    w-Jets.SetColor(kRed-7);
+    samples.push_back(&w-Jets);
+
+    zJets.SetBkg(true);
+    zJets.SetTitle("W + jets");
+    zJets.SetColor(kRed-7);
+    samples.push_back(&zJets);
 
     float g_Xmin = 0;
     float g_Xmax = 600;
