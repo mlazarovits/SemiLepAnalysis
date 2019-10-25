@@ -231,7 +231,7 @@ int main(int argc, char *argv[]){
     wminus_Jets.SetBkg(true);
     wminus_Jets.SetTitle("W + jets");
     wminus_Jets.SetColor(kRed-7);
-    samples.push_back(&wminusJets);
+    samples.push_back(&wminus_Jets);
 
     zJets.SetBkg(true);
     zJets.SetTitle("W + jets");
