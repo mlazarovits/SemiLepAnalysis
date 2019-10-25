@@ -147,11 +147,9 @@ int main(int argc, char *argv[]){
 
 
   SampleSet ttBar;
-  SampleSet w+Jets;
-  SampleSet w-Jets;
+  SampleSet wplus_Jets;
+  SampleSet wminus_Jets;
   SampleSet zJets;
-
-
 
 
   //LIST
@@ -173,14 +171,14 @@ int main(int argc, char *argv[]){
 
     //add files to each sample from input list file
     char* ttbar_file = nullptr;
-    char* w+jets_file = nullptr;
-    char* w-jets_file = nullptr;
+    char* wplusJets_file = nullptr;
+    char* wminusjets_file = nullptr;
     char* zjets_file = nullptr;
 
     for(int file = 0; file < filenames.size(); file++){
       cout << filenames[file] << endl;
-      w+jets_file = strstr(filenames[file],"W+toLNu");
-      w-jets_file = strstr(filenames[file],"W-toLNu");
+      wplusJets_file = strstr(filenames[file],"W+toLNu");
+      wminusjets_file = strstr(filenames[file],"W-toLNu");
       zjets_file = strstr(filenames[file],"ZtoLL");
       ttbar_file = strstr(filenames[file],"ttbar");
       if(ttbar_file != nullptr){
@@ -190,28 +188,28 @@ int main(int argc, char *argv[]){
       else if(ttbar_file == nullptr){
         cout << "No files in ttbar list" << endl;
       }
-      if(w+jets_file != nullptr){
-        w+Jets.AddFile(filenames[file]);
-        cout << w+jets_file << endl;
+      if(wplusJets_file != nullptr){
+        wplus_Jets.AddFile(filenames[file]);
+        cout << wplusJets_file << endl;
       }
-      else if(w+jets_file == nullptr){
-        cout << "No files in w+jets list" << endl;
+      else if(wplusJets_file == nullptr){
+        cout << "No files in wplus_Jets list" << endl;
       }
-      if(w-jets_file != nullptr){
-        w-Jets.AddFile(filenames[file]);
+      if(wminusjets_file != nullptr){
+        wminusJets.AddFile(filenames[file]);
         cout << wj-ets_file << endl;
       }
-      else if(w-jets_file == nullptr){
-        cout << "No files in w-jets list" << endl;
+      else if(wminusjets_file == nullptr){
+        cout << "No files in wminusjets list" << endl;
       }
       if(zjets_file != nullptr){
         zJets.AddFile(filenames[file]);
         cout << zjets_file << endl;
       }
-      else if(wjets_file == nullptr){
+      else if(zjets_file == nullptr){
         cout << "No files in zjets list" << endl;
       }
-      else if(w-jets_file == nullptr && ttbar_file == nullptr && w-jets_file == nullptr && zjets_file == nullptr){
+      else if(wplusJets_file == nullptr && ttbar_file == nullptr && wminusjets_file == nullptr && zjets_file == nullptr){
         cout << "Error: no files" << endl;
         return 0;
       }
@@ -225,15 +223,15 @@ int main(int argc, char *argv[]){
     ttBar.SetColor(kAzure-7);
     samples.push_back(&ttBar);
 
-    w+Jets.SetBkg(true);
-    w+Jets.SetTitle("W + jets");
-    w+Jets.SetColor(kRed-7);
-    samples.push_back(&w+Jets);
+    wplus_Jets.SetBkg(true);
+    wplus_Jets.SetTitle("W + jets");
+    wplus_Jets.SetColor(kRed-7);
+    samples.push_back(&wplus_Jets);
 
-    w-Jets.SetBkg(true);
-    w-Jets.SetTitle("W + jets");
-    w-Jets.SetColor(kRed-7);
-    samples.push_back(&w-Jets);
+    wminusJets.SetBkg(true);
+    wminusJets.SetTitle("W + jets");
+    wminusJets.SetColor(kRed-7);
+    samples.push_back(&wminusJets);
 
     zJets.SetBkg(true);
     zJets.SetTitle("W + jets");
