@@ -177,24 +177,24 @@ int main(int argc, char *argv[]){
     char* zjets_file = nullptr;
 
     for(int file = 0; file < filenames.size(); file++){
-      cout << filenames[file] << endl;
+      // cout << filenames[file] << endl;
       wplusjets_file = strstr(filenames[file],"W+toLNu");
       wminusjets_file = strstr(filenames[file],"W-toLNu");
       zjets_file = strstr(filenames[file],"ZtoLL");
       ttbar_file = strstr(filenames[file],"ttbar");
-      if(ttbar_file != nullptr){
+      if(ttbar_file != 0){
         ttBar.AddFile(filenames[file]);
         cout << ttbar_file << endl;
       }
-      if(wplusjets_file != nullptr){
+      if(wplusjets_file != 0){
         wplus_Jets.AddFile(filenames[file]);
         cout << wplusjets_file << endl;
       }
-      if(wminusjets_file != nullptr){
+      if(wminusjets_file != 0){
         wminus_Jets.AddFile(filenames[file]);
         cout << wminusjets_file << endl;
       }
-      if(zjets_file != nullptr){
+      if(zjets_file != 0){
         zJets.AddFile(filenames[file]);
         cout << zjets_file << endl;
       }
@@ -207,12 +207,11 @@ int main(int argc, char *argv[]){
 
     //add samples to SampleSet object from input list file
 
-    //zJets.SetBkg(true);
-    //zJets.SetTitle("ZtoLL + jets");
-    //zJets.SetColor(kBlue-7);
-    //samples.push_back(&zJets);
+    zJets.SetBkg(true);
+    zJets.SetTitle("ZtoLL + jets");
+    zJets.SetColor(kBlue-7);
+    samples.push_back(&zJets);
 
-    
     ttBar.SetBkg(true);
     ttBar.SetTitle("t#bar{t} + X");
     ttBar.SetColor(kAzure-7);
