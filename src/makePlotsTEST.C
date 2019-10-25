@@ -161,15 +161,16 @@ int main(int argc, char *argv[]){
       if (!strstr(Buffer,"#") && !(strspn(Buffer," ") == strlen(Buffer))){
         sscanf(Buffer,"%s",MyRootFile);
         filenames.push_back(MyRootFile);
+        cout << MyRootFile << endl;
       }
     }
     inputFile->close();
     delete inputFile;
 
 
-
-
-
+    for(int i = 0 ; i < filenames.size();i++){
+      cout << filenames[i] << endl;
+    }
     //add files to each sample from input list file
     char* ttbar_file = nullptr;
     char* wplusjets_file = nullptr;
@@ -177,7 +178,7 @@ int main(int argc, char *argv[]){
     char* zjets_file = nullptr;
 
     for(int file = 0; file < filenames.size(); file++){
-      // cout << filenames[file] << endl;
+      cout << filenames[file] << endl;
       wplusjets_file = strstr(filenames[file],"W+toLNu");
       wminusjets_file = strstr(filenames[file],"W-toLNu");
       zjets_file = strstr(filenames[file],"ZtoLL");
