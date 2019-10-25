@@ -185,36 +185,23 @@ int main(int argc, char *argv[]){
         ttBar.AddFile(filenames[file]);
         cout << ttbar_file << endl;
       }
-      else if(ttbar_file == nullptr){
-        cout << "No files in ttbar list" << endl;
-      }
       if(wplusjets_file != nullptr){
         wplus_Jets.AddFile(filenames[file]);
         cout << wplusjets_file << endl;
-      }
-      else if(wplusjets_file == nullptr){
-        cout << "No files in wplus_Jets list" << endl;
       }
       if(wminusjets_file != nullptr){
         wminus_Jets.AddFile(filenames[file]);
         cout << wminusjets_file << endl;
       }
-      else if(wminusjets_file == nullptr){
-        cout << "No files in wminusjets list" << endl;
-      }
       if(zjets_file != nullptr){
         zJets.AddFile(filenames[file]);
         cout << zjets_file << endl;
       }
-      else if(zjets_file == nullptr){
-        cout << "No files in zjets list" << endl;
-      }
-      else if(wplusjets_file == nullptr && ttbar_file == nullptr && wminusjets_file == nullptr && zjets_file == nullptr){
+    }
+
+   if(wplusjets_file == nullptr && ttbar_file == nullptr && wminusjets_file == nullptr && zjets_file == nullptr){
         cout << "Error: no files" << endl;
         return 0;
-      }
-
-
     }
 
     //add samples to SampleSet object from input list file
