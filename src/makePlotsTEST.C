@@ -17,6 +17,7 @@
 #include <TChain.h>
 #include <TList.h>
 #include <TLorentzVector.h>
+#include <TColor.h>
 
 #include "SemiLepStop.h"
 #include "Plotter.h"
@@ -181,27 +182,27 @@ int main(int argc, char *argv[]){
       wminusjets_file = strstr(filenames[file],"W-toLNu");
       zjets_file = strstr(filenames[file],"ZtoLL");
       ttbar_file = strstr(filenames[file],"ttbar");
-      // if(ttbar_file != nullptr){
-      //   ttBar.AddFile(filenames[file]);
-      //   cout << ttbar_file << endl;
-      // }
-      // if(wplusjets_file != nullptr){
-      //   wplus_Jets.AddFile(filenames[file]);
-      //   cout << wplusjets_file << endl;
-      // }
-      // if(wminusjets_file != nullptr){
-      //   wminus_Jets.AddFile(filenames[file]);
-      //   cout << wminusjets_file << endl;
-      // }
-      // if(zjets_file != nullptr){
-      //   zJets.AddFile(filenames[file]);
-      //   cout << zjets_file << endl;
-      // }
+      if(ttbar_file != nullptr){
+        ttBar.AddFile(filenames[file]);
+        cout << ttbar_file << endl;
+      }
+      if(wplusjets_file != nullptr){
+        wplus_Jets.AddFile(filenames[file]);
+        cout << wplusjets_file << endl;
+      }
+      if(wminusjets_file != nullptr){
+        wminus_Jets.AddFile(filenames[file]);
+        cout << wminusjets_file << endl;
+      }
+      if(zjets_file != nullptr){
+        zJets.AddFile(filenames[file]);
+        cout << zjets_file << endl;
+      }
     }
 
    if(wplusjets_file == nullptr && ttbar_file == nullptr && wminusjets_file == nullptr && zjets_file == nullptr){
-        cout << "Error: no files" << endl;
-        return 0;
+      cout << "Error: no files" << endl;
+      return 0;
     }
 
     //add samples to SampleSet object from input list file
