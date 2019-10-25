@@ -171,13 +171,13 @@ int main(int argc, char *argv[]){
 
     //add files to each sample from input list file
     char* ttbar_file = nullptr;
-    char* wplusJets_file = nullptr;
+    char* wplusjets_file = nullptr;
     char* wminusjets_file = nullptr;
     char* zjets_file = nullptr;
 
     for(int file = 0; file < filenames.size(); file++){
       cout << filenames[file] << endl;
-      wplusJets_file = strstr(filenames[file],"W+toLNu");
+      wplusjets_file = strstr(filenames[file],"W+toLNu");
       wminusjets_file = strstr(filenames[file],"W-toLNu");
       zjets_file = strstr(filenames[file],"ZtoLL");
       ttbar_file = strstr(filenames[file],"ttbar");
@@ -188,16 +188,16 @@ int main(int argc, char *argv[]){
       else if(ttbar_file == nullptr){
         cout << "No files in ttbar list" << endl;
       }
-      if(wplusJets_file != nullptr){
+      if(wplusjets_file != nullptr){
         wplus_Jets.AddFile(filenames[file]);
-        cout << wplusJets_file << endl;
+        cout << wplusjets_file << endl;
       }
-      else if(wplusJets_file == nullptr){
+      else if(wplusjets_file == nullptr){
         cout << "No files in wplus_Jets list" << endl;
       }
       if(wminusjets_file != nullptr){
-        wminusJets.AddFile(filenames[file]);
-        cout << wj-ets_file << endl;
+        wminus_Jets.AddFile(filenames[file]);
+        cout << wminusjets_file << endl;
       }
       else if(wminusjets_file == nullptr){
         cout << "No files in wminusjets list" << endl;
@@ -209,7 +209,7 @@ int main(int argc, char *argv[]){
       else if(zjets_file == nullptr){
         cout << "No files in zjets list" << endl;
       }
-      else if(wplusJets_file == nullptr && ttbar_file == nullptr && wminusjets_file == nullptr && zjets_file == nullptr){
+      else if(wplusjets_file == nullptr && ttbar_file == nullptr && wminusjets_file == nullptr && zjets_file == nullptr){
         cout << "Error: no files" << endl;
         return 0;
       }
@@ -228,9 +228,9 @@ int main(int argc, char *argv[]){
     wplus_Jets.SetColor(kRed-7);
     samples.push_back(&wplus_Jets);
 
-    wminusJets.SetBkg(true);
-    wminusJets.SetTitle("W + jets");
-    wminusJets.SetColor(kRed-7);
+    wminus_Jets.SetBkg(true);
+    wminus_Jets.SetTitle("W + jets");
+    wminus_Jets.SetColor(kRed-7);
     samples.push_back(&wminusJets);
 
     zJets.SetBkg(true);
