@@ -207,10 +207,10 @@ int main(int argc, char *argv[]){
 
     //add samples to SampleSet object from input list file
 
-    zJets.SetBkg(true);
-    zJets.SetTitle("ZtoLL + jets");
-    zJets.SetColor(kBlue-7);
-    samples.push_back(&zJets);
+    //zJets.SetBkg(true);
+    //zJets.SetTitle("ZtoLL + jets");
+    //zJets.SetColor(kBlue-7);
+    //samples.push_back(&zJets);
 
     
     ttBar.SetBkg(true);
