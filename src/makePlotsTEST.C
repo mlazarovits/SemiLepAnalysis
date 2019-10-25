@@ -147,7 +147,9 @@ int main(int argc, char *argv[]){
 
 
   SampleSet ttBar;
-  SampleSet wJets;
+  SampleSet w+Jets;
+  SampleSet w-Jets;
+  SampleSet zJets;
 
 
 
@@ -171,25 +173,45 @@ int main(int argc, char *argv[]){
 
     //add files to each sample from input list file
     char* ttbar_file = nullptr;
-    char* wjets_file = nullptr;
+    char* w+jets_file = nullptr;
+    char* w-jets_file = nullptr;
+    char* zjets_file = nullptr;
+
     for(int file = 0; file < filenames.size(); file++){
       cout << filenames[file] << endl;
-      wjets_file = strstr(filenames[file],"wjets");
+      w+jets_file = strstr(filenames[file],"W+toLNu");
+      w-jets_file = strstr(filenames[file],"W-toLNu");
+      zjets_file = strstr(filenames[file],"ZtoLL");
       ttbar_file = strstr(filenames[file],"ttbar");
       if(ttbar_file != nullptr){
         ttBar.AddFile(filenames[file]);
+        cout << ttbar_file << endl;
       }
       else if(ttbar_file == nullptr){
         cout << "No files in ttbar list" << endl;
       }
-      if(wjets_file != 0){
-        wJets.AddFile(filenames[file]);
-        cout << wjets_file << endl;
+      if(w+jets_file != nullptr){
+        w+Jets.AddFile(filenames[file]);
+        cout << w+jets_file << endl;
+      }
+      else if(w+jets_file == nullptr){
+        cout << "No files in w+jets list" << endl;
+      }
+      if(w-jets_file != nullptr){
+        w-Jets.AddFile(filenames[file]);
+        cout << wj-ets_file << endl;
+      }
+      else if(w-jets_file == nullptr){
+        cout << "No files in w-jets list" << endl;
+      }
+      if(zjets_file != nullptr){
+        zJets.AddFile(filenames[file]);
+        cout << zjets_file << endl;
       }
       else if(wjets_file == nullptr){
-        cout << "No files in wjets list" << endl;
+        cout << "No files in zjets list" << endl;
       }
-      else if(wjets_file == nullptr && ttbar_file == nullptr){
+      else if(w-jets_file == nullptr && ttbar_file == nullptr && w-jets_file == nullptr && zjets_file == nullptr){
         cout << "Error: no files" << endl;
         return 0;
       }
