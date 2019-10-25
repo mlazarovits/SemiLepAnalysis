@@ -96,14 +96,14 @@ void Plotter::Plot1Dstack(vector<SampleSet*> samples, vector<TH1F*> hists, TStri
 	hists[imax]->GetXaxis()->CenterTitle();
 	hists[imax]->GetXaxis()->SetTitleFont(132);
 	hists[imax]->GetXaxis()->SetTitleSize(0.04);
-	hists[imax]->GetXaxis()->SetTitleOffset(1.2);
+	hists[imax]->GetXaxis()->SetTitleOffset(1.3);
 	hists[imax]->GetXaxis()->SetLabelFont(132);
 	hists[imax]->GetXaxis()->SetLabelSize(0.05);
 	hists[imax]->GetXaxis()->SetTitle(xlabel);
 	hists[imax]->GetYaxis()->CenterTitle();
 	hists[imax]->GetYaxis()->SetTitleFont(132);
 	hists[imax]->GetYaxis()->SetTitleSize(0.04);
-	hists[imax]->GetYaxis()->SetTitleOffset(1.4);
+	hists[imax]->GetYaxis()->SetTitleOffset(1.6);
 	hists[imax]->GetYaxis()->SetLabelFont(132);
 	hists[imax]->GetYaxis()->SetLabelSize(0.05);
 	hists[imax]->GetYaxis()->SetTitle(ylabel);
@@ -114,6 +114,7 @@ void Plotter::Plot1Dstack(vector<SampleSet*> samples, vector<TH1F*> hists, TStri
 			hists[i]->SetLineWidth(1.0);
 			hists[i]->SetFillColor(samples[i]->GetColor());
 			hists[i]->SetFillStyle(1001);
+			hists[i]->Scale(1/hists[i]->Integral(),"width");
 			hists[i]->Draw("SAME HIST");
 		}
 	}
@@ -132,6 +133,7 @@ void Plotter::Plot1Dstack(vector<SampleSet*> samples, vector<TH1F*> hists, TStri
 			hists[i]->SetMarkerColor(kBlack);
 			hists[i]->SetLineStyle(7);
 			hists[i]->SetLineColor(samples[i]->GetColor());
+			hists[i]->Scale(1/hists[i]->Integral(),"width");
 			hists[i]->Draw("SAME HIST");
 		}
 	}
