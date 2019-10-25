@@ -211,18 +211,18 @@ int main(int argc, char *argv[]){
     samples.push_back(&ttBar);
 
     wplus_Jets.SetBkg(true);
-    wplus_Jets.SetTitle("W + jets");
+    wplus_Jets.SetTitle("W+toLNu + jets");
     wplus_Jets.SetColor(kRed-7);
     samples.push_back(&wplus_Jets);
 
     wminus_Jets.SetBkg(true);
-    wminus_Jets.SetTitle("W + jets");
-    wminus_Jets.SetColor(kRed-7);
+    wminus_Jets.SetTitle("W-toLNu + jets");
+    wminus_Jets.SetColor(kViolet-7);
     samples.push_back(&wminus_Jets);
 
     zJets.SetBkg(true);
-    zJets.SetTitle("W + jets");
-    zJets.SetColor(kRed-7);
+    zJets.SetTitle("ZtoLL + jets");
+    zJets.SetColor(kBlue-7);
     samples.push_back(&zJets);
 
     float g_Xmin = 0;
