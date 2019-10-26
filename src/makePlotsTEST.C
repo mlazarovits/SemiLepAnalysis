@@ -182,8 +182,8 @@ int main(int argc, char *argv[]){
     // char* zjets_file = nullptr;
     cout << "add files - for real" << endl;
     for(int file = 0; file < filenames.size(); file++){
-      ttbar_file = -999;
-      wplusjets_file = -999;
+      ttbar_file = NULL;
+      wplusjets_file = NULL;
       cout << filenames[file] << endl;
       ttbar_file = filenames[file].find("ttbar");
       wplusjets_file = filenames[file].find("W+toLNu");
@@ -193,11 +193,11 @@ int main(int argc, char *argv[]){
       cout << "found: ttbar " << ttbar_file << endl;
       cout << "found: w+_jets " << wplusjets_file << endl;
       
-      if(ttbar_file != -999){
+      if(ttbar_file != NULL){
         ttBar.AddFile(filenames[file]);
         cout << "Added ttbar file" << endl;
       }
-      if(wplusjets_file != -999){
+      if(wplusjets_file != NULL){
         wplus_Jets.AddFile(filenames[file]);
         cout << "added wplus_jets file" << endl;
       }
@@ -213,7 +213,7 @@ int main(int argc, char *argv[]){
     cout << "# ttbar files: " << ttBar.GetNFile() << endl;
     cout << "# of w+_jets files: " << wplus_Jets.GetNFile() << endl;
 
-   if(ttBar.GetNFile() == 0 || wplus_Jets.GetNFile() == 0){ 
+   if(ttBar.GetNFile() != 0 || wplus_Jets.GetNFile() != 0){ 
     // && wminusjets_file == nullptr && zjets_file == nullptr){
       cout << "Error: no files" << endl;
       return 0;
