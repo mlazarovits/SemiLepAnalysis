@@ -46,9 +46,9 @@ int main(int argc, char *argv[]){
 
   //Parameters used for command line arguments
   int opt;
-  vector<char*> filenames;
+  // vector<char*> filenames;
   char* filename;
-  // vector<string> filenames;
+  vector<string> filenames;
 
   char inputFileName[400];
   char inputListName[400];
@@ -172,36 +172,38 @@ int main(int argc, char *argv[]){
       cout << filenames[i] << endl;
     }
     //add files to each sample from input list file
-    char* ttbar_file = nullptr;
-    char* wplusjets_file = nullptr;
-    char* wminusjets_file = nullptr;
-    char* zjets_file = nullptr;
+    size_t ttbar_file = -999;
+    size_t wplusjets_file = -999;
+    // char* wminusjets_file = nullptr;
+    // char* zjets_file = nullptr;
 
     for(int file = 0; file < filenames.size(); file++){
       cout << filenames[file] << endl;
-      wplusjets_file = strstr(filenames[file],"W+toLNu");
-      wminusjets_file = strstr(filenames[file],"W-toLNu");
-      zjets_file = strstr(filenames[file],"ZtoLL");
       ttbar_file = strstr(filenames[file],"ttbar");
-      if(ttbar_file != nullptr){
+      wplusjets_file = filenames[file].find("W+toLNu");
+      // wminusjets_file = filenames[file].find("W-toLNu");
+      // zjets_file = strstr(filenames[file],"ZtoLL");
+      
+      if(ttbar_file != -999){
         ttBar.AddFile(filenames[file]);
         cout << ttbar_file << endl;
       }
-      else if(wplusjets_file != nullptr){
+      else if(wplusjets_file != -999){
         wplus_Jets.AddFile(filenames[file]);
         cout << wplusjets_file << endl;
       }
-      else if(wminusjets_file != nullptr){
-        wminus_Jets.AddFile(filenames[file]);
-        cout << wminusjets_file << endl;
-      }
-      else if(zjets_file != nullptr){
-        zJets.AddFile(filenames[file]);
-        cout << zjets_file << endl;
-      }
+      // else if(wminusjets_file != nullptr){
+      //   wminus_Jets.AddFile(filenames[file]);
+      //   cout << wminusjets_file << endl;
+      // }
+      // else if(zjets_file != nullptr){
+      //   zJets.AddFile(filenames[file]);
+      //   cout << zjets_file << endl;
+      // }
     }
 
-   if(wplusjets_file == nullptr && ttbar_file == nullptr && wminusjets_file == nullptr && zjets_file == nullptr){
+   if(wplusjets_file == -999 && ttbar_file == -999){ 
+    // && wminusjets_file == nullptr && zjets_file == nullptr){
       cout << "Error: no files" << endl;
       return 0;
     }
