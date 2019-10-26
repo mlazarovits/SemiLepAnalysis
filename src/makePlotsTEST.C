@@ -9,6 +9,7 @@
 #include <istream>
 #include <stdio.h>
 #include <dirent.h>
+#include <string>
 
 // ROOT includes
 #include <TROOT.h>
@@ -182,8 +183,8 @@ int main(int argc, char *argv[]){
     // char* zjets_file = nullptr;
     cout << "add files - for real" << endl;
     for(int file = 0; file < filenames.size(); file++){
-      ttbar_file = 0;
-      wplusjets_file = 0;
+      // ttbar_file = 0;
+      // wplusjets_file = 0;
       cout << filenames[file] << endl;
       ttbar_file = filenames[file].find("ttbar");
       wplusjets_file = filenames[file].find("W+toLNu");
@@ -193,11 +194,11 @@ int main(int argc, char *argv[]){
       cout << "found: ttbar " << ttbar_file << endl;
       cout << "found: w+_jets " << wplusjets_file << endl;
       
-      if(ttbar_file != 0){
+      if(ttbar_file != std::string::npos){
         ttBar.AddFile(filenames[file]);
         cout << "Added ttbar file" << endl;
       }
-      if(wplusjets_file != 0){
+      if(wplusjets_file != std::string::npos){
         wplus_Jets.AddFile(filenames[file]);
         cout << "added wplus_jets file" << endl;
       }
