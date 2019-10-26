@@ -157,7 +157,6 @@ int main(int argc, char *argv[]){
   //LIST
   if(DO_LIST){
     ifstream *inputFile = new ifstream(inputListName);
-    cout << "add files" << endl;
     while( !(inputFile->eof()) ){
       inputFile->getline(Buffer,500);
       if (!strstr(Buffer,"#") && !(strspn(Buffer," ") == strlen(Buffer))){
@@ -169,19 +168,13 @@ int main(int argc, char *argv[]){
     inputFile->close();
     delete inputFile;
 
-    cout << "test 1" << endl;
-    for(int i = 0 ; i < filenames.size();i++){
-      cout << filenames[i] << endl;
-    }
-    cout << "\n" << endl;
-
 
     //add files to each sample from input list file
     size_t ttbar_file;
     size_t wplusjets_file;
     size_t wminusjets_file;
     size_t zjets_file;
-    cout << "add files - for real" << endl;
+
     for(int file = 0; file < filenames.size(); file++){
       ttbar_file = filenames[file].find("ttbar");
       wplusjets_file = filenames[file].find("W+toLNu");
