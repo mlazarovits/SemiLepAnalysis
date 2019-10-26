@@ -205,12 +205,16 @@ int main(int argc, char *argv[]){
 
 
    if(ttBar.GetNFile() == 0 && wplus_Jets.GetNFile() == 0 && wminus_Jets.GetNFile() == 0 && zJets.GetNFile() == 0){ 
-    // && wminusjets_file == nullptr && zjets_file == nullptr){
       cout << "Error: no files" << endl;
       return 0;
     }
     // cout << "done adding files" << endl;
     //add samples to SampleSet object from input list file
+  zJets.SetBkg(true);
+    zJets.SetTitle("ZtoLL + jets");
+    zJets.SetColor(kBlue-7);
+    samples.push_back(&zJets);
+
 
     ttBar.SetBkg(true);
     ttBar.SetTitle("t#bar{t} + X");
@@ -227,10 +231,7 @@ int main(int argc, char *argv[]){
     wminus_Jets.SetColor(kViolet-7);
     samples.push_back(&wminus_Jets);
 
-    zJets.SetBkg(true);
-    zJets.SetTitle("ZtoLL + jets");
-    zJets.SetColor(kBlue-7);
-    samples.push_back(&zJets);
+  
     
 
 
