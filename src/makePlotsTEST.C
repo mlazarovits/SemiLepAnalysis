@@ -190,11 +190,11 @@ int main(int argc, char *argv[]){
       
       if(ttbar_file != -999){
         ttBar.AddFile(filenames[file]);
-        cout << filenames[file] << endl;
+        cout << "Added ttbar file" << endl;
       }
       else if(wplusjets_file != -999){
         wplus_Jets.AddFile(filenames[file]);
-        cout << filenames[file] << endl;
+        cout << "added wplus_jets file" << endl;
       }
       // else if(wminusjets_file != nullptr){
       //   wminus_Jets.AddFile(filenames[file]);
@@ -205,6 +205,8 @@ int main(int argc, char *argv[]){
       //   cout << zjets_file << endl;
       // }
     }
+    cout << "# ttbar files: " << ttBar.GetNFile() << endl;
+    cout << "# of w+_jets files: " << wplus_Jets.GetNFile() << endl;
 
    if(ttBar.GetNFile() == 0 || wplus_Jets.GetNFile() == 0){ 
     // && wminusjets_file == nullptr && zjets_file == nullptr){
