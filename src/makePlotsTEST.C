@@ -221,15 +221,17 @@ int main(int argc, char *argv[]){
     samples.push_back(&wminus_Jets);
 
 
-    ttBar.SetBkg(true);
-    ttBar.SetTitle("t#bar{t} + X");
-    ttBar.SetColor(kAzure-7);
-    samples.push_back(&ttBar);
+    
 
     wplus_Jets.SetBkg(true);
     wplus_Jets.SetTitle("W+toLNu + jets");
     wplus_Jets.SetColor(kRed-7);
     samples.push_back(&wplus_Jets);
+
+    ttBar.SetBkg(true);
+    ttBar.SetTitle("t#bar{t} + X");
+    ttBar.SetColor(kAzure-7);
+    samples.push_back(&ttBar);
 
    
 
