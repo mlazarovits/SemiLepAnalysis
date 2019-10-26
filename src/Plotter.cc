@@ -89,7 +89,7 @@ void Plotter::Plot1Dstack(vector<SampleSet*> samples, vector<TH1F*> hists, TStri
 	}
 
 	TLegend* leg = new TLegend(0.688,0.22,0.93,0.42);
-	cv->SetLeftMargin(0.13);
+	cv->SetLeftMargin(0.2);
 	cv->SetRightMargin(0.04);
 	cv->SetBottomMargin(0.15);
 	cv->SetTopMargin(0.085);
@@ -119,7 +119,7 @@ void Plotter::Plot1Dstack(vector<SampleSet*> samples, vector<TH1F*> hists, TStri
 		if(samples[i]->GetBkg()){
 			hists[i]->SetLineColor(samples[i]->GetColor());
 			hists[i]->SetLineWidth(1.0);
-			hists[i]->SetFillColor(samples[i]->GetColor());
+			hists[i]->SetFillColor(kBlack);
 			hists[i]->SetFillStyle(1001);
 			hists[i]->Scale(1/hists[i]->Integral(),"width"); //normalize
 			hists[i]->Draw("SAME HIST");
