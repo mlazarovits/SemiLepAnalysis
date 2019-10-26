@@ -176,12 +176,14 @@ int main(int argc, char *argv[]){
 
 
     //add files to each sample from input list file
-    size_t ttbar_file = -999;
-    size_t wplusjets_file = -999;
+    size_t ttbar_file;
+    size_t wplusjets_file;
     // char* wminusjets_file = nullptr;
     // char* zjets_file = nullptr;
     cout << "add files - for real" << endl;
     for(int file = 0; file < filenames.size(); file++){
+      ttbar_file = -999;
+      wplusjets_file = -999;
       cout << filenames[file] << endl;
       ttbar_file = filenames[file].find("ttbar");
       wplusjets_file = filenames[file].find("W+toLNu");
@@ -192,7 +194,7 @@ int main(int argc, char *argv[]){
         ttBar.AddFile(filenames[file]);
         cout << "Added ttbar file" << endl;
       }
-      else if(wplusjets_file != -999){
+      if(wplusjets_file != -999){
         wplus_Jets.AddFile(filenames[file]);
         cout << "added wplus_jets file" << endl;
       }
