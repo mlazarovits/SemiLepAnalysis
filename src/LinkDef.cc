@@ -57,7 +57,7 @@ namespace ROOT {
       vector<TLorentzVector> *ptr = 0;
       static ::TVirtualIsAProxy* isa_proxy = new ::TIsAProxy(typeid(vector<TLorentzVector>));
       static ::ROOT::TGenericClassInfo 
-         instance("vector<TLorentzVector>", -2, "vector", 464,
+         instance("vector<TLorentzVector>", -2, "vector", 470,
                   typeid(vector<TLorentzVector>), ::ROOT::Internal::DefineBehavior(ptr, ptr),
                   &vectorlETLorentzVectorgR_Dictionary, isa_proxy, 4,
                   sizeof(vector<TLorentzVector>) );

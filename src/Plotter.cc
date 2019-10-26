@@ -89,7 +89,7 @@ void Plotter::Plot1Dstack(vector<SampleSet*> samples, vector<TH1F*> hists, TStri
 	}
 
 	TLegend* leg = new TLegend(0.688,0.22,0.93,0.42);
-	cv->SetLeftMargin(0.2);
+	cv->SetLeftMargin(0.15);
 	cv->SetRightMargin(0.04);
 	cv->SetBottomMargin(0.15);
 	cv->SetTopMargin(0.085);
