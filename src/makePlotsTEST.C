@@ -206,7 +206,7 @@ int main(int argc, char *argv[]){
       // }
     }
 
-   if(ttBar->GetNFile() == 0 || wplus_Jets->GetNFile() == 0){ 
+   if(ttBar.GetNFile() == 0 || wplus_Jets.GetNFile() == 0){ 
     // && wminusjets_file == nullptr && zjets_file == nullptr){
       cout << "Error: no files" << endl;
       return 0;
