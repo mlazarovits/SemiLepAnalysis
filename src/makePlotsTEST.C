@@ -215,6 +215,11 @@ int main(int argc, char *argv[]){
     zJets.SetColor(kBlue-7);
     samples.push_back(&zJets);
 
+     wminus_Jets.SetBkg(true);
+    wminus_Jets.SetTitle("W-toLNu + jets");
+    wminus_Jets.SetColor(kViolet-7);
+    samples.push_back(&wminus_Jets);
+
 
     ttBar.SetBkg(true);
     ttBar.SetTitle("t#bar{t} + X");
@@ -226,10 +231,7 @@ int main(int argc, char *argv[]){
     wplus_Jets.SetColor(kRed-7);
     samples.push_back(&wplus_Jets);
 
-    wminus_Jets.SetBkg(true);
-    wminus_Jets.SetTitle("W-toLNu + jets");
-    wminus_Jets.SetColor(kViolet-7);
-    samples.push_back(&wminus_Jets);
+   
 
   
     
