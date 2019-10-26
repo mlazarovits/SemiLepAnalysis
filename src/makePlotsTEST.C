@@ -190,11 +190,11 @@ int main(int argc, char *argv[]){
       
       if(ttbar_file != -999){
         ttBar.AddFile(filenames[file]);
-        cout << ttbar_file << endl;
+        cout << filenames[file] << endl;
       }
       else if(wplusjets_file != -999){
         wplus_Jets.AddFile(filenames[file]);
-        cout << wplusjets_file << endl;
+        cout << filenames[file] << endl;
       }
       // else if(wminusjets_file != nullptr){
       //   wminus_Jets.AddFile(filenames[file]);
