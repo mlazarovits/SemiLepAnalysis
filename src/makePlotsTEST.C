@@ -183,46 +183,40 @@ int main(int argc, char *argv[]){
     size_t zjets_file;
     cout << "add files - for real" << endl;
     for(int file = 0; file < filenames.size(); file++){
-      // ttbar_file = 0;
-      // wplusjets_file = 0;
-      cout << filenames[file] << endl;
       ttbar_file = filenames[file].find("ttbar");
       wplusjets_file = filenames[file].find("W+toLNu");
       wminusjets_file = filenames[file].find("W-toLNu");
       zjets_file = filenames[file].find("ZtoLL");
-
-      // cout << "found: ttbar " << ttbar_file << endl;
-      // cout << "found: w+_jets " << wplusjets_file << endl;
       
       if(ttbar_file != std::string::npos){
         ttBar.AddFile(filenames[file]);
-        cout << "Added ttbar file" << endl;
+        // cout << "Added ttbar file" << endl;
       }
       else if(wplusjets_file != std::string::npos){
         wplus_Jets.AddFile(filenames[file]);
-        cout << "added wplus_jets file" << endl;
+        // cout << "added wplus_jets file" << endl;
       }
       else if(wminusjets_file != std::string::npos){
         wminus_Jets.AddFile(filenames[file]);
-        cout << wminusjets_file << endl;
+        // cout << "added wminus_jets file" << endl;
       }
       else if(zjets_file != std::string::npos){
         zJets.AddFile(filenames[file]);
-        cout << zjets_file << endl;
+        // cout << "added z_jets file" << endl;
       }
     }
-    cout << "# ttbar files: " << ttBar.GetNFile() << endl;
-    cout << "# of w+_jets files: " << wplus_Jets.GetNFile() << endl;
-    cout << "# w-_jets files: " << wminus_Jets.GetNFile() << endl;
-    cout << "# of z_jets files: " << zJets.GetNFile() << endl;
+    // cout << "# ttbar files: " << ttBar.GetNFile() << endl;
+    // cout << "# of w+_jets files: " << wplus_Jets.GetNFile() << endl;
+    // cout << "# w-_jets files: " << wminus_Jets.GetNFile() << endl;
+    // cout << "# of z_jets files: " << zJets.GetNFile() << endl;
 
 
-   if(ttBar.GetNFile() != 0 || wplus_Jets.GetNFile() != 0){ 
+   if(ttBar.GetNFile() == 0 && wplus_Jets.GetNFile() == 0 && wminus_Jets.GetNFile() == 0 && zJets.GetNFile() == 0){ 
     // && wminusjets_file == nullptr && zjets_file == nullptr){
       cout << "Error: no files" << endl;
       return 0;
     }
-    cout << "done adding files" << endl;
+    // cout << "done adding files" << endl;
     //add samples to SampleSet object from input list file
 
     ttBar.SetBkg(true);
