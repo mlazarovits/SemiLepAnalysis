@@ -156,6 +156,7 @@ int main(int argc, char *argv[]){
   //LIST
   if(DO_LIST){
     ifstream *inputFile = new ifstream(inputListName);
+    cout << "add files" << endl;
     while( !(inputFile->eof()) ){
       inputFile->getline(Buffer,500);
       if (!strstr(Buffer,"#") && !(strspn(Buffer," ") == strlen(Buffer))){
@@ -167,10 +168,12 @@ int main(int argc, char *argv[]){
     inputFile->close();
     delete inputFile;
 
-
+    cout << "test 1" << endl;
     for(int i = 0 ; i < filenames.size();i++){
       cout << filenames[i] << endl;
     }
+
+
     //add files to each sample from input list file
     size_t ttbar_file = -999;
     size_t wplusjets_file = -999;
@@ -202,7 +205,7 @@ int main(int argc, char *argv[]){
       // }
     }
 
-   if(wplusjets_file == -999 && ttbar_file == -999){ 
+   if(wplusjets_file == -999 || ttbar_file == -999){ 
     // && wminusjets_file == nullptr && zjets_file == nullptr){
       cout << "Error: no files" << endl;
       return 0;
