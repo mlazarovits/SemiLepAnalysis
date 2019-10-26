@@ -179,7 +179,7 @@ int main(int argc, char *argv[]){
 
     for(int file = 0; file < filenames.size(); file++){
       cout << filenames[file] << endl;
-      ttbar_file = (filenames[file].find("ttbar");
+      ttbar_file = filenames[file].find("ttbar");
       wplusjets_file = filenames[file].find("W+toLNu");
       // wminusjets_file = filenames[file].find("W-toLNu");
       // zjets_file = strstr(filenames[file],"ZtoLL");
