@@ -189,6 +189,9 @@ int main(int argc, char *argv[]){
       wplusjets_file = filenames[file].find("W+toLNu");
       // wminusjets_file = filenames[file].find("W-toLNu");
       // zjets_file = strstr(filenames[file],"ZtoLL");
+
+      cout << "found: ttbar " << ttbar_file << endl;
+      cout << "found: w+_jets " << wplusjets_file << endl;
       
       if(ttbar_file != -999){
         ttBar.AddFile(filenames[file]);
