@@ -117,9 +117,9 @@ void Plotter::Plot1Dstack(vector<SampleSet*> samples, vector<TH1F*> hists, TStri
 
 	for(int i = 0; i < Nsample; i++){
 		if(samples[i]->GetBkg()){
-			hists[i]->SetLineColor(samples[i]->GetColor());
+			hists[i]->SetLineColor(kBlack);
 			hists[i]->SetLineWidth(1.0);
-			hists[i]->SetFillColor(kBlack);
+			hists[i]->SetFillColor(samples[i]->GetColor());
 			hists[i]->SetFillStyle(1001);
 			hists[i]->Scale(1/hists[i]->Integral(),"width"); //normalize
 			hists[i]->Draw("SAME HIST");
