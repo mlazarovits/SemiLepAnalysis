@@ -115,6 +115,7 @@ void Plotter::Plot1Dstack(vector<SampleSet*> samples, vector<TH1F*> hists, TStri
 	hists[imax]->GetYaxis()->SetLabelSize(0.05);
 	hists[imax]->GetYaxis()->SetTitle(ylabel);
 
+
 	for(int i = 0; i < Nsample; i++){
 		if(samples[i]->GetBkg()){
 			hists[i]->SetLineColor(kBlack);
@@ -146,6 +147,7 @@ void Plotter::Plot1Dstack(vector<SampleSet*> samples, vector<TH1F*> hists, TStri
 	}
 	for(int i = 0; i < Nsample; i++){
 		leg->AddEntry(hists[i],samples[i]->GetTitle().c_str());	
+		hists[i]->GetYaxis()->SetRangeUser(0.0,0.04);
 	}
 
 	leg->SetTextFont(132);
@@ -158,7 +160,13 @@ void Plotter::Plot1Dstack(vector<SampleSet*> samples, vector<TH1F*> hists, TStri
 	leg->SetShadowColor(kWhite);
 	leg->Draw("SAME");
 
-	SetTitle(title);
+	// SetTitle(title);
+	TLatex l;
+	l.SetTextFont(132);
+	l.SetNDC();
+	l.SetTextSize(0.05);
+	l.SetTextFont(132);
+	l.DrawLatex(0.42,0.94,title);
 
 	cv->SaveAs(name+".pdf");
 	cv->Close();

@@ -31,8 +31,8 @@ int main(int argc, char *argv[]){
   //Give warning if insufficient arguments are given
   if(argc < 2){
     cout << "Please specify input file or list." << endl;
-    cout << "Example: ./makePlotsTEST.x -ifile=reducedNtuple.root" << endl;
-    cout << "Example: ./makePlotsTEST.x -ilist=list_of_rootfiles.list" << endl;
+    cout << "Example: ./makePlots.x -ifile=reducedNtuple.root" << endl;
+    cout << "Example: ./makePlots.x -ilist=list_of_rootfiles.list" << endl;
     printf("For usage information type: %s -h\n", argv[0]);
     return 0;
   }
@@ -92,13 +92,13 @@ int main(int argc, char *argv[]){
 
   //SINGLE FILE
   if(DO_FILE){
-      filenames.push_back(inputFileName);
+      // filenames.push_back(inputFileName);
         TH1F *h1 = new TH1F("h1", "B-tagged Jet Multiplicity", 13, 0.,13.); //Histogram definition
     int nJets = -999;
 
     //Define TChain based on the reduced nTuple (HadStop) 
     TChain *ch = new TChain("SemiLepStop");
-    ch->Add(filename);
+    ch->Add(inputFileName);
 
     SemiLepStop *semilep = new SemiLepStop(ch);
 
@@ -111,24 +111,26 @@ int main(int argc, char *argv[]){
         fprintf(stdout, "\r  Processed events: %8d of %8d ", e, nEntries);
       }
       fflush(stdout);
-
       semilep->fChain->GetEntry(e);
       nJets = semilep->njets;
+      bool btag = kFALSE;
 
       //check for b-tagged jets
-      if(any_of((UInt_t*)semilep->jet_btag->at(0),(UInt_t*)semilep->jet_btag->at(nJets-1),[](int i){return i == 0;})){
-        continue;
+      cout << semilep->jet_btag->size() << endl;
+      for(int jet = 0; jet < semilep->jet_btag->size(); jet++){
+        if(semilep->jet_btag->at(jet)){
+          btag = kTRUE;
+        }
+        else continue;
       }
-
-
-
-
+      if(btag) continue;
+ 
       h1->Fill(nJets);
     }
     cout << endl;
 
     //Plot 1D histogram using Plotter class
-    Plotter::Plot1D(h1,"plots/Njets_btag","t#bar{t} sample 13 TeV","N Jets","Events");
+    Plotter::Plot1D(h1,"plots/stop_Nbjets","stop sample 13 TeV","N bJets","Events");
 
     //Delete pointers
     delete h1;
@@ -149,9 +151,10 @@ int main(int argc, char *argv[]){
 
 
   SampleSet ttBar;
-  SampleSet wplus_Jets;
-  SampleSet wminus_Jets;
+  SampleSet w_Jets;
   SampleSet zJets;
+  SampleSet stop_pp;
+
 
 
   //LIST
@@ -174,27 +177,33 @@ int main(int argc, char *argv[]){
     size_t wplusjets_file;
     size_t wminusjets_file;
     size_t zjets_file;
+    size_t stop_file;
 
     for(int file = 0; file < filenames.size(); file++){
       ttbar_file = filenames[file].find("ttbar");
       wplusjets_file = filenames[file].find("W+toLNu");
       wminusjets_file = filenames[file].find("W-toLNu");
       zjets_file = filenames[file].find("ZtoLL");
+      stop_file = filenames[file].find("stop_pairprod");
       
       if(ttbar_file != std::string::npos){
         ttBar.AddFile(filenames[file]);
         // cout << "Added ttbar file" << endl;
       }
       else if(wplusjets_file != std::string::npos){
-        wplus_Jets.AddFile(filenames[file]);
+        w_Jets.AddFile(filenames[file]);
         // cout << "added wplus_jets file" << endl;
       }
       else if(wminusjets_file != std::string::npos){
-        wminus_Jets.AddFile(filenames[file]);
+        w_Jets.AddFile(filenames[file]);
         // cout << "added wminus_jets file" << endl;
       }
       else if(zjets_file != std::string::npos){
         zJets.AddFile(filenames[file]);
+        // cout << "added z_jets file" << endl;
+      }
+       else if(stop_file != std::string::npos){
+        stop_pp.AddFile(filenames[file]);
         // cout << "added z_jets file" << endl;
       }
     }
@@ -204,46 +213,36 @@ int main(int argc, char *argv[]){
     // cout << "# of z_jets files: " << zJets.GetNFile() << endl;
 
 
-   if(ttBar.GetNFile() == 0 && wplus_Jets.GetNFile() == 0 && wminus_Jets.GetNFile() == 0 && zJets.GetNFile() == 0){ 
+   if(ttBar.GetNFile() == 0 && w_Jets.GetNFile() == 0 && zJets.GetNFile() == 0){ 
       cout << "Error: no files" << endl;
       return 0;
     }
     // cout << "done adding files" << endl;
     //add samples to SampleSet object from input list file
-  zJets.SetBkg(true);
+    zJets.SetBkg(true);
     zJets.SetTitle("ZtoLL + jets");
     zJets.SetColor(kBlue-7);
     samples.push_back(&zJets);
 
-     wminus_Jets.SetBkg(true);
-    wminus_Jets.SetTitle("W-toLNu + jets");
-    wminus_Jets.SetColor(kViolet-7);
-    samples.push_back(&wminus_Jets);
-
-
-    
-
-    wplus_Jets.SetBkg(true);
-    wplus_Jets.SetTitle("W+toLNu + jets");
-    wplus_Jets.SetColor(kRed-7);
-    samples.push_back(&wplus_Jets);
+    w_Jets.SetBkg(true);
+    w_Jets.SetTitle("WtoLNu + jets");
+    w_Jets.SetColor(kRed-7);
+    samples.push_back(&w_Jets);
 
     ttBar.SetBkg(true);
     ttBar.SetTitle("t#bar{t} + X");
     ttBar.SetColor(kAzure-7);
     samples.push_back(&ttBar);
 
+    stop_pp.SetBkg(false);
+    stop_pp.SetTitle("#tilde{t}: m = 1200 GeV");
+    stop_pp.SetColor(kRed);
+    samples.push_back(&stop_pp);
+
    
 
-  
-    
-
-
-
-
-
     float g_Xmin = 0;
-    float g_Xmax = 300;
+    float g_Xmax = 1200;
     float units_per_bin = 10;
     float g_NX = (int)((g_Xmax - g_Xmin)/units_per_bin);
 
@@ -255,7 +254,6 @@ int main(int argc, char *argv[]){
            g_NX,g_Xmin,g_Xmax));
     }
   
-
 
   //loop through samples  
   for(int s = 0; s < Nsample; s++){
