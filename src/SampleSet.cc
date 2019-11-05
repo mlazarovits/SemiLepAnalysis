@@ -20,7 +20,7 @@ using namespace std;
 SampleSet::SampleSet(){
   m_IsBkg = true;
   m_Title = "";
-  m_TreeName = "KUAnalysis";
+  m_TreeName = "SemiLepStopAnalysis";
   m_Color = kBlue;
   m_Skip = 1;
   m_Scale = 1.;
@@ -88,6 +88,14 @@ void SampleSet::SetScale(double scale){
 
 double SampleSet::GetScale() const {
   return m_Scale;
+}
+
+void SampleSet::SetXSec(double xsection){
+  m_xSec = xsection;
+}
+
+double SampleSet::GetXSec() const{
+  return m_xSec;
 }
 
 

@@ -149,10 +149,11 @@ int main(int argc, char *argv[]){
   char Buffer[500];
   char MyRootFile[2000];
 
+  double gLumi = 3000; //3 ab^-1 = 3000 fb^-1 (HL-LHC lumi)
 
   SampleSet ttBar;
   SampleSet w_Jets;
-  SampleSet zJets;
+  SampleSet z_Jets;
   SampleSet stop_pp;
 
 
@@ -175,14 +176,12 @@ int main(int argc, char *argv[]){
     //add files to each sample from input list file
     size_t ttbar_file;
     size_t wplusjets_file;
-    size_t wminusjets_file;
     size_t zjets_file;
     size_t stop_file;
 
     for(int file = 0; file < filenames.size(); file++){
       ttbar_file = filenames[file].find("ttbar");
-      wplusjets_file = filenames[file].find("W+toLNu");
-      wminusjets_file = filenames[file].find("W-toLNu");
+      wplusjets_file = filenames[file].find("WtoLNu");
       zjets_file = filenames[file].find("ZtoLL");
       stop_file = filenames[file].find("stop_pairprod");
       
@@ -194,12 +193,8 @@ int main(int argc, char *argv[]){
         w_Jets.AddFile(filenames[file]);
         // cout << "added wplus_jets file" << endl;
       }
-      else if(wminusjets_file != std::string::npos){
-        w_Jets.AddFile(filenames[file]);
-        // cout << "added wminus_jets file" << endl;
-      }
       else if(zjets_file != std::string::npos){
-        zJets.AddFile(filenames[file]);
+        z_Jets.AddFile(filenames[file]);
         // cout << "added z_jets file" << endl;
       }
        else if(stop_file != std::string::npos){
@@ -213,33 +208,32 @@ int main(int argc, char *argv[]){
     // cout << "# of z_jets files: " << zJets.GetNFile() << endl;
 
 
-   if(ttBar.GetNFile() == 0 && w_Jets.GetNFile() == 0 && zJets.GetNFile() == 0){ 
+   if(ttBar.GetNFile() == 0 && w_Jets.GetNFile() == 0 && z_Jets.GetNFile() == 0){ 
       cout << "Error: no files" << endl;
       return 0;
     }
     // cout << "done adding files" << endl;
     //add samples to SampleSet object from input list file
-    zJets.SetBkg(true);
-    zJets.SetTitle("ZtoLL + jets");
-    zJets.SetColor(kBlue-7);
-    samples.push_back(&zJets);
+    z_Jets.SetBkg(true);
+    z_Jets.SetTitle("ZtoLL + jets");
+    z_Jets.SetColor(kBlue-7);
+    samples.push_back(&z_Jets);
 
     w_Jets.SetBkg(true);
     w_Jets.SetTitle("WtoLNu + jets");
     w_Jets.SetColor(kRed-7);
-    samples.push_back(&w_Jets);
+    samples.push_back(&w_Jets); 
 
     ttBar.SetBkg(true);
     ttBar.SetTitle("t#bar{t} + X");
     ttBar.SetColor(kAzure-7);
+    ttBar.SetXSec(953.6); //theoretical xsection for ttbar at 14 TeV
     samples.push_back(&ttBar);
 
     stop_pp.SetBkg(false);
     stop_pp.SetTitle("#tilde{t}: m = 1200 GeV");
     stop_pp.SetColor(kRed);
     samples.push_back(&stop_pp);
-
-   
 
     float g_Xmin = 0;
     float g_Xmax = 1200;
@@ -278,7 +272,7 @@ int main(int argc, char *argv[]){
 
         semilep->fChain->GetEntry(e);
 
-        hist[s]->Fill(semilep->MET);
+        hist[s]->Fill(semilep->MET,samples[s]->GetXSec()*gLumi);
 
       }
     cout << endl;

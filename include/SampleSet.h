@@ -40,6 +40,9 @@ public:
   void   SetScale(double scale);
   double GetScale() const;
 
+  void SetXSec(double xsection);
+  double GetXSec() const;
+
   vector<string> g_File;
   vector<string> g_Tree;
   vector<string> g_Title;
@@ -57,6 +60,7 @@ private:
   int m_Color;
   int m_Skip;
   double m_Scale;
+  double m_xSec = 0;
 
 };
 
