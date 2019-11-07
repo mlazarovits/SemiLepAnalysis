@@ -1,7 +1,6 @@
 // Do NOT change. Changes will be lost next time file is generated
 
 #define R__DICTIONARY_FILENAME srcdILinkDef
-#define R__NO_DEPRECATION
 
 /*******************************************************************/
 #include <stddef.h>
@@ -34,7 +33,7 @@
 
 #include "TDataMember.h"
 
-// The generated code does not explicitly qualifies STL entities
+// Since CINT ignores the std namespace, we need to do so in this file.
 namespace std {} using namespace std;
 
 // Header files passed as explicit arguments
@@ -57,7 +56,7 @@ namespace ROOT {
       vector<TLorentzVector> *ptr = 0;
       static ::TVirtualIsAProxy* isa_proxy = new ::TIsAProxy(typeid(vector<TLorentzVector>));
       static ::ROOT::TGenericClassInfo 
-         instance("vector<TLorentzVector>", -2, "vector", 470,
+         instance("vector<TLorentzVector>", -2, "vector", 216,
                   typeid(vector<TLorentzVector>), ::ROOT::Internal::DefineBehavior(ptr, ptr),
                   &vectorlETLorentzVectorgR_Dictionary, isa_proxy, 4,
                   sizeof(vector<TLorentzVector>) );
@@ -112,8 +111,8 @@ namespace {
 0
     };
     static const char* includePaths[] = {
-"/usr/local/root-6.18.02/include",
-"/Users/margaretlazarovits/SemiLepStopAnalysis/",
+"/cvmfs/sft.cern.ch/lcg/releases/ROOT/6.14.04-0d8dc/x86_64-slc6-gcc7-opt/include",
+"/afs/cern.ch/user/m/malazaro/work/SemiLepStopAnalysis/",
 0
     };
     static const char* fwdDeclCode = R"DICTFWDDCLS(
@@ -123,15 +122,17 @@ namespace {
 #pragma clang diagnostic ignored "-Wreturn-type-c-linkage"
 extern int __Cling_Autoloading_Map;
 class __attribute__((annotate("$clingAutoload$TLorentzVector.h")))  __attribute__((annotate("$clingAutoload$include/ReducedTree.h")))  TLorentzVector;
-namespace std{inline namespace __1{template <class _Tp> class __attribute__((annotate("$clingAutoload$iosfwd")))  __attribute__((annotate("$clingAutoload$string")))  allocator;
-}}
+namespace std{template <typename _Tp> class __attribute__((annotate("$clingAutoload$bits/allocator.h")))  __attribute__((annotate("$clingAutoload$string")))  allocator;
+}
 )DICTFWDDCLS";
     static const char* payloadCode = R"DICTPAYLOAD(
 #line 1 "LinkDef dictionary payload"
 
+#ifndef G__VECTOR_HAS_CLASS_ITERATOR
+  #define G__VECTOR_HAS_CLASS_ITERATOR 1
+#endif
 
 #define _BACKWARD_BACKWARD_WARNING_H
-// Inline headers
 #include "include/ReducedTree.h"
 
 #undef  _BACKWARD_BACKWARD_WARNING_H

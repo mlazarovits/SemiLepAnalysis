@@ -2,4 +2,4 @@ ROOT/ttbar.root
 ROOT/W+toLNu_jets.root
 ROOT/W-toLNu_jets.root
 ROOT/ZtoLL_jets.root
-ROOT/stop_pairprod.root
+ROOT/stop_pp_semilep.root
