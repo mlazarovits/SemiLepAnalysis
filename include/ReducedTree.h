@@ -35,6 +35,8 @@ private:
 	vector<UInt_t> jet_btag;
 	vector<TLorentzVector> jets;
 	Float_t MET;
+	bool metCut;
+	bool nJetsCut;
 
 	void InitBranches();
 };

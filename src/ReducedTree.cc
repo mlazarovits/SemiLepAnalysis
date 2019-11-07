@@ -25,6 +25,11 @@ tree->Branch("jets",&jets);
 tree->Branch("njets",&njets);
 tree->Branch("jet_btag",&jet_btag);
 tree->Branch("MET",&MET);
+tree->Branch("METcut", &metCut);
+tree->Branch("nJetsCut",&nJetsCut);
+
+Float_t metVal = 200.0;
+Int_t nJetsVal = 3;
 
 
 int nEntries = fChain->GetEntries();
@@ -41,6 +46,8 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
   jet_btag.clear();
 	njets = -999;
   MET = -999;
+  metCut = false;
+  nJetsCut = false;
 
 	//Fill TLorentzVectors (for each jet)
 	for(int j = 0; j < Jet_size; j++){
@@ -50,11 +57,25 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
 	}
 	//set object sizes
 	njets = Jet_size;
+  if(njets < nJetsVal){
+    nJetsCut = false;
+  }
+  else{
+    nJetsCut = true;
+  }
 
-  //fill MET
+  //fill MET (only 1 entry in delphes MET array)
   for(int i = 0; i < MissingET_size+1; i++){
     MET = MissingET_MET[i];
+    if(MET < metVal){
+      metCut = false;
+    }
+    else{
+      metCut = true;
+    }
   }
+
+ 
   
 
 	tree->Fill();
@@ -95,4 +116,8 @@ void ReducedTree::InitBranches(){
   fChain->SetBranchStatus("Jet.BTag",1);
   fChain->SetBranchStatus("Jet.Mass",1);
   fChain->SetBranchStatus("MissingET.MET",1);
+
+
+
+
 }
