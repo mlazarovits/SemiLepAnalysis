@@ -88,6 +88,7 @@ int main(int argc, char *argv[]){
 
 
 
+  double gLumi = 3000; //3 ab^-1 = 3000 fb^-1 (HL-LHC lumi)
 
 
   //SINGLE FILE
@@ -112,8 +113,9 @@ int main(int argc, char *argv[]){
       }
       fflush(stdout);
       cout << "get event #: " << e << endl;
+
       semilep->fChain->GetEntry(e);
-      cout << "xSec: " << semilep->xSecLO << endl;
+      // cout << "xSec: " << semilep->xSecLO << endl;
 
       nJets = semilep->njets;
       bool btag = kFALSE;
@@ -128,7 +130,7 @@ int main(int argc, char *argv[]){
       }
       if(btag) continue;
  
-      h1->Fill(nJets);
+      h1->Fill(nJets,semilep->xSecLO*gLumi);
     }
     cout << endl;
 
@@ -152,7 +154,6 @@ int main(int argc, char *argv[]){
   char Buffer[500];
   char MyRootFile[2000];
 
-  double gLumi = 3000; //3 ab^-1 = 3000 fb^-1 (HL-LHC lumi)
 
   SampleSet ttBar;
   SampleSet w_Jets;
@@ -275,7 +276,7 @@ int main(int argc, char *argv[]){
         
         semilep->fChain->GetEntry(e);
 
-        hist[s]->Fill(semilep->MET,samples[s]->GetXSec()*gLumi);
+        hist[s]->Fill(semilep->MET,semilep->XsecLO*gLumi);
 
       }
     cout << endl;

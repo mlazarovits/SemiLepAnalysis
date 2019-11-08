@@ -70,7 +70,7 @@ public :
    SemiLepStop(TTree *tree=0);
    virtual ~SemiLepStop();
   // virtual Int_t    Cut(Long64_t entry);
-  // virtual Int_t    GetEntry(Long64_t entry);
+  virtual Int_t    GetEntry(Long64_t entry);
   // virtual Long64_t LoadTree(Long64_t entry);
    virtual void     Init(TTree *tree);
   // virtual void     Loop();
@@ -102,15 +102,15 @@ inline SemiLepStop::~SemiLepStop()
    delete fChain->GetCurrentFile();
 }
 
-//Int_t SemiLepStop::GetEntry(Long64_t entry)
-//{
-//// Read contents of entry.
-//   if (!fChain) return 0;
-//   return fChain->GetEntry(entry);
-//}
-//Long64_t SemiLepStop::LoadTree(Long64_t entry)
-//{
-//// Set the environment to read one entry
+inline Int_t SemiLepStop::GetEntry(Long64_t entry)
+{
+// Read contents of entry.
+  if (!fChain) return 0;
+  return fChain->GetEntry(entry);
+}
+// Long64_t SemiLepStop::LoadTree(Long64_t entry)
+// {
+// // Set the environment to read one entry
 //   if (!fChain) return -5;
 //   Long64_t centry = fChain->LoadTree(entry);
 //   if (centry < 0) return centry;
@@ -119,7 +119,7 @@ inline SemiLepStop::~SemiLepStop()
 //      Notify();
 //   }
 //   return centry;
-//}
+// }
 
 inline void SemiLepStop::Init(TTree *tree)
 {
@@ -174,13 +174,13 @@ inline void SemiLepStop::Init(TTree *tree)
 //   return kTRUE;
 //}
 //
-//void SemiLepStop::Show(Long64_t entry)
-//{
-//// Print contents of entry.
-//// If entry is not specified, print current entry
+// void SemiLepStop::Show(Long64_t entry)
+// {
+// // Print contents of entry.
+// // If entry is not specified, print current entry
 //   if (!fChain) return;
 //   fChain->Show(entry);
-//}
+// }
 //Int_t SemiLepStop::Cut(Long64_t entry)
 //{
 //// This function may be called from Loop.

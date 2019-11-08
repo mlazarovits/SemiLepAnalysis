@@ -49,6 +49,7 @@ tree->Branch("muPtCut",&muPtCut);
 tree->Branch("HTcut",&HTcut);
 
 
+//cut values
 Float_t metVal = 200.0;
 Int_t nJetsVal = 3;
 Float_t elepT_val = 20;
