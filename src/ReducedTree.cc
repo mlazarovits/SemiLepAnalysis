@@ -29,12 +29,12 @@ tree->Branch("MET",&MET);
 
 tree->Branch("nEle",&nEle);
 tree->Branch("ele_pT",&ele_pT);
-// tree->Branch("ele_eta",&ele_eta);
+tree->Branch("ele_eta",&ele_eta);
 tree->Branch("ele_phi",&ele_phi);
 
 tree->Branch("nMu",&nMu);
 tree->Branch("mu_pT",&mu_pT);
-// tree->Branch("mu_eta",&mu_eta);
+tree->Branch("mu_eta",&mu_eta);
 tree->Branch("mu_phi",&mu_phi);
 
 tree->Branch("HT",&HT);
@@ -80,12 +80,12 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
 
   nEle = -999;
   ele_pT.clear();
-  // ele_eta.clear();
+  ele_eta.clear();
   ele_phi.clear();
 
   nMu = -999;
   mu_pT.clear();
-  // mu_eta.clear();
+  mu_eta.clear();
   mu_phi.clear();
 
   HT = -999;
@@ -119,9 +119,6 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
   }
 
   //MET
-  //fill MET (only 1 entry in delphes MET array)
-  // for(int i = 0; i < MissingET_size; i++){
-    // cout << MET << endl;
     MET = *MissingET_MET;
     if(MET < metVal){
       metCut = false;
@@ -129,14 +126,14 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
     else{
       metCut = true;
     }
-  // }
+
 
 
   // //Electrons
   nEle = Electron_size;
   for(int i = 0; i < Electron_size; i++){
     ele_pT.push_back(Electron_PT[i]);
-    // ele_eta.push_back(Electron_Eta[i]);
+    ele_eta.push_back(Electron_Eta[i]);
     ele_phi.push_back(Electron_Phi[i]);
     if(Electron_PT[i] < elepT_val){
       elePtCut = false;
@@ -151,7 +148,7 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
   nMu = Muon_size;
   for(int i = 0; i < Muon_size; i++){
     mu_pT.push_back(Muon_PT[i]);
-    // mu_eta.push_back(Muon_Eta[i]);
+    mu_eta.push_back(Muon_Eta[i]);
     mu_phi.push_back(Muon_Phi[i]);
     if(Muon_PT[i] < mupT_val){
       muPtCut = false;
@@ -162,25 +159,19 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
   }
 
   //HT (only 1 entry in delphes HT array)
-  // for(int i = 0; i < ScalarHT_size; i++){
-   // cout << i << " ScalarHT: " << ScalarHT_HT[i] << endl;
-    HT = *ScalarHT_HT;
     if(HT < HTval){
       HTcut = false;
     }
     else{
       HTcut = true;
     }
-  // }
+
 
 
   //Event information
-  // for(int i = 0; i < Event_size; i++){
-   // cout << "xSec: " << Event_CrossSection[i] << endl;
-   // // cout << "xSecErr: " << Event_CrossSectionError[i] << endl;
     xSecLO = *Event_CrossSection;
     xSecErr = *Event_CrossSectionError;
-  // }
+
 
   
 

@@ -1,8 +1,8 @@
 //////////////////////////////////////////////////////////
 // This class has been automatically generated on
-// Fri Nov  8 03:02:51 2019 by ROOT version 6.18/04
-// from TTree SemiLepStop/ttbar sample
-// found on file: ROOT/ttbar.root
+// Fri Nov  8 14:56:21 2019 by ROOT version 6.18/02
+// from TTree SemiLepStop/TEST sample
+// found on file: ROOT/TEST.root
 //////////////////////////////////////////////////////////
 
 #ifndef SemiLepStop_h
@@ -14,6 +14,7 @@
 
 using namespace std;
 // Header file for the classes stored in the TTree if any.
+#include "vector"
 #include "vector"
 
 class SemiLepStop {
@@ -29,13 +30,11 @@ public :
    vector<TLorentzVector> *jets;
    Float_t         MET;
    Int_t           nEle;
-   Float_t         ele_pT;
-   Float_t         ele_eta;
-   Float_t         ele_phi;
+   vector<float>   *ele_pT;
+   vector<float>   *ele_phi;
    Int_t           nMu;
-   Float_t         mu_pT;
-   Float_t         mu_eta;
-   Float_t         mu_phi;
+   vector<float>   *mu_pT;
+   vector<float>   *mu_phi;
    Float_t         HT;
    Float_t         xSecLO;
    Float_t         xSecErr;
@@ -52,11 +51,9 @@ public :
    TBranch        *b_MET;   //!
    TBranch        *b_nEle;   //!
    TBranch        *b_ele_pT;   //!
-   TBranch        *b_ele_eta;   //!
    TBranch        *b_ele_phi;   //!
    TBranch        *b_nMu;   //!
    TBranch        *b_mu_pT;   //!
-   TBranch        *b_mu_eta;   //!
    TBranch        *b_mu_phi;   //!
    TBranch        *b_HT;   //!
    TBranch        *b_xSecLO;   //!
@@ -69,26 +66,26 @@ public :
 
    SemiLepStop(TTree *tree=0);
    virtual ~SemiLepStop();
-  // virtual Int_t    Cut(Long64_t entry);
-  virtual Int_t    GetEntry(Long64_t entry);
-  // virtual Long64_t LoadTree(Long64_t entry);
+   // virtual Int_t    Cut(Long64_t entry);
+   // virtual Int_t    GetEntry(Long64_t entry);
+   // virtual Long64_t LoadTree(Long64_t entry);
    virtual void     Init(TTree *tree);
-  // virtual void     Loop();
-  // virtual Bool_t   Notify();
-  // virtual void     Show(Long64_t entry = -1);
+   // virtual void     Loop();
+   // virtual Bool_t   Notify();
+   // virtual void     Show(Long64_t entry = -1);
 };
 
 #endif
 
-//#ifdef SemiLepStop_cxx
+// #ifdef SemiLepStop_cxx
 inline SemiLepStop::SemiLepStop(TTree *tree) : fChain(0) 
 {
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
    if (tree == 0) {
-      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("ROOT/ttbar.root");
+      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("ROOT/TEST.root");
       if (!f || !f->IsOpen()) {
-         f = new TFile("ROOT/ttbar.root");
+         f = new TFile("ROOT/TEST.root");
       }
       f->GetObject("SemiLepStop",tree);
 
@@ -102,23 +99,23 @@ inline SemiLepStop::~SemiLepStop()
    delete fChain->GetCurrentFile();
 }
 
-inline Int_t SemiLepStop::GetEntry(Long64_t entry)
-{
-// Read contents of entry.
-  if (!fChain) return 0;
-  return fChain->GetEntry(entry);
-}
+// Int_t SemiLepStop::GetEntry(Long64_t entry)
+// {
+// // Read contents of entry.
+//    if (!fChain) return 0;
+//    return fChain->GetEntry(entry);
+// }
 // Long64_t SemiLepStop::LoadTree(Long64_t entry)
 // {
 // // Set the environment to read one entry
-//   if (!fChain) return -5;
-//   Long64_t centry = fChain->LoadTree(entry);
-//   if (centry < 0) return centry;
-//   if (fChain->GetTreeNumber() != fCurrent) {
-//      fCurrent = fChain->GetTreeNumber();
-//      Notify();
-//   }
-//   return centry;
+//    if (!fChain) return -5;
+//    Long64_t centry = fChain->LoadTree(entry);
+//    if (centry < 0) return centry;
+//    if (fChain->GetTreeNumber() != fCurrent) {
+//       fCurrent = fChain->GetTreeNumber();
+//       Notify();
+//    }
+//    return centry;
 // }
 
 inline void SemiLepStop::Init(TTree *tree)
@@ -134,6 +131,10 @@ inline void SemiLepStop::Init(TTree *tree)
    // Set object pointer
    jet_btag = 0;
    jets = 0;
+   ele_pT = 0;
+   ele_phi = 0;
+   mu_pT = 0;
+   mu_phi = 0;
    // Set branch addresses and branch pointers
    if (!tree) return;
    fChain = tree;
@@ -146,11 +147,9 @@ inline void SemiLepStop::Init(TTree *tree)
    fChain->SetBranchAddress("MET", &MET, &b_MET);
    fChain->SetBranchAddress("nEle", &nEle, &b_nEle);
    fChain->SetBranchAddress("ele_pT", &ele_pT, &b_ele_pT);
-   fChain->SetBranchAddress("ele_eta", &ele_eta, &b_ele_eta);
    fChain->SetBranchAddress("ele_phi", &ele_phi, &b_ele_phi);
    fChain->SetBranchAddress("nMu", &nMu, &b_nMu);
    fChain->SetBranchAddress("mu_pT", &mu_pT, &b_mu_pT);
-   fChain->SetBranchAddress("mu_eta", &mu_eta, &b_mu_eta);
    fChain->SetBranchAddress("mu_phi", &mu_phi, &b_mu_phi);
    fChain->SetBranchAddress("HT", &HT, &b_HT);
    fChain->SetBranchAddress("xSecLO", &xSecLO, &b_xSecLO);
@@ -160,32 +159,32 @@ inline void SemiLepStop::Init(TTree *tree)
    fChain->SetBranchAddress("elePtCut", &elePtCut, &b_elePtCut);
    fChain->SetBranchAddress("muPtCut", &muPtCut, &b_muPtCut);
    fChain->SetBranchAddress("HTcut", &HTcut, &b_HTcut);
-  // Notify();
+   // Notify();
 }
 
-//Bool_t SemiLepStop::Notify()
-//{
-//   // The Notify() function is called when a new file is opened. This
-//   // can be either for a new TTree in a TChain or when when a new TTree
-//   // is started when using PROOF. It is normally not necessary to make changes
-//   // to the generated code, but the routine can be extended by the
-//   // user if needed. The return value is currently not used.
-//
-//   return kTRUE;
-//}
-//
+// Bool_t SemiLepStop::Notify()
+// {
+//    // The Notify() function is called when a new file is opened. This
+//    // can be either for a new TTree in a TChain or when when a new TTree
+//    // is started when using PROOF. It is normally not necessary to make changes
+//    // to the generated code, but the routine can be extended by the
+//    // user if needed. The return value is currently not used.
+
+//    return kTRUE;
+// }
+
 // void SemiLepStop::Show(Long64_t entry)
 // {
 // // Print contents of entry.
 // // If entry is not specified, print current entry
-//   if (!fChain) return;
-//   fChain->Show(entry);
+//    if (!fChain) return;
+//    fChain->Show(entry);
 // }
-//Int_t SemiLepStop::Cut(Long64_t entry)
-//{
-//// This function may be called from Loop.
-//// returns  1 if entry is accepted.
-//// returns -1 otherwise.
-//   return 1;
-//}
-//#endif // #ifdef SemiLepStop_cxx
+// Int_t SemiLepStop::Cut(Long64_t entry)
+// {
+// // This function may be called from Loop.
+// // returns  1 if entry is accepted.
+// // returns -1 otherwise.
+//    return 1;
+// }
+// #endif // #ifdef SemiLepStop_cxx
