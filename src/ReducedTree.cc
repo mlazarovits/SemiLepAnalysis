@@ -153,8 +153,8 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
   }
 
   //HT (only 1 entry in delphes HT array)
-  for(int i = 0; i < ScalarHT_size+1; i++){
-    cout << "ScalarHT: " << ScalarHT_HT[i] << endl;
+  for(int i = 0; i < ScalarHT_size; i++){
+  //  cout << "ScalarHT: " << ScalarHT_HT[i] << endl;
     HT = ScalarHT_HT[i];
     if(HT < HTval){
       HTcut = false;
@@ -166,9 +166,9 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
 
 
   //Event information
-  for(int i = 0; i < Event_size+1; i++){
-    cout << "xSec: " << Event_CrossSection[i] << endl;
-    cout << "xSecErr: " << Event_CrossSectionError << endl;
+  for(int i = 0; i < Event_size; i++){
+   // cout << "xSec: " << Event_CrossSection[i] << endl;
+   // cout << "xSecErr: " << Event_CrossSectionError[i] << endl;
     xSecLO = Event_CrossSection[i];
     xSecErr = Event_CrossSectionError[i];
   }
