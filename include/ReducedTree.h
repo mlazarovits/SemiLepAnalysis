@@ -38,14 +38,14 @@ private:
 	Float_t MET;
 
 	Int_t nEle;
-	Float_t ele_pT;
-	Float_t ele_eta;
-	Float_t ele_phi;
+	vector<Float_t> ele_pT;
+	vector<Float_t> ele_eta;
+	vector<Float_t> ele_phi;
 
 	Int_t nMu;
-	Float_t mu_pT;
-	Float_t mu_eta;
-	Float_t mu_phi;
+	vector<Float_t> mu_pT;
+	vector<Float_t> mu_eta;
+	vector<Float_t> mu_phi;
 
 	Float_t HT;
 

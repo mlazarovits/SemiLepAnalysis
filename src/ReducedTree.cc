@@ -73,14 +73,14 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
   MET = -999;
 
   nEle = -999;
-  ele_pT = -999;
-  ele_eta = -999;
-  ele_phi = -999;
+  ele_pT.clear();
+  ele_eta.clear();
+  ele_phi.clear();
 
   nMu = -999;
-  mu_pT = -999;
-  mu_eta = -999;
-  mu_phi = -999;
+  mu_pT.clear();
+  mu_eta.clear();
+  mu_phi.clear();
 
   HT = -999;
 
@@ -126,9 +126,9 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
   //Electrons
   nEle = Electron_size;
   for(int i = 0; i < Electron_size; i++){
-    ele_pT = Electron_PT[i];
-    ele_eta = Electron_Eta[i];
-    ele_phi = Electron_Phi[i];
+    ele_pT.push_back(Electron_PT[i]);
+    ele_eta.push_back(Electron_Eta[i]);
+    ele_phi.push_back(Electron_Phi[i]);
     if(ele_pT < elepT_val){
       elePtCut = false;
     }
@@ -141,9 +141,9 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
   //Muons
   nMu = Muon_size;
   for(int i = 0; i < Muon_size; i++){
-    mu_pT = Muon_PT[i];
-    mu_eta = Muon_Eta[i];
-    mu_phi = Muon_Phi[i];
+    mu_pT.push_back(Muon_PT[i]);
+    mu_eta.push_back(Muon_Eta[i]);
+    mu_phi.push_back(Muon_Phi[i]);
     if(mu_pT < mupT_val){
       muPtCut = false;
     }
