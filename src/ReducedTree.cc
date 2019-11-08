@@ -129,7 +129,7 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
     ele_pT.push_back(Electron_PT[i]);
     ele_eta.push_back(Electron_Eta[i]);
     ele_phi.push_back(Electron_Phi[i]);
-    if(ele_pT < elepT_val){
+    if(Electron_PT[i] < elepT_val){
       elePtCut = false;
     }
     else{
@@ -144,7 +144,7 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
     mu_pT.push_back(Muon_PT[i]);
     mu_eta.push_back(Muon_Eta[i]);
     mu_phi.push_back(Muon_Phi[i]);
-    if(mu_pT < mupT_val){
+    if(Muon_PT[i] < mupT_val){
       muPtCut = false;
     }
     else{
@@ -154,6 +154,7 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
 
   //HT (only 1 entry in delphes HT array)
   for(int i = 0; i < ScalarHT_size+1; i++){
+    cout << "ScalarHT: " << ScalarHT_HT[i] << endl;
     HT = ScalarHT_HT[i];
     if(HT < HTval){
       HTcut = false;
@@ -166,6 +167,8 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
 
   //Event information
   for(int i = 0; i < Event_size+1; i++){
+    cout << "xSec: " << Event_CrossSection[i] << endl;
+    cout << "xSecErr: " << Event_CrossSectionError << endl;
     xSecLO = Event_CrossSection[i];
     xSecErr = Event_CrossSectionError[i];
   }
