@@ -94,7 +94,8 @@ int main(int argc, char *argv[]){
   //SINGLE FILE
   if(DO_FILE){
       // filenames.push_back(inputFileName);
-        TH1F *h1 = new TH1F("h1", "B-tagged Jet Multiplicity", 13, 0.,13.); //Histogram definition
+    // string plots_title
+        TH1F *h1 = new TH1F("h1", "MET", 20, 0.,500.); //Histogram definition
     int nJets = -999;
 
     //Define TChain based on the reduced nTuple (HadStop) 
@@ -106,36 +107,35 @@ int main(int argc, char *argv[]){
     //Get total entries in tree
     int nEntries = semilep->fChain->GetEntries();
 
+
+  
+
     //Loop over entries in tree and fill histogram
     for(int e = 0; e < nEntries; e++){
       if (e % 1000 == 0) {
         fprintf(stdout, "\r  Processed events: %8d of %8d ", e, nEntries);
       }
       fflush(stdout);
-      cout << "get event #: " << e << endl;
 
       semilep->fChain->GetEntry(e);
-      // cout << "xSec: " << semilep->xSecLO << endl;
 
       nJets = semilep->njets;
-      bool btag = kFALSE;
 
       //check for b-tagged jets
-      cout << semilep->jet_btag->size() << endl;
       for(int jet = 0; jet < semilep->jet_btag->size(); jet++){
-        if(semilep->jet_btag->at(jet)){
-          btag = kTRUE;
+        if(semilep->jet_btag->at(jet) == 0){
+          continue;
         }
-        else continue;
       }
-      if(btag) continue;
  
-      h1->Fill(nJets,semilep->xSecLO*gLumi);
+      h1->Fill(semilep->MET, semilep->xSecLO*gLumi);
     }
     cout << endl;
 
+
+
     //Plot 1D histogram using Plotter class
-    Plotter::Plot1D(h1,"plots/w+jets_Nbjets","stop sample 13 TeV","N bJets","Events");
+    Plotter::Plot1D(h1,"plots/TEST","TEST sample 13 TeV","MET","Events");
 
     //Delete pointers
     delete h1;
@@ -276,7 +276,7 @@ int main(int argc, char *argv[]){
         
         semilep->fChain->GetEntry(e);
 
-        hist[s]->Fill(semilep->MET,semilep->XsecLO*gLumi);
+        hist[s]->Fill(semilep->MET,semilep->xSecLO*gLumi);
 
       }
     cout << endl;

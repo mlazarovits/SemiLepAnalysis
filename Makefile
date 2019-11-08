@@ -1,7 +1,7 @@
 ROOTCFLAGS    = $(shell root-config --cflags)
 ROOTGLIBS     = $(shell root-config --glibs)
 
-CXX           = g++
+CXX           = g++ -g
 
 CXXFLAGS      = $(filter-out -stdlib=libc++ -pthread , $(ROOTCFLAGS))
 CXXFLAGS      += $(filter-out -stdlib=libc++ -pthread , $(RFCFLAGS))
