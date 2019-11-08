@@ -21,15 +21,39 @@ TFile* file = new TFile(outputFile,"RECREATE"); //new reduced tree, SemiLepStop
 TTree* tree = new TTree("SemiLepStop",Form("%s sample",sampleName.Data()));
 
 //add relevant branches
-tree->Branch("jets",&jets);
 tree->Branch("njets",&njets);
 tree->Branch("jet_btag",&jet_btag);
+tree->Branch("jets",&jets);
+
 tree->Branch("MET",&MET);
+
+tree->Branch("nEle",&nEle);
+tree->Branch("ele_pT",&ele_pT);
+tree->Branch("ele_eta",&ele_eta);
+tree->Branch("ele_phi",&ele_phi);
+
+tree->Branch("nMu",&nMu);
+tree->Branch("mu_pT",&mu_pT);
+tree->Branch("ele_eta",&mu_eta);
+tree->Branch("ele_phi",&mu_phi);
+
+tree->Branch("HT",&HT);
+tree->Branch("xSecLO",&xSecLO);
+tree->Branch("xSecErr",&xSecErr);
+
+
 tree->Branch("METcut", &metCut);
 tree->Branch("nJetsCut",&nJetsCut);
+tree->Branch("elePtCut",&elePtCut);
+tree->Branch("muPtCut",&muPtCut);
+tree->Branch("HTcut",&HTcut);
+
 
 Float_t metVal = 200.0;
 Int_t nJetsVal = 3;
+Float_t elepT_val = 20;
+Float_t mupT_val = 20;
+Float_t HTval = 20;
 
 
 int nEntries = fChain->GetEntries();
@@ -42,13 +66,34 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
 	fChain->GetEntry(i);
 
 	//clear branch content
-	jets.clear();
+  njets = -999;
   jet_btag.clear();
-	njets = -999;
+  jets.clear();
+
   MET = -999;
+
+  nEle = -999;
+  ele_pT = -999;
+  ele_eta = -999;
+  ele_phi = -999;
+
+  nMu = -999;
+  mu_pT = -999;
+  mu_eta = -999;
+  mu_phi = -999;
+
+  HT = -999;
+
+  xSecLO = -999;
+  xSecErr = -999;
+
   metCut = false;
   nJetsCut = false;
+  elePtCut = false;
+  muPtCut = false;
+  HTcut = false;
 
+  //jets
 	//Fill TLorentzVectors (for each jet)
 	for(int j = 0; j < Jet_size; j++){
 		tmp_vec.SetPtEtaPhiM(Jet_PT[j], Jet_Eta[j], Jet_Phi[j], Jet_Mass[j]);
@@ -57,6 +102,7 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
 	}
 	//set object sizes
 	njets = Jet_size;
+
   if(njets < nJetsVal){
     nJetsCut = false;
   }
@@ -64,6 +110,7 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
     nJetsCut = true;
   }
 
+  //MET
   //fill MET (only 1 entry in delphes MET array)
   for(int i = 0; i < MissingET_size+1; i++){
     MET = MissingET_MET[i];
@@ -75,7 +122,54 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
     }
   }
 
- 
+
+  //Electrons
+  nEle = Electron_size;
+  for(int i = 0; i < Electron_size; i++){
+    ele_pT = Electron_PT[i];
+    ele_eta = Electron_Eta[i];
+    ele_phi = Electron_Phi[i];
+    if(ele_pT < elepT_val){
+      elePtCut = false;
+    }
+    else{
+      elePtCut = true;
+    }
+  }
+
+
+  //Muons
+  nMu = Muon_size;
+  for(int i = 0; i < Muon_size; i++){
+    mu_pT = Muon_PT[i];
+    mu_eta = Muon_Eta[i];
+    mu_phi = Muon_Phi[i];
+    if(mu_pT < mupT_val){
+      muPtCut = false;
+    }
+    else{
+      muPtCut = true;
+    }
+  }
+
+  //HT (only 1 entry in delphes HT array)
+  for(int i = 0; i < ScalarHT_size+1; i++){
+    HT = ScalarHT_HT[i];
+    if(HT < HTval){
+      HTcut = false;
+    }
+    else{
+      HTcut = true;
+    }
+  }
+
+
+  //Event information
+  for(int i = 0; i < Event_size+1; i++){
+    xSecLO = Event_CrossSection[i];
+    xSecErr = Event_CrossSectionError[i];
+  }
+
   
 
 	tree->Fill();
@@ -98,7 +192,6 @@ void ReducedTree::InitBranches(){
   fChain->SetBranchStatus("*",0);
   fChain->SetBranchStatus("Electron_size",1);
   fChain->SetBranchStatus("Muon_size",1);
-  fChain->SetBranchStatus("Photon_size",1);
   fChain->SetBranchStatus("Jet_size",1);
   fChain->SetBranchStatus("Electron.PT",1);
   fChain->SetBranchStatus("Electron.Eta",1);
@@ -116,8 +209,11 @@ void ReducedTree::InitBranches(){
   fChain->SetBranchStatus("Jet.BTag",1);
   fChain->SetBranchStatus("Jet.Mass",1);
   fChain->SetBranchStatus("MissingET.MET",1);
-
-
+  fChain->SetBranchStatus("ScalarHT.HT", 1);
+  fChain->SetBranchStatus("ScalarHT_size", 1);
+  fChain->SetBranchStatus("Event.CrossSection", 1);
+  fChain->SetBranchStatus("Event.CrossSectionError", 1);
+  fChain->SetBranchStatus("Event_size", 1);
 
 
 }

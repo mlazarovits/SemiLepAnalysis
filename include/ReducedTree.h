@@ -40,10 +40,12 @@ private:
 	Int_t nEle;
 	Float_t ele_pT;
 	Float_t ele_eta;
+	Float_t ele_phi;
 
 	Int_t nMu;
 	Float_t mu_pT;
 	Float_t mu_eta;
+	Float_t mu_phi;
 
 	Float_t HT;
 
