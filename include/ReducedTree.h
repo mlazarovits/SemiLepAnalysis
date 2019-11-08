@@ -34,9 +34,27 @@ private:
 	Int_t njets;
 	vector<UInt_t> jet_btag;
 	vector<TLorentzVector> jets;
+
 	Float_t MET;
+
+	Int_t nEle;
+	Float_t ele_pT;
+	Float_t ele_eta;
+
+	Int_t nMu;
+	Float_t mu_pT;
+	Float_t mu_eta;
+
+	Float_t HT;
+
+	Float_t xSecLO;
+	Float_t xSecErr;
+
 	bool metCut;
 	bool nJetsCut;
+	bool elePtCut;
+	bool muPtCut;
+	bool HTcut;
 
 	void InitBranches();
 };
