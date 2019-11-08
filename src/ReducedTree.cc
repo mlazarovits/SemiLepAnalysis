@@ -34,8 +34,8 @@ tree->Branch("ele_phi",&ele_phi);
 
 tree->Branch("nMu",&nMu);
 tree->Branch("mu_pT",&mu_pT);
-tree->Branch("ele_eta",&mu_eta);
-tree->Branch("ele_phi",&mu_phi);
+tree->Branch("mu_eta",&mu_eta);
+tree->Branch("mu_phi",&mu_phi);
 
 tree->Branch("HT",&HT);
 tree->Branch("xSecLO",&xSecLO);
