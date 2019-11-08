@@ -111,7 +111,10 @@ int main(int argc, char *argv[]){
         fprintf(stdout, "\r  Processed events: %8d of %8d ", e, nEntries);
       }
       fflush(stdout);
+      cout << "get event #: " << e << endl;
       semilep->fChain->GetEntry(e);
+      cout << "xSec: " << semilep->xSecLO << endl;
+
       nJets = semilep->njets;
       bool btag = kFALSE;
 
@@ -130,7 +133,7 @@ int main(int argc, char *argv[]){
     cout << endl;
 
     //Plot 1D histogram using Plotter class
-    Plotter::Plot1D(h1,"plots/stop_Nbjets","stop sample 13 TeV","N bJets","Events");
+    Plotter::Plot1D(h1,"plots/w+jets_Nbjets","stop sample 13 TeV","N bJets","Events");
 
     //Delete pointers
     delete h1;
@@ -181,7 +184,7 @@ int main(int argc, char *argv[]){
 
     for(int file = 0; file < filenames.size(); file++){
       ttbar_file = filenames[file].find("ttbar");
-      wplusjets_file = filenames[file].find("WtoLNu");
+      wplusjets_file = filenames[file].find("w+jets");
       zjets_file = filenames[file].find("ZtoLL");
       stop_file = filenames[file].find("stop_pairprod");
       
@@ -269,7 +272,7 @@ int main(int argc, char *argv[]){
           fprintf(stdout, "\r  Processed events: %8d of %8d ", e, nEntries);
         }
         fflush(stdout);
-
+        
         semilep->fChain->GetEntry(e);
 
         hist[s]->Fill(semilep->MET,samples[s]->GetXSec()*gLumi);
