@@ -68,9 +68,6 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
 	fChain->GetEntry(i);
 
 
-
-
-
 	// //clear branch content
   njets = -999;
   jet_btag.clear();
@@ -159,6 +156,7 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
   }
 
   //HT (only 1 entry in delphes HT array)
+    HT = *ScalarHT_HT;
     if(HT < HTval){
       HTcut = false;
     }
