@@ -50,7 +50,7 @@ void Plotter::Plot1D(TH1F *h1, TString name, TString title, TString xlabel, TStr
 
 	h1->Draw();
 
-	SetTitle(title);
+	SetTitle(title+" 14 Tev");
 
 	cv->SaveAs(name+".pdf");
 	cv->Close();
