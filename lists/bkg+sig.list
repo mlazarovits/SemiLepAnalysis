@@ -1,4 +1,4 @@
 ROOT/ttbar.root
-ROOT/w+jets10k.root
+ROOT/w+jets.root
 #ROOT/ZtoLL_jets.root
-ROOT/stop_pp_semilep.root
+ROOT/stop_semilep.root
