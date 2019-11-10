@@ -4,3 +4,4 @@ obj/*.o
 *.d
 *.exe
 src/LinkDef.cc
+.DSYM
