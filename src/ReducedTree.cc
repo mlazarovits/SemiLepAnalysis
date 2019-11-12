@@ -52,9 +52,9 @@ tree->Branch("HTcut",&HTcut);
 //cut values
 Float_t metVal = 200.0;
 Int_t nJetsVal = 3;
-Float_t elepT_val = 20;
-Float_t mupT_val = 20;
-Float_t HTval = 20;
+Float_t elepT_val = 140;
+Float_t mupT_val = 100;
+Float_t HTval = 750;
 
 
 
