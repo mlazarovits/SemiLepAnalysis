@@ -21,12 +21,12 @@
 
 // class SampleSet;
 
-
+	
 
 
 void Plotter::SetTitle(TString title){
 	TLatex l;
-	l.SetTextFont(42);
+	l.SetTextFont(132);
 	l.SetNDC();
 	l.SetTextSize(0.035);
 	l.DrawLatex(0.65,0.95,title);
@@ -38,7 +38,7 @@ void Plotter::Plot1D(TH1F *h1, TString name, TString title, TString xlabel, TStr
 	gStyle->SetOptTitle(0);
 	gStyle->SetOptStat(0);
 
-	TCanvas* cv = new TCanvas("cv","cv",600,800);
+	TCanvas* cv = new TCanvas("cv","cv",600,600);
 	cv->SetGrid();
 	cv->SetLeftMargin(0.15);
 
@@ -50,7 +50,8 @@ void Plotter::Plot1D(TH1F *h1, TString name, TString title, TString xlabel, TStr
 
 	h1->Draw();
 
-	SetTitle(title+" 14 Tev");
+	SetTitle(title+" 14 TeV");
+
 
 	cv->SaveAs(name+".pdf");
 	cv->Close();
@@ -122,7 +123,7 @@ void Plotter::Plot1Dstack(vector<SampleSet*> samples, vector<TH1F*> hists, TStri
 			hists[i]->SetLineWidth(1.0);
 			hists[i]->SetFillColor(samples[i]->GetColor());
 			hists[i]->SetFillStyle(1001);
-			hists[i]->Scale(1/hists[i]->Integral(),"width"); //normalize
+			hists[i]->Scale(1/hists[i]->Integral()); //normalize
 			hists[i]->Draw("SAME HIST");
 		}
 	}
@@ -141,13 +142,12 @@ void Plotter::Plot1Dstack(vector<SampleSet*> samples, vector<TH1F*> hists, TStri
 			hists[i]->SetMarkerColor(kBlack);
 			hists[i]->SetLineStyle(7);
 			hists[i]->SetLineColor(samples[i]->GetColor());
-			hists[i]->Scale(1/hists[i]->Integral(),"width"); //normalize
+			hists[i]->Scale(1/hists[i]->Integral()); //normalize
 			hists[i]->Draw("SAME HIST");
 		}
 	}
 	for(int i = 0; i < Nsample; i++){
 		leg->AddEntry(hists[i],samples[i]->GetTitle().c_str());	
-		hists[i]->GetYaxis()->SetRangeUser(0.0,0.04);
 	}
 
 	leg->SetTextFont(132);
@@ -160,7 +160,7 @@ void Plotter::Plot1Dstack(vector<SampleSet*> samples, vector<TH1F*> hists, TStri
 	leg->SetShadowColor(kWhite);
 	leg->Draw("SAME");
 
-	// SetTitle(title);
+	
 	TLatex l;
 	l.SetTextFont(132);
 	l.SetNDC();
@@ -168,7 +168,7 @@ void Plotter::Plot1Dstack(vector<SampleSet*> samples, vector<TH1F*> hists, TStri
 	l.SetTextFont(132);
 	l.DrawLatex(0.42,0.94,title);
 
-	cv->SaveAs(name+".pdf");
+	cv->SaveAs(name+".root");
 	cv->Close();
 	delete cv;
 }

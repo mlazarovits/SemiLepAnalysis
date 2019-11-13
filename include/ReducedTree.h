@@ -32,6 +32,7 @@ private:
 	
 	//branches
 	Int_t njets;
+	Int_t n_bjets = 0;
 	vector<UInt_t> jet_btag;
 	vector<TLorentzVector> jets;
 
