@@ -22,6 +22,7 @@ TTree* tree = new TTree("SemiLepStop",Form("%s sample",sampleName.Data()));
 
 //add relevant branches
 tree->Branch("njets",&njets);
+tree->Branch("n_bjets",&n_bjets);
 tree->Branch("jet_btag",&jet_btag);
 tree->Branch("jets",&jets);
 
@@ -103,7 +104,6 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
   if((Electron_size ^ Muon_size) != 1) continue;
 
   if(Jet_size < 4) continue;
-  int n_bjets = 0;
   for(int jet = 0; jet < Jet_size; jet++){
     if(Jet_BTag[jet] == 1){
       n_bjets += 1;
@@ -114,7 +114,7 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
   }
 
   if(n_bjets < 2) continue;
-  cout << "# bjets: " << n_bjets << endl;
+  // cout << "# bjets: " << n_bjets << endl;
 
   if(Electron_size == 1 && Muon_size == 0){
     float elepT = 0;
