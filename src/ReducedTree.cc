@@ -73,6 +73,7 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
 
 	// //clear branch content
   njets = -999;
+  n_bjets = 0;
   jet_btag.clear();
   jets.clear();
 
