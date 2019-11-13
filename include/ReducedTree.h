@@ -56,6 +56,7 @@ private:
 	bool nJetsCut;
 	bool elePtCut;
 	bool muPtCut;
+	bool lepPtCut;
 	bool HTcut;
 
 	void InitBranches();

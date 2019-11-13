@@ -52,7 +52,7 @@ tree->Branch("HTcut",&HTcut);
 //cut values
 Float_t metVal = 200.0;
 Int_t nJetsVal = 3;
-Float_t elepT_val = 140;
+Float_t elepT_val = 100;
 Float_t mupT_val = 100;
 Float_t HTval = 750;
 
@@ -95,6 +95,40 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
   elePtCut = false;
   muPtCut = false;
   HTcut = false;
+  lepPtCut = false;
+
+  //preselection
+  if((Electron_size ^ Muon_size) != 1) continue;
+
+  if(Jet_size < 4) continue;
+  int n_bjets = 0;
+  for(int jet = 0; jet < semilep->njets; jet++){
+    if(Jet_BTag[j] == 1){
+      n_bjets += 1;
+    }
+    else{
+      continue;
+    }
+  }
+
+  if(n_bjets < 2) continue;
+
+  if(Electron_size == 1 && Muon_size == 0){
+    float elepT = 0;
+    for(int ele = 0; ele < Electron_size; ele++){
+      elepT = Electron_PT->at(ele);
+    }
+    if(elepT < 20) continue;
+  }
+
+
+  if(Electron_size == 0 && Muon_size == 1){
+    float mupT = 0;
+    for(int mu = 0; mu < Muon_size; mu++){
+      mupT = Muon_PT->at(mu);
+    }
+    if(mupT < 20) continue;
+  }   
 
 
  //  //jets
@@ -154,6 +188,8 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
       muPtCut = true;
     }
   }
+
+  if(muPtCut || elePtCut) lepPtCut = true;
 
   //HT (only 1 entry in delphes HT array)
     HT = *ScalarHT_HT;
