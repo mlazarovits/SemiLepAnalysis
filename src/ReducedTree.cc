@@ -114,6 +114,7 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
   }
 
   if(n_bjets < 2) continue;
+  cout << "# bjets: " << n_bjets << endl;
 
   if(Electron_size == 1 && Muon_size == 0){
     float elepT = 0;
