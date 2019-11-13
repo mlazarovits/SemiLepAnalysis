@@ -102,8 +102,8 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
 
   if(Jet_size < 4) continue;
   int n_bjets = 0;
-  for(int jet = 0; jet < semilep->njets; jet++){
-    if(Jet_BTag[j] == 1){
+  for(int jet = 0; jet < Jet_size; jet++){
+    if(Jet_BTag[jet] == 1){
       n_bjets += 1;
     }
     else{
@@ -116,7 +116,7 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
   if(Electron_size == 1 && Muon_size == 0){
     float elepT = 0;
     for(int ele = 0; ele < Electron_size; ele++){
-      elepT = Electron_PT->at(ele);
+      elepT = Electron_PT[ele];
     }
     if(elepT < 20) continue;
   }
@@ -125,7 +125,7 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
   if(Electron_size == 0 && Muon_size == 1){
     float mupT = 0;
     for(int mu = 0; mu < Muon_size; mu++){
-      mupT = Muon_PT->at(mu);
+      mupT = Muon_PT[mu];
     }
     if(mupT < 20) continue;
   }   
