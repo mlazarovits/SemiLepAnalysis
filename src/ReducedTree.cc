@@ -48,6 +48,8 @@ tree->Branch("elePtCut",&elePtCut);
 tree->Branch("muPtCut",&muPtCut);
 tree->Branch("HTcut",&HTcut);
 
+tree->Branch("lepPtCut", &lepPtCut);
+
 
 //cut values
 Float_t metVal = 200.0;
