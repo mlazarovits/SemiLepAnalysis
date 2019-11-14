@@ -200,7 +200,6 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
     }
   }
 
-  cout << "lepptsize: " << lep_pT.size() << endl;
 
   for(int i = 0; i < lep_pT.size(); i++){
     if(lep_pT[i] < leppT_val){
