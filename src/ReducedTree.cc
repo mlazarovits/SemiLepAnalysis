@@ -96,10 +96,10 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
 
   metCut = false;
   nJetsCut = false;
-  elePtCut = false;
-  muPtCut = false;
+  elePtCut.clear();
+  muPtCut.clear();
   HTcut = false;
-  lepPtCut = false;
+  lepPtCut.clear();
 
   //preselection
   if((Electron_size ^ Muon_size) != 1) continue;
@@ -117,22 +117,22 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
   if(n_bjets < 2) continue;
   // cout << "# bjets: " << n_bjets << endl;
 
-  if(Electron_size == 1 && Muon_size == 0){
-    float elepT = 0;
-    for(int ele = 0; ele < Electron_size; ele++){
-      elepT = Electron_PT[ele];
-    }
-    if(elepT < 20) continue;
-  }
+  // if(Electron_size == 1 && Muon_size == 0){
+  //   float elepT = 0;
+  //   for(int ele = 0; ele < Electron_size; ele++){
+  //     elepT = Electron_PT[ele];
+  //   }
+  //   if(elepT < 20) continue;
+  // }
 
 
-  if(Electron_size == 0 && Muon_size == 1){
-    float mupT = 0;
-    for(int mu = 0; mu < Muon_size; mu++){
-      mupT = Muon_PT[mu];
-    }
-    if(mupT < 20) continue;
-  }   
+  // if(Electron_size == 0 && Muon_size == 1){
+  //   float mupT = 0;
+  //   for(int mu = 0; mu < Muon_size; mu++){
+  //     mupT = Muon_PT[mu];
+  //   }
+  //   if(mupT < 20) continue;
+  // }   
 
 
  //  //jets
@@ -167,7 +167,9 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
   // //Electrons
   nEle = Electron_size;
   for(int i = 0; i < Electron_size; i++){
+    if(Electron_PT[i] < elepT_val) continue;
     ele_pT.push_back(Electron_PT[i]);
+    lep_pT.push_back(Electron_PT[i]);
     ele_eta.push_back(Electron_Eta[i]);
     ele_phi.push_back(Electron_Phi[i]);
     if(Electron_PT[i] < elepT_val){
@@ -182,7 +184,9 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
   // //Muons
   nMu = Muon_size;
   for(int i = 0; i < Muon_size; i++){
+    if(Muon_PT[i] < mupT_val) continue;
     mu_pT.push_back(Muon_PT[i]);
+    lep_pT.push_back(Muon_PT[i]);
     mu_eta.push_back(Muon_Eta[i]);
     mu_phi.push_back(Muon_Phi[i]);
     if(Muon_PT[i] < mupT_val){

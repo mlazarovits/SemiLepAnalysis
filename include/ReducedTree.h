@@ -48,6 +48,8 @@ private:
 	vector<Float_t> mu_eta;
 	vector<Float_t> mu_phi;
 
+	vector<Float_t> lep_pT;
+
 	Float_t HT;
 
 	Float_t xSecLO;
@@ -55,9 +57,9 @@ private:
 
 	bool metCut;
 	bool nJetsCut;
-	bool elePtCut;
-	bool muPtCut;
-	bool lepPtCut;
+	vector<bool> elePtCut;
+	vector<bool> muPtCut;
+	vector<bool> lepPtCut;
 	bool HTcut;
 
 	void InitBranches();

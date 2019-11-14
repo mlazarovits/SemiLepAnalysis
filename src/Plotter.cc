@@ -80,14 +80,42 @@ void Plotter::Plot1Dstack(vector<SampleSet*> samples, vector<TH1F*> hists, TStri
 	int Nsample = samples.size();
 	int Nhist = hists.size();
 
+
+	TH1D* h_BKG = nullptr;
+	bool isBKG = false;
+	for(int i = 0; i < Nsample; i++){
+		cout << "Sample " << samples[i]->GetTitle() << " has " << hists[i]->Integral() << " events" << endl;
+		if(samples[i]->GetBkg()){
+			if(!isBKG){
+				h_BKG = (TH1D*) hists[i]->Clone("TOT_BKG");
+				isBKG = true;
+			} 
+			else {
+				for(int k = 0; k < i; k++){
+					hists[k]->Add(hists[i]);
+				}
+				h_BKG->Add(hists[i]);
+			}
+		}
+	}
+	if(h_BKG) cout << "Total Background is " << h_BKG->Integral() << " events" << endl;
+
 	double fmax = -1.;
 	int imax = -1;
 	for(int i = 0; i < Nsample; i++){
-		if(hists[i]->GetMaximum() > fmax){
-			fmax = hists[i]->GetMaximum();
+		TH1F* tmphist = (TH1F*)hists[i]->Clone();
+		tmphist->Scale(1/tmphist->Integral());
+		// cout << "sample: " << samples[i]->GetTitle() << endl;
+		// cout << "hist max: " << tmphist->GetMaximum() << endl;
+		
+		if(tmphist->GetMaximum() > fmax){
+			fmax = tmphist->GetMaximum();
 			imax = i;
 		}
+		delete tmphist;
 	}
+	// cout << "max: " << fmax << endl;
+	// cout << "imax: " << imax << endl;
 
 	TLegend* leg = new TLegend(0.688,0.22,0.93,0.42);
 	cv->SetLeftMargin(0.15);
@@ -99,6 +127,11 @@ void Plotter::Plot1Dstack(vector<SampleSet*> samples, vector<TH1F*> hists, TStri
 	cv->Draw();
 	cv->cd();
 
+	hists[imax]->Scale(1/hists[imax]->Integral());
+	hists[imax]->SetLineColor(kBlack);
+	hists[imax]->SetLineWidth(1.0);
+	hists[imax]->SetFillColor(samples[imax]->GetColor());
+	hists[imax]->SetFillStyle(1001);
 	hists[imax]->Draw("hist");
 	hists[imax]->SetTitle("");
 	hists[imax]->GetXaxis()->CenterTitle();
@@ -118,6 +151,7 @@ void Plotter::Plot1Dstack(vector<SampleSet*> samples, vector<TH1F*> hists, TStri
 
 
 	for(int i = 0; i < Nsample; i++){
+		if(i == imax) continue;
 		if(samples[i]->GetBkg()){
 			hists[i]->SetLineColor(kBlack);
 			hists[i]->SetLineWidth(1.0);

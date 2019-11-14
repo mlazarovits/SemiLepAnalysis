@@ -133,9 +133,12 @@ int main(int argc, char *argv[]){
         }
       }
  
-      h1->Fill(semilep->HT);
+      h1->Fill(semilep->HT,semilep->xSecLO*gLumi);
     }
     cout << endl;
+
+    cout << "sample: " << plot_title << endl;
+    cout << "total number of events: " << h1->Integral() << endl;
 
 
 
@@ -237,6 +240,20 @@ int main(int argc, char *argv[]){
       samples.push_back(&z_Jets);
     }
 
+    if(singleT.GetNFile() != 0){
+      singleT.SetBkg(true);
+      singleT.SetTitle("tW + jets");
+      singleT.SetColor(kViolet-7);
+      singleT.SetXSec(953.6); //theoretical xsection for ttbar at 14 TeV
+      samples.push_back(&singleT);
+    }
+  if(ttBar.GetNFile() != 0){
+      ttBar.SetBkg(true);
+      ttBar.SetTitle("t#bar{t} + jets");
+      ttBar.SetColor(kAzure-7);
+      ttBar.SetXSec(953.6); //theoretical xsection for ttbar at 14 TeV
+      samples.push_back(&ttBar);
+    }
     if(w_Jets.GetNFile() != 0){
       w_Jets.SetBkg(true);
       w_Jets.SetTitle("WtoLNu + jets");
@@ -246,21 +263,9 @@ int main(int argc, char *argv[]){
     }
 
 
-    if(ttBar.GetNFile() != 0){
-      ttBar.SetBkg(true);
-      ttBar.SetTitle("t#bar{t} + X");
-      ttBar.SetColor(kAzure-7);
-      ttBar.SetXSec(953.6); //theoretical xsection for ttbar at 14 TeV
-      samples.push_back(&ttBar);
-    }
+  
 
-    if(singleT.GetNFile() != 0){
-      singleT.SetBkg(true);
-      singleT.SetTitle("t#bar{t} + X");
-      singleT.SetColor(kViolet-7);
-      singleT.SetXSec(953.6); //theoretical xsection for ttbar at 14 TeV
-      samples.push_back(&singleT);
-    }
+  
 
 
     stop_pp.SetBkg(false);
@@ -269,8 +274,8 @@ int main(int argc, char *argv[]){
     samples.push_back(&stop_pp);
 
     float g_Xmin = 0;
-    float g_Xmax = 1400;
-    float units_per_bin = 10;
+    float g_Xmax = 4000;
+    float units_per_bin = 50;
     float g_NX = (int)((g_Xmax - g_Xmin)/units_per_bin);
 
     int Nsample = samples.size();
@@ -305,48 +310,19 @@ int main(int argc, char *argv[]){
         
         semilep->fChain->GetEntry(e);
 
-        //preselection cuts
-        if((semilep->nEle ^ semilep->nMu) != 1) continue;
+        // if(semilep->METcut == 0) continue;
 
-        if(semilep->njets < 4) continue;
-        int n_bjets = 0;
-        for(int jet = 0; jet < semilep->njets; jet++){
-          if(semilep->jet_btag->at(jet) == 1){
-            n_bjets += 1;
-          }
-          else{
-            continue;
-          }
-        }
+        // if(semilep->HTcut == 0) continue;
 
-        if(n_bjets < 2) continue;
-
-        if(semilep->nEle == 1 && semilep->nMu == 0){
-          float elepT = 0;
-          for(int ele = 0; ele < semilep->nEle; ele++){
-            elepT = semilep->ele_pT->at(ele);
-          }
-          if(elepT < 20) continue;
-        }
-
-
-        if(semilep->nEle == 0 && semilep->nMu == 1){
-          float mupT = 0;
-          for(int mu = 0; mu < semilep->nMu; mu++){
-            mupT = semilep->mu_pT->at(mu);
-          }
-          if(mupT < 20) continue;
-        }    
-      
-
-
+        // if(semilep->lepPtCut == 0) continue;
+        
         if(samples[s]->GetXSec() == 0){
 
           // for(int i = 0; i < semilep->nMu; i++){
           //   hist[s]->Fill(semilep->mu_pT->at(i),semilep->xSecLO*gLumi);
           // }  
 
-          hist[s]->Fill(semilep->MET,semilep->xSecLO*gLumi);
+          hist[s]->Fill(semilep->HT,semilep->xSecLO*gLumi);
         }
         else{
 
@@ -354,25 +330,21 @@ int main(int argc, char *argv[]){
           //   hist[s]->Fill(semilep->mu_pT->at(i),samples[s]->GetXSec()*gLumi);
           // }
 
-          hist[s]->Fill(semilep->MET,samples[s]->GetXSec()*gLumi);
-
+          hist[s]->Fill(semilep->HT,samples[s]->GetXSec()*gLumi);
         }
-
-
-        
-
       }
     cout << endl;
     delete ch;
     delete semilep;
 
-    }  
+    } 
+
   }
 
-  bool METplot = true;
+  bool METplot = false;
   bool muPlot = false;
   bool elePlot = false;
-  bool HTplot = false;
+  bool HTplot = true;
 
   string var;
   string xtitle;
