@@ -55,8 +55,9 @@ tree->Branch("lepPtCut", &lepPtCut);
 //cut values
 Float_t metVal = 200.0;
 Int_t nJetsVal = 3;
-Float_t elepT_val = 100;
-Float_t mupT_val = 100;
+// Float_t elepT_val = 100;
+// Float_t mupT_val = 100;
+Float_t leppT_val = 100;
 Float_t HTval = 750;
 
 
@@ -167,16 +168,16 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
   // //Electrons
   nEle = Electron_size;
   for(int i = 0; i < Electron_size; i++){
-    if(Electron_PT[i] < elepT_val) continue;
+    if(Electron_PT[i] < 20) continue;
     ele_pT.push_back(Electron_PT[i]);
     lep_pT.push_back(Electron_PT[i]);
     ele_eta.push_back(Electron_Eta[i]);
     ele_phi.push_back(Electron_Phi[i]);
-    if(Electron_PT[i] < elepT_val){
-      elePtCut = false;
+    if(Electron_PT[i] < leppT_val){
+      elePtCut.push_back(false);
     }
     else{
-      elePtCut = true;
+      elePtCut.push_back(true);
     }
   }
 
@@ -184,20 +185,29 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
   // //Muons
   nMu = Muon_size;
   for(int i = 0; i < Muon_size; i++){
-    if(Muon_PT[i] < mupT_val) continue;
+    if(Muon_PT[i] < 20) continue;
     mu_pT.push_back(Muon_PT[i]);
     lep_pT.push_back(Muon_PT[i]);
     mu_eta.push_back(Muon_Eta[i]);
     mu_phi.push_back(Muon_Phi[i]);
-    if(Muon_PT[i] < mupT_val){
-      muPtCut = false;
+    if(Muon_PT[i] < leppT_val){
+      muPtCut.push_back(false);
     }
     else{
-      muPtCut = true;
+      muPtCut.push_back(true);
     }
   }
 
-  if(muPtCut || elePtCut) lepPtCut = true;
+  for(int i = 0; i < lep_pT.size(); i++){
+    if(lep_pT[i] < leppT_val){
+      lepPtCut.push_back(false);
+    }
+    else{
+      lepPtCut.push_back(true);
+    }
+  }
+
+  // if(muPtCut || elePtCut) lepPtCut = true;
 
   //HT (only 1 entry in delphes HT array)
     HT = *ScalarHT_HT;
