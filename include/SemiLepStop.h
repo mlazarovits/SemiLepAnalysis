@@ -1,8 +1,8 @@
 //////////////////////////////////////////////////////////
 // This class has been automatically generated on
-// Fri Nov  8 14:56:21 2019 by ROOT version 6.18/02
-// from TTree SemiLepStop/TEST sample
-// found on file: ROOT/TEST.root
+// Wed Nov 13 21:04:29 2019 by ROOT version 6.18/02
+// from TTree SemiLepStop/ttbar sample
+// found on file: ROOT/ttbar.root
 //////////////////////////////////////////////////////////
 
 #ifndef SemiLepStop_h
@@ -26,14 +26,17 @@ public :
 
    // Declaration of leaf types
    Int_t           njets;
+   Int_t           n_bjets;
    vector<unsigned int> *jet_btag;
    vector<TLorentzVector> *jets;
    Float_t         MET;
    Int_t           nEle;
    vector<float>   *ele_pT;
+   vector<float>   *ele_eta;
    vector<float>   *ele_phi;
    Int_t           nMu;
    vector<float>   *mu_pT;
+   vector<float>   *mu_eta;
    vector<float>   *mu_phi;
    Float_t         HT;
    Float_t         xSecLO;
@@ -43,17 +46,21 @@ public :
    Bool_t          elePtCut;
    Bool_t          muPtCut;
    Bool_t          HTcut;
+   Bool_t          lepPtCut;
 
    // List of branches
    TBranch        *b_njets;   //!
+   TBranch        *b_n_bjets;   //!
    TBranch        *b_jet_btag;   //!
    TBranch        *b_jets;   //!
    TBranch        *b_MET;   //!
    TBranch        *b_nEle;   //!
    TBranch        *b_ele_pT;   //!
+   TBranch        *b_ele_eta;   //!
    TBranch        *b_ele_phi;   //!
    TBranch        *b_nMu;   //!
    TBranch        *b_mu_pT;   //!
+   TBranch        *b_mu_eta;   //!
    TBranch        *b_mu_phi;   //!
    TBranch        *b_HT;   //!
    TBranch        *b_xSecLO;   //!
@@ -63,6 +70,7 @@ public :
    TBranch        *b_elePtCut;   //!
    TBranch        *b_muPtCut;   //!
    TBranch        *b_HTcut;   //!
+   TBranch        *b_lepPtCut;   //!
 
    SemiLepStop(TTree *tree=0);
    virtual ~SemiLepStop();
@@ -83,9 +91,9 @@ inline SemiLepStop::SemiLepStop(TTree *tree) : fChain(0)
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
    if (tree == 0) {
-      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("ROOT/TEST.root");
+      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("ROOT/ttbar.root");
       if (!f || !f->IsOpen()) {
-         f = new TFile("ROOT/TEST.root");
+         f = new TFile("ROOT/ttbar.root");
       }
       f->GetObject("SemiLepStop",tree);
 
@@ -132,8 +140,10 @@ inline void SemiLepStop::Init(TTree *tree)
    jet_btag = 0;
    jets = 0;
    ele_pT = 0;
+   ele_eta = 0;
    ele_phi = 0;
    mu_pT = 0;
+   mu_eta = 0;
    mu_phi = 0;
    // Set branch addresses and branch pointers
    if (!tree) return;
@@ -142,14 +152,17 @@ inline void SemiLepStop::Init(TTree *tree)
    fChain->SetMakeClass(1);
 
    fChain->SetBranchAddress("njets", &njets, &b_njets);
+   fChain->SetBranchAddress("n_bjets", &n_bjets, &b_n_bjets);
    fChain->SetBranchAddress("jet_btag", &jet_btag, &b_jet_btag);
    fChain->SetBranchAddress("jets", &jets, &b_jets);
    fChain->SetBranchAddress("MET", &MET, &b_MET);
    fChain->SetBranchAddress("nEle", &nEle, &b_nEle);
    fChain->SetBranchAddress("ele_pT", &ele_pT, &b_ele_pT);
+   fChain->SetBranchAddress("ele_eta", &ele_eta, &b_ele_eta);
    fChain->SetBranchAddress("ele_phi", &ele_phi, &b_ele_phi);
    fChain->SetBranchAddress("nMu", &nMu, &b_nMu);
    fChain->SetBranchAddress("mu_pT", &mu_pT, &b_mu_pT);
+   fChain->SetBranchAddress("mu_eta", &mu_eta, &b_mu_eta);
    fChain->SetBranchAddress("mu_phi", &mu_phi, &b_mu_phi);
    fChain->SetBranchAddress("HT", &HT, &b_HT);
    fChain->SetBranchAddress("xSecLO", &xSecLO, &b_xSecLO);
@@ -159,6 +172,7 @@ inline void SemiLepStop::Init(TTree *tree)
    fChain->SetBranchAddress("elePtCut", &elePtCut, &b_elePtCut);
    fChain->SetBranchAddress("muPtCut", &muPtCut, &b_muPtCut);
    fChain->SetBranchAddress("HTcut", &HTcut, &b_HTcut);
+   fChain->SetBranchAddress("lepPtCut", &lepPtCut, &b_lepPtCut);
    // Notify();
 }
 
