@@ -90,6 +90,8 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
   mu_eta.clear();
   mu_phi.clear();
 
+  lep_pT.clear();
+
   HT = -999;
 
   xSecLO = -999;
