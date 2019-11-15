@@ -107,19 +107,19 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
   lepPtCut.clear();
 
   //preselection
-  if((Electron_size ^ Muon_size) != 1) continue;
+  // if((Electron_size ^ Muon_size) != 1) continue;
 
-  if(Jet_size < 4) continue;
-  for(int jet = 0; jet < Jet_size; jet++){
-    if(Jet_BTag[jet] == 1){
-      n_bjets += 1;
-    }
-    else{
-      continue;
-    }
-  }
+  // if(Jet_size < 4) continue;
+  // for(int jet = 0; jet < Jet_size; jet++){
+  //   if(Jet_BTag[jet] == 1){
+  //     n_bjets += 1;
+  //   }
+  //   else{
+  //     continue;
+  //   }
+  // }
 
-  if(n_bjets < 2) continue;
+  // if(n_bjets < 2) continue;
   // cout << "# bjets: " << n_bjets << endl;
 
   // if(Electron_size == 1 && Muon_size == 0){

@@ -1,8 +1,8 @@
 //////////////////////////////////////////////////////////
 // This class has been automatically generated on
-// Wed Nov 13 21:04:29 2019 by ROOT version 6.18/02
-// from TTree SemiLepStop/ttbar sample
-// found on file: ROOT/ttbar.root
+// Thu Nov 14 10:24:43 2019 by ROOT version 6.18/02
+// from TTree SemiLepStop/stop_semilep sample
+// found on file: ROOT/stop_semilep.root
 //////////////////////////////////////////////////////////
 
 #ifndef SemiLepStop_h
@@ -13,7 +13,9 @@
 #include <TFile.h>
 
 using namespace std;
+
 // Header file for the classes stored in the TTree if any.
+#include "vector"
 #include "vector"
 #include "vector"
 
@@ -38,15 +40,16 @@ public :
    vector<float>   *mu_pT;
    vector<float>   *mu_eta;
    vector<float>   *mu_phi;
+   vector<float>   *lep_pT;
    Float_t         HT;
    Float_t         xSecLO;
    Float_t         xSecErr;
    Bool_t          METcut;
    Bool_t          nJetsCut;
-   Bool_t          elePtCut;
-   Bool_t          muPtCut;
+   vector<bool>    *elePtCut;
+   vector<bool>    *muPtCut;
    Bool_t          HTcut;
-   Bool_t          lepPtCut;
+   vector<bool>    *lepPtCut;
 
    // List of branches
    TBranch        *b_njets;   //!
@@ -62,6 +65,7 @@ public :
    TBranch        *b_mu_pT;   //!
    TBranch        *b_mu_eta;   //!
    TBranch        *b_mu_phi;   //!
+   TBranch        *b_lep_pT;   //!
    TBranch        *b_HT;   //!
    TBranch        *b_xSecLO;   //!
    TBranch        *b_xSecErr;   //!
@@ -91,9 +95,9 @@ inline SemiLepStop::SemiLepStop(TTree *tree) : fChain(0)
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
    if (tree == 0) {
-      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("ROOT/ttbar.root");
+      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("ROOT/stop_semilep.root");
       if (!f || !f->IsOpen()) {
-         f = new TFile("ROOT/ttbar.root");
+         f = new TFile("ROOT/stop_semilep.root");
       }
       f->GetObject("SemiLepStop",tree);
 
@@ -145,6 +149,10 @@ inline void SemiLepStop::Init(TTree *tree)
    mu_pT = 0;
    mu_eta = 0;
    mu_phi = 0;
+   lep_pT = 0;
+   elePtCut = 0;
+   muPtCut = 0;
+   lepPtCut = 0;
    // Set branch addresses and branch pointers
    if (!tree) return;
    fChain = tree;
@@ -164,6 +172,7 @@ inline void SemiLepStop::Init(TTree *tree)
    fChain->SetBranchAddress("mu_pT", &mu_pT, &b_mu_pT);
    fChain->SetBranchAddress("mu_eta", &mu_eta, &b_mu_eta);
    fChain->SetBranchAddress("mu_phi", &mu_phi, &b_mu_phi);
+   fChain->SetBranchAddress("lep_pT", &lep_pT, &b_lep_pT);
    fChain->SetBranchAddress("HT", &HT, &b_HT);
    fChain->SetBranchAddress("xSecLO", &xSecLO, &b_xSecLO);
    fChain->SetBranchAddress("xSecErr", &xSecErr, &b_xSecErr);
