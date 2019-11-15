@@ -160,6 +160,7 @@ inline void SemiLepStop::Init(TTree *tree)
    fCurrent = -1;
    fChain->SetMakeClass(1);
 
+
    fChain->SetBranchAddress("njets", &njets, &b_njets);
    fChain->SetBranchAddress("n_bjets", &n_bjets, &b_n_bjets);
    fChain->SetBranchAddress("jet_btag", &jet_btag, &b_jet_btag);

@@ -88,7 +88,7 @@ int main(int argc, char *argv[]){
 
 
 
-  double gLumi = 3000; //3 ab^-1 = 3000 fb^-1 (HL-LHC lumi)
+  double gLumi = 3E6; //3 ab^-1 = 3000 fb^-1 = 3E6 pb (HL-LHC lumi)
 
 
   //SINGLE FILE
@@ -240,13 +240,7 @@ int main(int argc, char *argv[]){
       samples.push_back(&z_Jets);
     }
 
-    if(singleT.GetNFile() != 0){
-      singleT.SetBkg(true);
-      singleT.SetTitle("tW + jets");
-      singleT.SetColor(kViolet-7);
-      singleT.SetXSec(953.6); //theoretical xsection for ttbar at 14 TeV
-      samples.push_back(&singleT);
-    }
+  
   if(ttBar.GetNFile() != 0){
       ttBar.SetBkg(true);
       ttBar.SetTitle("t#bar{t} + jets");
@@ -262,20 +256,24 @@ int main(int argc, char *argv[]){
       samples.push_back(&w_Jets);
     }
 
-
-  
-
-  
+      if(singleT.GetNFile() != 0){
+      singleT.SetBkg(true);
+      singleT.SetTitle("tW + jets");
+      singleT.SetColor(kViolet-7);
+      singleT.SetXSec(242.6); //https://arxiv.org/pdf/hep-ex/0605034.pdf
+      samples.push_back(&singleT);
+    }
 
 
     stop_pp.SetBkg(false);
     stop_pp.SetTitle("#tilde{t}: m = 1300 GeV");
     stop_pp.SetColor(kRed);
+    stop_pp.SetXSec((0.001)*(0.4444)); //https://arxiv.org/pdf/1407.5066.pdf and https://arxiv.org/pdf/1304.2411.pdf
     samples.push_back(&stop_pp);
 
     float g_Xmin = 0;
-    float g_Xmax = 4000;
-    float units_per_bin = 50;
+    float g_Xmax = 800;
+    float units_per_bin = 10;
     float g_NX = (int)((g_Xmax - g_Xmin)/units_per_bin);
 
     int Nsample = samples.size();
@@ -301,6 +299,8 @@ int main(int argc, char *argv[]){
 
       SemiLepStop *semilep = new SemiLepStop(ch);
       int nEntries = semilep->fChain->GetEntries();
+   
+      
 
       for(int e = 0; e < nEntries; e++){
         if (e % 1000 == 0) {
@@ -309,29 +309,40 @@ int main(int argc, char *argv[]){
         fflush(stdout);
         
         semilep->fChain->GetEntry(e);
+        // if(samples[s]->GetTitle() == "t#bar{t} + jets"){
+        //   samples[s]->SetXSec(953.6);
+        // }
+        // else{
+        //   samples[s]->SetXSec(semilep->xSecLO);
+        // }
+      
 
         // if(semilep->METcut == 0) continue;
 
         // if(semilep->HTcut == 0) continue;
 
-        // if(semilep->lepPtCut == 0) continue;
+        // bool tmplepCut;
+        // // cout << "lep size: " << semilep->lep_pT->size() << endl;
+        // for(int lep = 0; lep < semilep->lep_pT->size(); lep++){
+        //   if(semilep->lepPtCut->at(lep) == 0) tmplepCut = false; 
+        //   else if(semilep->lepPtCut->at(lep) == 1) tmplepCut = true;
+        // }
+
+        // if(tmplepCut == 0) continue;
+
         
-        if(samples[s]->GetXSec() == 0){
 
-          // for(int i = 0; i < semilep->nMu; i++){
-          //   hist[s]->Fill(semilep->mu_pT->at(i),semilep->xSecLO*gLumi);
-          // }  
+        
 
-          hist[s]->Fill(semilep->HT,semilep->xSecLO*gLumi);
-        }
-        else{
+        
+        // for(int lep = 0; lep < semilep->lep_pT->size(); lep++){
+        hist[s]->Fill(semilep->MET,(samples[s]->GetXSec()*gLumi)/nEntries);
+        // }
 
-          // for(int i = 0; i < semilep->nMu; i++){
-          //   hist[s]->Fill(semilep->mu_pT->at(i),samples[s]->GetXSec()*gLumi);
-          // }
+        samples[s]->SetXSec(0);
 
-          hist[s]->Fill(semilep->HT,samples[s]->GetXSec()*gLumi);
-        }
+
+        
       }
     cout << endl;
     delete ch;
@@ -341,10 +352,11 @@ int main(int argc, char *argv[]){
 
   }
 
-  bool METplot = false;
+  bool METplot = true;
   bool muPlot = false;
   bool elePlot = false;
-  bool HTplot = true;
+  bool HTplot = false;
+  bool leppTplot = false;
 
   string var;
   string xtitle;
@@ -373,6 +385,13 @@ int main(int argc, char *argv[]){
     var = "HT";
     ytitle = "#frac{1}{N}#frac{dN}{dH_{T}} (#frac{1}{GeV})";
     xtitle = "H_{T} (GeV)";
+
+  } 
+
+  else if(leppTplot){
+    var = "lep_pT";
+    ytitle = "Lepton #frac{1}{N}#frac{dN}{dP_{T}} (#frac{1}{GeV})";
+    xtitle = "Lepton P_{T} (GeV)";
 
   } 
 

@@ -24,6 +24,10 @@ public:
 	void SetSampleName(TString name){sampleName = name;}
 
 
+protected:
+	
+
+
 
 private:
 	TString sampleName;

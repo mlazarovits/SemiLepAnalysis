@@ -84,7 +84,7 @@ void Plotter::Plot1Dstack(vector<SampleSet*> samples, vector<TH1F*> hists, TStri
 	TH1D* h_BKG = nullptr;
 	bool isBKG = false;
 	for(int i = 0; i < Nsample; i++){
-		cout << "Sample " << samples[i]->GetTitle() << " has " << hists[i]->Integral() << " events" << endl;
+		cout << "Sample " << samples[i]->GetTitle() << " has " << hists[i]->Integral() << endl;
 		if(samples[i]->GetBkg()){
 			if(!isBKG){
 				h_BKG = (TH1D*) hists[i]->Clone("TOT_BKG");
@@ -127,7 +127,7 @@ void Plotter::Plot1Dstack(vector<SampleSet*> samples, vector<TH1F*> hists, TStri
 	cv->Draw();
 	cv->cd();
 
-	hists[imax]->Scale(1/hists[imax]->Integral());
+	// hists[imax]->Scale(1/hists[imax]->Integral());
 	hists[imax]->SetLineColor(kBlack);
 	hists[imax]->SetLineWidth(1.0);
 	hists[imax]->SetFillColor(samples[imax]->GetColor());
@@ -151,7 +151,7 @@ void Plotter::Plot1Dstack(vector<SampleSet*> samples, vector<TH1F*> hists, TStri
 
 
 	for(int i = 0; i < Nsample; i++){
-		if(i == imax) continue;
+		// if(i == imax) continue;
 		if(samples[i]->GetBkg()){
 			hists[i]->SetLineColor(kBlack);
 			hists[i]->SetLineWidth(1.0);
