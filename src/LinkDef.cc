@@ -57,7 +57,7 @@ namespace ROOT {
       vector<TLorentzVector> *ptr = 0;
       static ::TVirtualIsAProxy* isa_proxy = new ::TIsAProxy(typeid(vector<TLorentzVector>));
       static ::ROOT::TGenericClassInfo 
-         instance("vector<TLorentzVector>", -2, "vector", 470,
+         instance("vector<TLorentzVector>", -2, "vector", 210,
                   typeid(vector<TLorentzVector>), ::ROOT::Internal::DefineBehavior(ptr, ptr),
                   &vectorlETLorentzVectorgR_Dictionary, isa_proxy, 4,
                   sizeof(vector<TLorentzVector>) );
@@ -112,8 +112,8 @@ namespace {
 0
     };
     static const char* includePaths[] = {
-"/usr/local/root-6.18.02/include",
-"/Users/margaretlazarovits/SemiLepStopAnalysis/",
+"/usr/include/root",
+"/afs/cern.ch/work/m/malazaro/SemiLepStopAnalysis/",
 0
     };
     static const char* fwdDeclCode = R"DICTFWDDCLS(
@@ -123,8 +123,8 @@ namespace {
 #pragma clang diagnostic ignored "-Wreturn-type-c-linkage"
 extern int __Cling_Autoloading_Map;
 class __attribute__((annotate("$clingAutoload$TLorentzVector.h")))  __attribute__((annotate("$clingAutoload$include/ReducedTree.h")))  TLorentzVector;
-namespace std{inline namespace __1{template <class _Tp> class __attribute__((annotate("$clingAutoload$iosfwd")))  __attribute__((annotate("$clingAutoload$string")))  allocator;
-}}
+namespace std{template <typename _Tp> class __attribute__((annotate("$clingAutoload$bits/allocator.h")))  __attribute__((annotate("$clingAutoload$string")))  allocator;
+}
 )DICTFWDDCLS";
     static const char* payloadCode = R"DICTPAYLOAD(
 #line 1 "LinkDef dictionary payload"
