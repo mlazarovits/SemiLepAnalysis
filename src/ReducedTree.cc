@@ -146,6 +146,9 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
 		tmp_vec.SetPtEtaPhiM(Jet_PT[j], Jet_Eta[j], Jet_Phi[j], Jet_Mass[j]);
 		jets.push_back(tmp_vec);
     jet_btag.push_back(Jet_BTag[j]);
+    if(Jet_BTag[j] == 1){
+      n_bjets += 1.0;
+    }
 	}
 
 	
