@@ -106,38 +106,6 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
   HTcut = false;
   lepPtCut.clear();
 
-  //preselection
-  // if((Electron_size ^ Muon_size) != 1) continue;
-
-  // if(Jet_size < 4) continue;
-  // for(int jet = 0; jet < Jet_size; jet++){
-  //   if(Jet_BTag[jet] == 1){
-  //     n_bjets += 1;
-  //   }
-  //   else{
-  //     continue;
-  //   }
-  // }
-
-  // if(n_bjets < 2) continue;
-  // cout << "# bjets: " << n_bjets << endl;
-
-  // if(Electron_size == 1 && Muon_size == 0){
-  //   float elepT = 0;
-  //   for(int ele = 0; ele < Electron_size; ele++){
-  //     elepT = Electron_PT[ele];
-  //   }
-  //   if(elepT < 20) continue;
-  // }
-
-
-  // if(Electron_size == 0 && Muon_size == 1){
-  //   float mupT = 0;
-  //   for(int mu = 0; mu < Muon_size; mu++){
-  //     mupT = Muon_PT[mu];
-  //   }
-  //   if(mupT < 20) continue;
-  // }   
 
 
  //  //jets
