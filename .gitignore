@@ -3,6 +3,6 @@ obj/*.o
 *.pcm
 *.d
 *.exe
-src/LinkDef*
+src/LinkDef.cc
 *.DSYM
 plots/*
