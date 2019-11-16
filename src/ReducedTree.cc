@@ -227,7 +227,7 @@ void ReducedTree::InitBranches(){
   if(!fChain) return;
 
   fChain->SetBranchStatus("*",0);
-  fChain->SetBranchStatus("Event_",1);
+  fChain->SetBranchStatus("Event",1);
   fChain->SetBranchStatus("Electron_size",1);
   fChain->SetBranchStatus("Muon_size",1);
   fChain->SetBranchStatus("Jet_size",1);
