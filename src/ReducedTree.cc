@@ -21,6 +21,7 @@ TFile* file = new TFile(outputFile,"RECREATE"); //new reduced tree, SemiLepStop
 TTree* tree = new TTree("SemiLepStop",Form("%s sample",sampleName.Data()));
 
 //add relevant branches
+tree->Branch("evt",&evt);
 tree->Branch("njets",&njets);
 tree->Branch("n_bjets",&n_bjets);
 tree->Branch("jet_btag",&jet_btag);
@@ -73,6 +74,8 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
     fflush(stdout);
 	fChain->GetEntry(i);
 
+  evt = 0;
+
 
 	// //clear branch content
   njets = -999;
@@ -105,6 +108,9 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
   muPtCut.clear();
   HTcut = false;
   lepPtCut.clear();
+
+
+  evt = Event_;
 
 
 
@@ -221,6 +227,7 @@ void ReducedTree::InitBranches(){
   if(!fChain) return;
 
   fChain->SetBranchStatus("*",0);
+  fChain->SetBranchStatus("Event_",1);
   fChain->SetBranchStatus("Electron_size",1);
   fChain->SetBranchStatus("Muon_size",1);
   fChain->SetBranchStatus("Jet_size",1);
