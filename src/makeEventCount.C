@@ -96,28 +96,26 @@ int main(int argc, char *argv[]){
 
   double gLumi = 3E6; //3 ab^-1 = 3000 fb^-1 = 3E6 pb (HL-LHC lumi)
   double xSectionLO = -999;
+  vector<double> xSecs;
   xSectionLO = atof(InxSec);
 
   //SINGLE FILE
   if(DO_FILE){
 
 
-		float g_Xmin = 0;
-		float g_Xmax = 1400;
-		float units_per_bin = 10;
-		float g_NX = (int)((g_Xmax - g_Xmin)/units_per_bin);
-		  // filenames.push_back(inputFileName);
-		TString plot_title = "EVENTCOUNT";
-		    TH1F *h1 = new TH1F("h1", plot_title, g_NX, g_Xmin, g_Xmax); //Histogram definition
-		int nJets = -999;
+		// float g_Xmin = 0;
+		// float g_Xmax = 1400;
+		// float units_per_bin = 10;
+		// float g_NX = (int)((g_Xmax - g_Xmin)/units_per_bin);
+		//   // filenames.push_back(inputFileName);
+		// TString plot_title = "EVENTCOUNT";
+		//     TH1F *h1 = new TH1F("h1", plot_title, g_NX, g_Xmin, g_Xmax); //Histogram definition
+		// int nJets = -999;
 
 		//Define TChain based on the reduced nTuple (HadStop) 
 		TChain *ch = new TChain("SemiLepStop");
 		ch->Add(inputFileName);
 
-		// string samplename = strtok(inputFileName,".");
-
-		// cout << samplename << endl;
 
 		SemiLepStop *semilep = new SemiLepStop(ch);
 
@@ -125,6 +123,7 @@ int main(int argc, char *argv[]){
 		int nEntries = semilep->fChain->GetEntries();
 
 		float cutCount = 0;
+		float weightedEvtCount = 0;
 		float weight = xSectionLO*gLumi/nEntries;
 
 
@@ -137,40 +136,27 @@ int main(int argc, char *argv[]){
 
 			semilep->fChain->GetEntry(e);
 
+			weightedEvtCount += 1.0*weight;
+
+
+			//preselection
 			if((semilep->nEle + semilep->nMu) != 1) continue;
 			// cout << "passed lepton number" << endl;
-
-			if(semilep->njets < 1) continue;
+			if(semilep->njets < 4) continue;
 			// cout << "passed number of jets" << endl;
-
 			if(semilep->n_bjets < 1) continue;
 			// cout << "passed number of bjets" << endl;
 			// cout << "# bjets: " << n_bjets << endl;
-
-			// if(semilep->nEle == 1 && semilep->nMu == 0){
-			// 	float elepT = 0;
-			// 	for(int ele = 0; ele < semilep->nEle; ele++){
-			// 		elepT = semilep->ele_pT->at(ele);
-			// 	}
-			// 	if(elepT < 20) continue;
-			// }
-			// cout << "passed elept cut"
-
-
-			// if(semilep->nEle == 0 && semilep->nMu == 1){
-			// 	float mupT = 0;
-			// 	for(int mu = 0; mu < semilep->nEle; mu++){
-			// 		mupT = semilep->mu_pT->at(mu);
-			// 	}
-			// 	if(mupT < 20) continue;
-			// }  
-
 			float leppT;
 			for(int i = 0; i < semilep->lep_pT->size(); i++){
 				leppT = semilep->lep_pT->at(i);
 			}
 			if(leppT < 20) continue;
-			// cout << "passed lepton pt" << endl;
+			cout << "passed lepton pt" << endl;
+
+
+			//cut 1
+			// if(semilep->MET < 200) continue;
 
 
 		  cutCount += 1.0*weight;
@@ -181,7 +167,8 @@ int main(int argc, char *argv[]){
 		cout << "Cross section: " << xSectionLO << endl;
 		cout << "total number of reconstructed events: " << nEntries << endl;
 		cout << "weight: " << weight << endl;
-		cout << "total number of events after preselection (weighted): " << cutCount << endl;
+		cout << "total number of weighted events: " << weightedEvtCount << endl;
+		cout << "total number of events after cuts: " << cutCount << endl;
 
 
 		//Delete pointers
@@ -189,6 +176,171 @@ int main(int argc, char *argv[]){
 		delete semilep;
 
 		return 0;
+	}
+
+
+
+
+	//LIST
+	if(DO_LIST){
+
+	char Buffer[500];
+	char MyRootFile[2000];
+
+
+	ifstream *inputFile = new ifstream(inputListName);
+	while( !(inputFile->eof()) ){
+		inputFile->getline(Buffer,500);
+		if (!strstr(Buffer,"#") && !(strspn(Buffer," ") == strlen(Buffer))){
+			sscanf(Buffer,"%s %s",MyRootFile,InxSec);
+			filenames.push_back(MyRootFile);
+			xSecs.push_back(atof(InxSec));
+		}
+	}
+	inputFile->close();
+	delete inputFile;
+
+	int Nfile = filenames.size();
+
+	for(int i =0; i < Nfile; i++){
+		TChain *ch = new TChain("SemiLepStop");
+		cout << filenames[i].c_str() << endl;
+		ch->Add(filenames[i].c_str());
+
+		// if(ch->GetNtrees() == 0) return 0;
+
+		SemiLepStop *semilep = new SemiLepStop(ch);
+
+		//Get total entries in tree
+		int nEntries = semilep->fChain->GetEntries();
+
+		float cutCount = 0;
+		float weightedEvtCount = 0;
+		float weight = xSecs[i]*gLumi/nEntries;
+
+		int nWmass = 0;
+
+		//Loop over entries in tree and fill histogram
+		for(int e = 0; e < nEntries; e++){
+			if (e % 1000 == 0) {
+			fprintf(stdout, "\r  Processed events: %8d of %8d ", e, nEntries);
+			}
+			fflush(stdout);
+
+			semilep->fChain->GetEntry(e);
+
+			weightedEvtCount += 1.0*weight;
+
+
+			//preselection
+			// if((semilep->nEle + semilep->nMu) != 1) continue;
+			// cout << "passed lepton number" << endl;
+			// if(semilep->njets < 4) continue;
+			// cout << "passed number of jets" << endl;
+			// if(semilep->n_bjets < 1) continue;
+			// cout << "passed number of bjets" << endl;
+			// cout << "# bjets: " << n_bjets << endl;
+			// float leppT;
+			// for(int i = 0; i < semilep->lep_pT->size(); i++){
+			// 	leppT = semilep->lep_pT->at(i);
+			// }
+			// if(leppT < 100) continue;
+			// // cout << "passed lepton pt" << endl;
+
+
+			// //cut 1
+			// if(semilep->MET < 200) continue;
+
+			// //cut2
+			// if(semilep->HT < 750) continue;
+
+			
+			vector<double> inv_jmass;
+			vector<TLorentzVector> jet_ptE;
+			TLorentzVector tmpvec;
+			double px;
+			double py;
+			double pz;
+			double E;
+
+			for(int jet = 0; jet < semilep->njets; jet++){
+				px = semilep->jets->at(jet).Px();
+				py = semilep->jets->at(jet).Py();
+				pz = semilep->jets->at(jet).Pz();
+				E = semilep->jets->at(jet).E();
+				tmpvec.SetPxPyPzE(px,py,pz,E);
+				jet_ptE.push_back(tmpvec);
+			}
+			for(int jet = 0; jet < semilep->njets; jet++){
+				if(jet == 0){
+					inv_jmass.push_back((jet_ptE[jet] + jet_ptE[jet+1]).M());
+					inv_jmass.push_back((jet_ptE[jet] + jet_ptE[jet+2]).M());
+					inv_jmass.push_back((jet_ptE[jet] + jet_ptE[jet+3]).M());
+
+					// inv_jmass.push_back((semilep->jets->at(jet) + semilep->jets->at(jet+1)).M2());
+					// inv_jmass.push_back((semilep->jets->at(jet) + semilep->jets->at(jet+2)).M2());
+					// inv_jmass.push_back((semilep->jets->at(jet) + semilep->jets->at(jet+3)).M2());
+				}
+				if(jet == 1){
+					inv_jmass.push_back((jet_ptE[jet] + jet_ptE[jet+1]).M());
+					inv_jmass.push_back((jet_ptE[jet] + jet_ptE[jet+2]).M());
+					// inv_jmass.push_back((semilep->jets->at(jet) + semilep->jets->at(jet+1)).M2());
+					// inv_jmass.push_back((semilep->jets->at(jet) + semilep->jets->at(jet+2)).M2());
+				}
+				if(jet == 2){
+					inv_jmass.push_back((jet_ptE[jet] + jet_ptE[jet+1]).M());
+					// inv_jmass.push_back((semilep->jets->at(jet) + semilep->jets->at(jet+1)).M2());
+				}
+				
+			}
+
+			int Ninv_jmass = inv_jmass.size();
+			
+			// cout << "# inv jet masses: " << Ninv_jmass << endl;;
+			for(int i = 0; i < inv_jmass.size(); i++){
+				if(75.0 < inv_jmass[i] && inv_jmass[i] < 85.0){
+					nWmass += 1.0*weight;
+					// cout << "inv jet mass: " << inv_jmass[i] << endl;
+					// cout << "entry #: " << i << endl;
+					// cout << "event #: " << e << endl;
+				}
+			}
+
+			// return 0;
+			
+
+
+		  cutCount += 1.0*weight;
+		}
+		cout << endl;
+
+
+		// cout << "number of events with invariant mass around W: "
+		cout << "number of jet combinations with W mass: " << nWmass << endl;
+
+		
+		cout << "Cross section: " << xSecs[i] << endl;
+		cout << "total number of reconstructed events: " << nEntries << endl;
+		cout << "weight: " << weight << endl;
+		cout << "total number of weighted events: " << weightedEvtCount << endl;
+		cout << "total number of events after cuts: " << cutCount << endl;
+		cout << "sample: " << filenames[i] << endl;
+		cout << "\n" << endl;
+
+		//Delete pointers
+		delete ch;
+		delete semilep;
+		// weig÷;
+
+		
+
+	}
+
+	return 0;
+
+
+
+
 	}
 
 }  
