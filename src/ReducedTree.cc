@@ -75,7 +75,7 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
 	fChain->GetEntry(i);
 
 	// //clear branch content
-  evt.clear();
+  evt = -999;
 
   njets = -999;
   n_bjets = 0;
