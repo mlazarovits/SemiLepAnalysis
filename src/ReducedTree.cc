@@ -108,12 +108,8 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
   HTcut = false;
   lepPtCut.clear();
 
-  for(int i = 0; i < kMaxEvent; i++){
-    evt.push_back(Event_Number[i]);
-  }
+  evt = *Event_Number;
   
-
-
 
  //  //jets
 	//Fill TLorentzVectors (for each jet)
