@@ -74,7 +74,7 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
     fflush(stdout);
 	fChain->GetEntry(i);
 
-  evt = 0;
+  evt = -999;
 
 
 	// //clear branch content
@@ -110,7 +110,7 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
   lepPtCut.clear();
 
 
-  evt = Event_;
+  evt = Event;
 
 
 
