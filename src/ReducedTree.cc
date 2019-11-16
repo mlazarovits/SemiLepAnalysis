@@ -28,6 +28,9 @@ tree->Branch("jet_btag",&jet_btag);
 tree->Branch("jets",&jets);
 
 tree->Branch("MET",&MET);
+tree->Branch("MET_eta",&MET_eta);
+tree->Branch("MET_phi",&MET_phi);
+
 
 tree->Branch("nEle",&nEle);
 tree->Branch("ele_pT",&ele_pT);
@@ -134,6 +137,8 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
 
   //MET
     MET = *MissingET_MET;
+    MET_eta = *MissingET_Eta;
+    MET_phi = *MissingET_Phi;
     if(MET < metVal){
       metCut = false;
     }
@@ -242,6 +247,8 @@ void ReducedTree::InitBranches(){
   fChain->SetBranchStatus("Jet.BTag",1);
   fChain->SetBranchStatus("Jet.Mass",1);
   fChain->SetBranchStatus("MissingET.MET",1);
+  fChain->SetBranchStatus("MissingET.Eta",1);
+  fChain->SetBranchStatus("MissingET.Phi",1);
   fChain->SetBranchStatus("ScalarHT.HT", 1);
   fChain->SetBranchStatus("ScalarHT_size", 1);
   fChain->SetBranchStatus("Event.CrossSection", 1);
