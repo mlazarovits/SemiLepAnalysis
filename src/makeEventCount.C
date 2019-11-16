@@ -232,79 +232,88 @@ int main(int argc, char *argv[]){
 			weightedEvtCount += 1.0*weight;
 
 
-			//preselection
-			// if((semilep->nEle + semilep->nMu) != 1) continue;
-			// cout << "passed lepton number" << endl;
+			if((semilep->nEle + semilep->nMu) != 1) continue;
+			// // cout << "passed lepton number" << endl;
+			// // cout << "njets: " << semilep->njets << endl;
 			// if(semilep->njets < 4) continue;
-			// cout << "passed number of jets" << endl;
+			// // cout << "passed number of jets" << endl;
 			// if(semilep->n_bjets < 1) continue;
-			// cout << "passed number of bjets" << endl;
-			// cout << "# bjets: " << n_bjets << endl;
-			// float leppT;
+			// // cout << "passed number of bjets" << endl;
+			// // cout << "# bjets: " << n_bjets << endl;
+			float leppT = 0;
+			cout << semilep->nEle << semilep->nMu << semilep->lep_pT->size() << endl;
 			// for(int i = 0; i < semilep->lep_pT->size(); i++){
-			// 	leppT = semilep->lep_pT->at(i);
+			// if(semilep->lep_pT->size() > 0)
+				leppT = semilep->lep_pT->at(0);
 			// }
-			// if(leppT < 100) continue;
-			// // cout << "passed lepton pt" << endl;
+			// if(leppT < 50) continue;
+			// cout << "passed lepton pt" << endl;
 
 
-			// //cut 1
-			// if(semilep->MET < 200) continue;
+			//cut 1
+			if(semilep->MET < 200) continue;
 
-			// //cut2
-			// if(semilep->HT < 750) continue;
+			//cut2
+			if(semilep->HT < 750) continue;
+
+			if(leppT < 50) continue;
+
+
+
 
 			
-			vector<double> inv_jmass;
-			vector<TLorentzVector> jet_ptE;
-			TLorentzVector tmpvec;
-			double px;
-			double py;
-			double pz;
-			double E;
+			// vector<double> inv_jmass;
+			// vector<TLorentzVector> jet_ptE;
+			// TLorentzVector tmpvec;
+			// double px;
+			// double py;
+			// double pz;
+			// double E;
 
-			for(int jet = 0; jet < semilep->njets; jet++){
-				px = semilep->jets->at(jet).Px();
-				py = semilep->jets->at(jet).Py();
-				pz = semilep->jets->at(jet).Pz();
-				E = semilep->jets->at(jet).E();
-				tmpvec.SetPxPyPzE(px,py,pz,E);
-				jet_ptE.push_back(tmpvec);
-			}
-			for(int jet = 0; jet < semilep->njets; jet++){
-				if(jet == 0){
-					inv_jmass.push_back((jet_ptE[jet] + jet_ptE[jet+1]).M());
-					inv_jmass.push_back((jet_ptE[jet] + jet_ptE[jet+2]).M());
-					inv_jmass.push_back((jet_ptE[jet] + jet_ptE[jet+3]).M());
+			// for(int jet = 0; jet < semilep->njets; jet++){
+			// 	if(semilep->jets->at(jet))
+			// 	px = semilep->jets->at(jet).Px();
+			// 	py = semilep->jets->at(jet).Py();
+			// 	pz = semilep->jets->at(jet).Pz();
+			// 	E = semilep->jets->at(jet).E();
+			// 	tmpvec.SetPxPyPzE(px,py,pz,E);
+			// 	jet_ptE.push_back(tmpvec);
+			// }
+			// for(int jet = 0; jet < semilep->njets; jet++){
+			// 	if()
+			// 	if(jet == 0){
+			// 		inv_jmass.push_back((jet_ptE[jet] + jet_ptE[jet+1]).M());
+			// 		inv_jmass.push_back((jet_ptE[jet] + jet_ptE[jet+2]).M());
+			// 		inv_jmass.push_back((jet_ptE[jet] + jet_ptE[jet+3]).M());
 
-					// inv_jmass.push_back((semilep->jets->at(jet) + semilep->jets->at(jet+1)).M2());
-					// inv_jmass.push_back((semilep->jets->at(jet) + semilep->jets->at(jet+2)).M2());
-					// inv_jmass.push_back((semilep->jets->at(jet) + semilep->jets->at(jet+3)).M2());
-				}
-				if(jet == 1){
-					inv_jmass.push_back((jet_ptE[jet] + jet_ptE[jet+1]).M());
-					inv_jmass.push_back((jet_ptE[jet] + jet_ptE[jet+2]).M());
-					// inv_jmass.push_back((semilep->jets->at(jet) + semilep->jets->at(jet+1)).M2());
-					// inv_jmass.push_back((semilep->jets->at(jet) + semilep->jets->at(jet+2)).M2());
-				}
-				if(jet == 2){
-					inv_jmass.push_back((jet_ptE[jet] + jet_ptE[jet+1]).M());
-					// inv_jmass.push_back((semilep->jets->at(jet) + semilep->jets->at(jet+1)).M2());
-				}
+			// 		// inv_jmass.push_back((semilep->jets->at(jet) + semilep->jets->at(jet+1)).M2());
+			// 		// inv_jmass.push_back((semilep->jets->at(jet) + semilep->jets->at(jet+2)).M2());
+			// 		// inv_jmass.push_back((semilep->jets->at(jet) + semilep->jets->at(jet+3)).M2());
+			// 	}
+			// 	if(jet == 1){
+			// 		inv_jmass.push_back((jet_ptE[jet] + jet_ptE[jet+1]).M());
+			// 		inv_jmass.push_back((jet_ptE[jet] + jet_ptE[jet+2]).M());
+			// 		// inv_jmass.push_back((semilep->jets->at(jet) + semilep->jets->at(jet+1)).M2());
+			// 		// inv_jmass.push_back((semilep->jets->at(jet) + semilep->jets->at(jet+2)).M2());
+			// 	}
+			// 	if(jet == 2){
+			// 		inv_jmass.push_back((jet_ptE[jet] + jet_ptE[jet+1]).M());
+			// 		// inv_jmass.push_back((semilep->jets->at(jet) + semilep->jets->at(jet+1)).M2());
+			// 	}
 				
-			}
+			// }
 
-			int Ninv_jmass = inv_jmass.size();
+			// int Ninv_jmass = inv_jmass.size();
 			
-			// cout << "# inv jet masses: " << Ninv_jmass << endl;;
-			for(int i = 0; i < inv_jmass.size(); i++){
-				if(75.0 < inv_jmass[i] && inv_jmass[i] < 85.0){
-					nWmass += 1.0*weight;
-					// cout << "inv jet mass: " << inv_jmass[i] << endl;
-					// cout << "entry #: " << i << endl;
-					// cout << "event #: " << e << endl;
-				}
-			}
+			// // cout << "# inv jet masses: " << Ninv_jmass << endl;;
+			// for(int i = 0; i < inv_jmass.size(); i++){
+			// 	if(75.0 < inv_jmass[i] && inv_jmass[i] < 85.0){
+			// 		nWmass += 1.0*weight;
+			// 		// cout << "inv jet mass: " << inv_jmass[i] << endl;
+			// 		// cout << "entry #: " << i << endl;
+			// 		// cout << "event #: " << e << endl;
+			// 	}
+			// }
 
 			// return 0;
 			

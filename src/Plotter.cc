@@ -84,7 +84,7 @@ void Plotter::Plot1Dstack(vector<SampleSet*> samples, vector<TH1F*> hists, TStri
 	TH1D* h_BKG = nullptr;
 	bool isBKG = false;
 	for(int i = 0; i < Nsample; i++){
-		cout << "Sample " << samples[i]->GetTitle() << " has " << hists[i]->Integral() << endl;
+		cout << "Sample " << samples[i]->GetTitle() << " has " << hists[i]->Integral() << " events" << endl;
 		if(samples[i]->GetBkg()){
 			if(!isBKG){
 				h_BKG = (TH1D*) hists[i]->Clone("TOT_BKG");

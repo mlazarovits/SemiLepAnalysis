@@ -60,7 +60,7 @@ Float_t metVal = 200.0;
 Int_t nJetsVal = 3;
 // Float_t elepT_val = 100;
 // Float_t mupT_val = 100;
-Float_t leppT_val = 100;
+Float_t leppT_val = 20;
 Float_t HTval = 750;
 
 
@@ -146,7 +146,6 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
   // //Electrons
   nEle = Electron_size;
   for(int i = 0; i < Electron_size; i++){
-    if(Electron_PT[i] < 20) continue;
     ele_pT.push_back(Electron_PT[i]);
     lep_pT.push_back(Electron_PT[i]);
     ele_eta.push_back(Electron_Eta[i]);
@@ -163,7 +162,6 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
   // //Muons
   nMu = Muon_size;
   for(int i = 0; i < Muon_size; i++){
-    if(Muon_PT[i] < 20) continue;
     mu_pT.push_back(Muon_PT[i]);
     lep_pT.push_back(Muon_PT[i]);
     mu_eta.push_back(Muon_Eta[i]);

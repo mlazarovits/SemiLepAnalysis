@@ -279,9 +279,9 @@ int main(int argc, char *argv[]){
     stop_pp.SetXSec((0.001)*(0.4444)); //https://arxiv.org/pdf/1407.5066.pdf and https://arxiv.org/pdf/1304.2411.pdf
     samples.push_back(&stop_pp);
 
-    float g_Xmin = -5;
-    float g_Xmax = 5;
-    float units_per_bin = 50;
+    float g_Xmin = 0;
+    float g_Xmax = 1000;
+    float units_per_bin = 10;
     float g_NX = (int)((g_Xmax - g_Xmin)/units_per_bin);
 
     int Nsample = samples.size();
@@ -347,14 +347,15 @@ int main(int argc, char *argv[]){
 
         
 
-        if(semilep->nEle < 1) continue;
-        cout << semilep->nEle << endl;
-        cout << semilep->ele_eta->size() << endl;
-        cout << " " << endl;
+        // // if(semilep->nEle < 1) continue;
+        // cout << semilep->nEle << endl;
+        // cout << semilep->ele_eta->size() << endl;
+        // cout << " " << endl;
         
-        // for(int lep = 0; lep < semilep->lep_pT->size(); lep++){
-        hist[s]->Fill(semilep->ele_eta->at(0),weight);
-        // }
+        for(int lep = 0; lep < semilep->lep_pT->size(); lep++){
+          hist[s]->Fill(semilep->lep_pT->at(0),weight);
+
+        }
 
         // samples[s]->SetXSec(0);
 
@@ -369,12 +370,13 @@ int main(int argc, char *argv[]){
 
   }
 
+
   bool METplot = false;
   bool muPlot = false;
   bool elePlot = false;
   bool HTplot = false;
-  bool leppTplot = false;
-  bool TEST = true;
+  bool leppTplot = true;
+  bool TEST = false;
 
   string var;
   string xtitle;
