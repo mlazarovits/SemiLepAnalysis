@@ -74,10 +74,9 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
     fflush(stdout);
 	fChain->GetEntry(i);
 
-  evt->clear()  ;
-
-
 	// //clear branch content
+  evt.clear();
+
   njets = -999;
   n_bjets = 0;
   jet_btag.clear();
@@ -109,8 +108,10 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
   HTcut = false;
   lepPtCut.clear();
 
-
-  evt = Event_Number;
+  for(int i = 0; i < kMaxEvent; i++){
+    evt.push_back(Event_Number[i]);
+  }
+  
 
 
 
