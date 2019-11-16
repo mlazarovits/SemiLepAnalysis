@@ -35,7 +35,7 @@ private:
 	TString outputFile;
 	
 	//branches
-	Int_t evt;
+	Long64_t* evt;
 	Int_t njets;
 	Int_t n_bjets;
 	vector<UInt_t> jet_btag;
