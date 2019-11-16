@@ -103,7 +103,7 @@ int main(int argc, char *argv[]){
         TH1F *h1 = new TH1F("h1", "plot_title", g_NX, g_Xmin, g_Xmax); //Histogram definition
     int nJets = -999;
 
-    //Define TChain based on the reduced nTuple (HadStop) 
+    //Define TChain based on the reduced nTuple (SemiLepStop) 
     TChain *ch = new TChain("SemiLepStop");
     ch->Add(inputFileName);
 
@@ -161,6 +161,8 @@ int main(int argc, char *argv[]){
 
   char Buffer[500];
   char MyRootFile[2000];
+  char InxSec[400];
+  vector<double> xSecs;
 
 
   SampleSet ttBar;
@@ -177,9 +179,10 @@ int main(int argc, char *argv[]){
     while( !(inputFile->eof()) ){
       inputFile->getline(Buffer,500);
       if (!strstr(Buffer,"#") && !(strspn(Buffer," ") == strlen(Buffer))){
-        sscanf(Buffer,"%s",MyRootFile);
+        sscanf(Buffer,"%s %s",MyRootFile,InxSec);
         filenames.push_back(MyRootFile);
-        cout << MyRootFile << endl;
+        xSecs.push_back(atof(InxSec));
+        cout << "file: " << MyRootFile << " xSec:" << atof(InxSec) <<  endl;
       }
     }
     inputFile->close();
@@ -202,22 +205,27 @@ int main(int argc, char *argv[]){
       
       if(ttbar_file != std::string::npos){
         ttBar.AddFile(filenames[file]);
+        ttBar.SetXSec(xSecs[file]);
         // cout << "Added ttbar file" << endl;
       }
       else if(wplusjets_file != std::string::npos){
         w_Jets.AddFile(filenames[file]);
+        w_Jets.SetXSec(xSecs[file]);
         // cout << "added wplus_jets file" << endl;
       }
       else if(zjets_file != std::string::npos){
         z_Jets.AddFile(filenames[file]);
+        z_Jets.SetXSec(xSecs[file]);
         // cout << "added z_jets file" << endl;
       }
        else if(singleT_file != std::string::npos){
         singleT.AddFile(filenames[file]);
+        singleT.SetXSec(xSecs[file]);
         // cout << "added z_jets file" << endl;
       }
       else if(stop_file != std::string::npos){
         stop_pp.AddFile(filenames[file]);
+        stop_pp.SetXSec(xSecs[file]);
         // cout << "added z_jets file" << endl;
       }
     }
@@ -271,9 +279,9 @@ int main(int argc, char *argv[]){
     stop_pp.SetXSec((0.001)*(0.4444)); //https://arxiv.org/pdf/1407.5066.pdf and https://arxiv.org/pdf/1304.2411.pdf
     samples.push_back(&stop_pp);
 
-    float g_Xmin = 0;
-    float g_Xmax = 800;
-    float units_per_bin = 10;
+    float g_Xmin = -5;
+    float g_Xmax = 5;
+    float units_per_bin = 50;
     float g_NX = (int)((g_Xmax - g_Xmin)/units_per_bin);
 
     int Nsample = samples.size();
@@ -288,7 +296,8 @@ int main(int argc, char *argv[]){
   //loop through samples  
   for(int s = 0; s < Nsample; s++){
     int Nfile = samples[s]->GetNFile();
-    cout << "Processing " << Nfile << " files for sample " << samples[s]->GetTitle() << endl;
+    cout << "Processing " << Nfile << " files for sample " << samples[s]->GetTitle() 
+        << " with cross section: " << samples[s]->GetXSec() << endl;
 
   //loop through files
     for(int f = 0; f < Nfile; f++){
@@ -299,6 +308,10 @@ int main(int argc, char *argv[]){
 
       SemiLepStop *semilep = new SemiLepStop(ch);
       int nEntries = semilep->fChain->GetEntries();
+
+      double weight = (samples[s]->GetXSec()*gLumi)/nEntries;
+
+      cout << "weight: " << weight << endl;
    
       
 
@@ -334,12 +347,16 @@ int main(int argc, char *argv[]){
 
         
 
+        if(semilep->nEle < 1) continue;
+        cout << semilep->nEle << endl;
+        cout << semilep->ele_eta->size() << endl;
+        cout << " " << endl;
         
         // for(int lep = 0; lep < semilep->lep_pT->size(); lep++){
-        hist[s]->Fill(semilep->MET,(samples[s]->GetXSec()*gLumi)/nEntries);
+        hist[s]->Fill(semilep->ele_eta->at(0),weight);
         // }
 
-        samples[s]->SetXSec(0);
+        // samples[s]->SetXSec(0);
 
 
         
@@ -352,11 +369,12 @@ int main(int argc, char *argv[]){
 
   }
 
-  bool METplot = true;
+  bool METplot = false;
   bool muPlot = false;
   bool elePlot = false;
   bool HTplot = false;
   bool leppTplot = false;
+  bool TEST = true;
 
   string var;
   string xtitle;
@@ -389,11 +407,17 @@ int main(int argc, char *argv[]){
   } 
 
   else if(leppTplot){
-    var = "lep_pT";
-    ytitle = "Lepton #frac{1}{N}#frac{dN}{dP_{T}} (#frac{1}{GeV})";
-    xtitle = "Lepton P_{T} (GeV)";
+    var = "leading_lep_pT";
+    ytitle = "Leading Lepton #frac{1}{N}#frac{dN}{dP_{T}} (#frac{1}{GeV})";
+    xtitle = "Leading Lepton P_{T} (GeV)";
 
   } 
+
+  else if(TEST){
+    var = "TEST";
+    ytitle = "yTEST";
+    xtitle = "xTEST";
+  }
 
 
   string plot_title = "stack_"+var;

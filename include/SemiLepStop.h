@@ -1,8 +1,8 @@
 //////////////////////////////////////////////////////////
 // This class has been automatically generated on
-// Thu Nov 14 10:24:43 2019 by ROOT version 6.18/02
-// from TTree SemiLepStop/stop_semilep sample
-// found on file: ROOT/stop_semilep.root
+// Fri Nov 15 19:48:57 2019 by ROOT version 6.18/02
+// from TTree SemiLepStop/ttbar sample
+// found on file: ROOT/ttbar.root
 //////////////////////////////////////////////////////////
 
 #ifndef SemiLepStop_h
@@ -28,6 +28,7 @@ public :
 // Fixed size dimensions of array or collections stored in the TTree if any.
 
    // Declaration of leaf types
+   Int_t           evt;
    Int_t           njets;
    Int_t           n_bjets;
    vector<unsigned int> *jet_btag;
@@ -53,6 +54,7 @@ public :
    vector<bool>    *lepPtCut;
 
    // List of branches
+   TBranch        *b_evt;   //!
    TBranch        *b_njets;   //!
    TBranch        *b_n_bjets;   //!
    TBranch        *b_jet_btag;   //!
@@ -96,9 +98,9 @@ inline SemiLepStop::SemiLepStop(TTree *tree) : fChain(0)
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
    if (tree == 0) {
-      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("ROOT/stop_semilep.root");
+      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("ROOT/ttbar.root");
       if (!f || !f->IsOpen()) {
-         f = new TFile("ROOT/stop_semilep.root");
+         f = new TFile("ROOT/ttbar.root");
       }
       f->GetObject("SemiLepStop",tree);
 
@@ -160,7 +162,7 @@ inline void SemiLepStop::Init(TTree *tree)
    fCurrent = -1;
    fChain->SetMakeClass(1);
 
-
+   fChain->SetBranchAddress("evt", &evt, &b_evt);
    fChain->SetBranchAddress("njets", &njets, &b_njets);
    fChain->SetBranchAddress("n_bjets", &n_bjets, &b_n_bjets);
    fChain->SetBranchAddress("jet_btag", &jet_btag, &b_jet_btag);
