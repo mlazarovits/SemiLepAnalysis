@@ -86,6 +86,8 @@ for(int i = 0; i < nEntries; i++){ //fill reduced tree and set TLorentzVectors
   jets.clear();
 
   MET = -999;
+  MET_eta = -999;
+  MET_phi = -999;
 
   nEle = -999;
   ele_pT.clear();

@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////
 // This class has been automatically generated on
-// Fri Nov 15 19:48:57 2019 by ROOT version 6.18/02
+// Sat Nov 16 12:49:32 2019 by ROOT version 6.18/02
 // from TTree SemiLepStop/ttbar sample
 // found on file: ROOT/ttbar.root
 //////////////////////////////////////////////////////////
@@ -14,7 +14,6 @@
 #include <TLorentzVector.h>
 
 using namespace std;
-
 // Header file for the classes stored in the TTree if any.
 #include "vector"
 #include "vector"
@@ -28,12 +27,14 @@ public :
 // Fixed size dimensions of array or collections stored in the TTree if any.
 
    // Declaration of leaf types
-   Int_t           evt;
+   Long64_t        evt;
    Int_t           njets;
    Int_t           n_bjets;
    vector<unsigned int> *jet_btag;
    vector<TLorentzVector> *jets;
    Float_t         MET;
+   Float_t         MET_eta;
+   Float_t         MET_phi;
    Int_t           nEle;
    vector<float>   *ele_pT;
    vector<float>   *ele_eta;
@@ -60,6 +61,8 @@ public :
    TBranch        *b_jet_btag;   //!
    TBranch        *b_jets;   //!
    TBranch        *b_MET;   //!
+   TBranch        *b_MET_eta;   //!
+   TBranch        *b_MET_phi;   //!
    TBranch        *b_nEle;   //!
    TBranch        *b_ele_pT;   //!
    TBranch        *b_ele_eta;   //!
@@ -168,6 +171,8 @@ inline void SemiLepStop::Init(TTree *tree)
    fChain->SetBranchAddress("jet_btag", &jet_btag, &b_jet_btag);
    fChain->SetBranchAddress("jets", &jets, &b_jets);
    fChain->SetBranchAddress("MET", &MET, &b_MET);
+   fChain->SetBranchAddress("MET_eta", &MET_eta, &b_MET_eta);
+   fChain->SetBranchAddress("MET_phi", &MET_phi, &b_MET_phi);
    fChain->SetBranchAddress("nEle", &nEle, &b_nEle);
    fChain->SetBranchAddress("ele_pT", &ele_pT, &b_ele_pT);
    fChain->SetBranchAddress("ele_eta", &ele_eta, &b_ele_eta);

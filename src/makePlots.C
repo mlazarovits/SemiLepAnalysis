@@ -279,9 +279,9 @@ int main(int argc, char *argv[]){
     stop_pp.SetXSec((0.001)*(0.4444)); //https://arxiv.org/pdf/1407.5066.pdf and https://arxiv.org/pdf/1304.2411.pdf
     samples.push_back(&stop_pp);
 
-    float g_Xmin = 0;
-    float g_Xmax = 1000;
-    float units_per_bin = 10;
+    float g_Xmin = -3;
+    float g_Xmax = 3;
+    float units_per_bin = 0.1;
     float g_NX = (int)((g_Xmax - g_Xmin)/units_per_bin);
 
     int Nsample = samples.size();
@@ -344,7 +344,9 @@ int main(int argc, char *argv[]){
         // if(tmplepCut == 0) continue;
 
         
-
+        if(semilep->MET_eta < -3.0 || semilep->MET_eta > 3.0) continue;
+        // if(semilep->njets < 1) continue;
+        // if(semilep->jets->at(0).Eta() < -0.8 || semilep->jets->at(0).Eta() > 0.8) continue;
         
 
         // // if(semilep->nEle < 1) continue;
@@ -352,10 +354,10 @@ int main(int argc, char *argv[]){
         // cout << semilep->ele_eta->size() << endl;
         // cout << " " << endl;
         
-        for(int lep = 0; lep < semilep->lep_pT->size(); lep++){
-          hist[s]->Fill(semilep->lep_pT->at(0),weight);
+        // for(int lep = 0; lep < semilep->lep_pT->size(); lep++){
+          hist[s]->Fill(semilep->MET_eta,weight);
 
-        }
+        // }
 
         // samples[s]->SetXSec(0);
 
@@ -375,7 +377,9 @@ int main(int argc, char *argv[]){
   bool muPlot = false;
   bool elePlot = false;
   bool HTplot = false;
-  bool leppTplot = true;
+  bool leppTplot = false;
+  bool METeta = true;
+
   bool TEST = false;
 
   string var;
@@ -412,6 +416,13 @@ int main(int argc, char *argv[]){
     var = "leading_lep_pT";
     ytitle = "Leading Lepton #frac{1}{N}#frac{dN}{dP_{T}} (#frac{1}{GeV})";
     xtitle = "Leading Lepton P_{T} (GeV)";
+
+  } 
+
+  else if(METeta){
+    var = "MET_eta";
+    ytitle = "MET #frac{1}{N}#frac{dN}{d#eta} (#frac{1}{rad})";
+    xtitle = "MET #eta (rad)";
 
   } 
 

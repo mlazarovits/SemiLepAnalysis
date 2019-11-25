@@ -1,5 +1,5 @@
-ROOT/ttbar.root 953.6
-ROOT/w+jets.root 94 
+ROOT/ttbar.root 423.82 
+ROOT/w+jets.root 94.0 
 ROOT/single_t.root 34.391 
 #ROOT/ZtoLL_jets.root
 ROOT/stop_semilep.root 0.0004444

@@ -140,19 +140,17 @@ int main(int argc, char *argv[]){
 
 
 			//preselection
-			if((semilep->nEle + semilep->nMu) != 1) continue;
-			// cout << "passed lepton number" << endl;
-			if(semilep->njets < 4) continue;
-			// cout << "passed number of jets" << endl;
-			if(semilep->n_bjets < 1) continue;
-			// cout << "passed number of bjets" << endl;
-			// cout << "# bjets: " << n_bjets << endl;
+			// if((semilep->nEle + semilep->nMu) != 1) continue;
+			// // cout << "passed lepton number" << endl;
+			// if(semilep->njets < 4) continue;
+			// // cout << "passed number of jets" << endl;
+			// if(semilep->n_bjets < 1) continue;
+			// // cout << "passed number of bjets" << endl;
+			// // cout << "# bjets: " << n_bjets << endl;
 			float leppT;
-			for(int i = 0; i < semilep->lep_pT->size(); i++){
-				leppT = semilep->lep_pT->at(i);
-			}
-			if(leppT < 20) continue;
-			cout << "passed lepton pt" << endl;
+				leppT = semilep->lep_pT->at(0);
+			// if(leppT < 20) continue;
+			// cout << "passed lepton pt" << endl;
 
 
 			//cut 1
@@ -231,8 +229,8 @@ int main(int argc, char *argv[]){
 
 			weightedEvtCount += 1.0*weight;
 
-
-			if((semilep->nEle + semilep->nMu) != 1) continue;
+			//preselection
+			// if((semilep->nEle + semilep->nMu) < 1) continue;
 			// // cout << "passed lepton number" << endl;
 			// // cout << "njets: " << semilep->njets << endl;
 			// if(semilep->njets < 4) continue;
@@ -240,23 +238,23 @@ int main(int argc, char *argv[]){
 			// if(semilep->n_bjets < 1) continue;
 			// // cout << "passed number of bjets" << endl;
 			// // cout << "# bjets: " << n_bjets << endl;
-			float leppT = 0;
-			cout << semilep->nEle << semilep->nMu << semilep->lep_pT->size() << endl;
-			// for(int i = 0; i < semilep->lep_pT->size(); i++){
-			// if(semilep->lep_pT->size() > 0)
-				leppT = semilep->lep_pT->at(0);
-			// }
+			// cout << semilep->nEle << semilep->nMu << semilep->lep_pT->size() << endl;
+	
 			// if(leppT < 50) continue;
 			// cout << "passed lepton pt" << endl;
+			// if(semilep->MET_eta < -2.4 || semilep->MET_eta > 2.4) continue;
 
 
 			//cut 1
-			if(semilep->MET < 200) continue;
+			if(semilep->MET < 300) continue;
 
-			//cut2
-			if(semilep->HT < 750) continue;
+			//cut 2
+			if(semilep->MET_eta < -1.4 || semilep->MET_eta > 1.4) continue;
 
-			if(leppT < 50) continue;
+			//cut 3
+			if(semilep->HT < 950) continue;
+
+		
 
 
 
@@ -325,7 +323,7 @@ int main(int argc, char *argv[]){
 
 
 		// cout << "number of events with invariant mass around W: "
-		cout << "number of jet combinations with W mass: " << nWmass << endl;
+		// cout << "number of jet scombinations with W mass: " << nWmass << endl;
 
 		
 		cout << "Cross section: " << xSecs[i] << endl;
